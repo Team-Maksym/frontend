@@ -1,9 +1,6 @@
-import { SmallTalentCard } from "./smallTalentCard";
-function App() {
-  return (
-    <div className="App">
-    </div>
-  );
-}
-
-export default App;
+import React from 'react';
+import { ThemeProvider } from '@mui/material';
+import { theme } from './theme/theme';
+export const App = () => {
+  return <ThemeProvider theme={theme}></ThemeProvider>;
+};
