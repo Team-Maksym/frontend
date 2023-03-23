@@ -1,30 +1,30 @@
-import { AppBar, Toolbar, Typography, Container, Button, CssBaseline } from '@mui/material';
+import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
 import LogoDevIcon from '@mui/icons-material/LogoDev';
+import { LogoText } from './components';
 
-function Header() {
+export const Header = () => {
   return (
-    <AppBar position="static" sx={{ background: '#000000' }}>
+    <AppBar position="static" sx={{ bgcolor: 'primary.main', color: 'secondary.main' }}>
       <Container>
-        <CssBaseline />
         <Toolbar sx={{ flexWrap: 'wrap' }}>
-          <LogoDevIcon fontSize="large" sx={{ mr: 2 }} />
-          <Typography variant="h5" noWrap sx={{ flexGrow: 1 }}>
-            StarLight
-          </Typography>
+          <LogoDevIcon fontSize="large" sx={{ mr: '16px' }} />
+          <LogoText />
           <nav>{/*Navigation*/}</nav>
           <Button color="inherit" size="large">
-            <b>SIGN IN</b>
+            <Typography variant="h6" noWrap>
+              SIGN IN
+            </Typography>
           </Button>
           <Typography variant="h5" noWrap>
-            <b>/</b>
+            /
           </Typography>
           <Button color="inherit" size="large">
-            <b>SIGN UP</b>
+            <Typography variant="h6" noWrap>
+              SIGN UP
+            </Typography>
           </Button>
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
-
-export { Header };
+};

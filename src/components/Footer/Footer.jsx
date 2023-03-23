@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Container } from '@mui/material';
+import { Typography, Container, Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import LogoDevIcon from '@mui/icons-material/LogoDev';
@@ -8,6 +8,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Copyright } from './components/Copyright';
+import { LogoText } from '../Header/components';
 
 const footers = [
   {
@@ -24,20 +25,18 @@ const footers = [
   },
 ];
 
-function Footer() {
+export const Footer = () => {
   return (
-    <footer>
-      <Container maxWidth="md" component="footer" sx={{ borderTop: '1px solid', mt: '64px', py: '48px' }}>
+    <Box sx={{ bgcolor: 'primary.main', color: 'secondary.main' }}>
+      <Container component="footer" sx={{ pt: '48px' }}>
         <Grid container spacing={4} justifyContent="space-evenly">
-          <Grid item key="footer title">
+          <Grid item xs={6} sm={3} key="footer title">
             <Grid container direction="row" justifyContent="flex-start" alignItems="center">
               <Grid item>
-                <LogoDevIcon fontSize="large" sx={{ mr: '16px' }} />
+                <LogoDevIcon fontSize="large" sx={{ mr: '24px' }} />
               </Grid>
-              <Grid item>
-                <Typography variant="h6" noWrap sx={{ flexGrow: 1, mb: '8px' }}>
-                  StarLight
-                </Typography>
+              <Grid item sx={{ mb: '16px' }}>
+                <LogoText />
               </Grid>
             </Grid>
             <Typography variant="h6" noWrap sx={{ flexGrow: 1, mb: '12px' }}>
@@ -50,13 +49,13 @@ function Footer() {
           </Grid>
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" color="text.primary" gutterBottom sx={{ pl: '25px' }}>
+              <Typography variant="h6" gutterBottom sx={{ pl: '25px', color: 'secondary.main' }}>
                 {footer.title}
               </Typography>
               <ul>
                 {footer.description.map((item) => (
                   <li key={item}>
-                    <Link href="#" variant="subtitle1" color="text.secondary">
+                    <Link href="#" variant="subtitle1" sx={{ color: 'secondary.main' }}>
                       {item}
                     </Link>
                   </li>
@@ -67,8 +66,6 @@ function Footer() {
         </Grid>
         <Copyright />
       </Container>
-    </footer>
+    </Box>
   );
-}
-
-export { Footer };
+};

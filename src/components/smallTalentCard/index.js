@@ -1,1 +1,0 @@
-export { SmallTalentCard } from './smallTalentCard';

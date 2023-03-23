@@ -10,6 +10,7 @@ export const theme = createTheme({
     neutral: {
       white: '#ffffff',
       lightGrey: '#999999',
+      whiteGrey: '#eeeeee',
       grey: '#6B6C6F',
     },
   },

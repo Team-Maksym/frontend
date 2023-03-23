@@ -1,11 +1,11 @@
-import { Grid } from '@mui/material';
+import { Grid, Container } from '@mui/material';
 
-function Wrapper({ children }) {
+export const Wrapper = (props) => {
   return (
-    <Grid container justifyContent="space-evenly">
-      <Grid item>{children}</Grid>
-    </Grid>
+    <Container disableGutters maxWidth="lg" component="main" sx={{ bgcolor: 'neutral.whiteGrey', py: '48px' }}>
+      <Grid container justifyContent="space-evenly">
+        <Grid item>{props.children}</Grid>
+      </Grid>
+    </Container>
   );
-}
-
-export { Wrapper };
+};
