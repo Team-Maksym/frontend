@@ -1,5 +1,4 @@
 import Avatar from '@mui/material/Avatar';
-import { deepOrange, grey } from '@mui/material/colors';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -10,7 +9,7 @@ export const SmallTalentCard = ({talentName, position, avatar}) => {
      <CardActionArea>
        <Card sx={{ alignItems: 'center', justifyContent: 'center', display: 'grid' }}>
          <Avatar
-           alt={talentName} src={avatar} sx={{ bgcolor: deepOrange[500], width: '90px', height: '90px', m:'0 auto', mt:'10px'}}
+           alt={talentName} src={avatar} sx={{ bgcolor: 'secondary.main', width: '90px', height: '90px', m:'0 auto', mt:'10px', fontSize: '28px'}}
          />
          <CardContent>
            <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>

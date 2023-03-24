@@ -1,4 +1,4 @@
-import { SmallTalentCard } from "../smallTalentCard";
+import { SmallTalentCard } from "../SmallTalentCard";
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -13,8 +13,8 @@ export const TalentList = ({ data }) => {
 	})
 
 	return (
-    <Box sx={{ flexGrow: 1, maxWidth: '1200px', m: '100px auto'}}>
-      <Grid container spacing={4} columns={5}>
+    <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px'}}>
+      <Grid container spacing={3} columns={5}>
 			{items}
       </Grid>
     </Box>
