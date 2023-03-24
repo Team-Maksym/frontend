@@ -78,9 +78,7 @@ export const App = () => {
         <Header />
         <Banner />
         <Wrapper>
-          <Typography variant="h3" noWrap sx={{ flexGrow: 1 }}>
-            <TalentList data={data}></TalentList>
-          </Typography>
+          <TalentList data={data} />
         </Wrapper>
         <Footer />
       </ThemeProvider>

@@ -45,8 +45,8 @@ export const Footer = () => {
                 {footer.title}
               </Typography>
               <ul>
-                {footer.description.map((item) => (
-                  <li key={item}>
+                {footer.description.map((item, i) => (
+                  <li key={i}>
                     <Link href="#" variant="subtitle1" sx={{ color: 'secondary.main' }}>
                       {item}
                     </Link>
