@@ -2,13 +2,12 @@ import * as React from 'react';
 import { Typography, Container, Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import LogoDevIcon from '@mui/icons-material/LogoDev';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { Copyright } from './components/Copyright';
-import { LogoText } from '../Header/components';
+import { LogoText } from '../Header/components/LogoText';
 
 const footers = [
   {
@@ -32,9 +31,6 @@ export const Footer = () => {
         <Grid container spacing={4} justifyContent="space-evenly">
           <Grid item xs={6} sm={3} key="footer title">
             <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-              <Grid item>
-                <LogoDevIcon fontSize="large" sx={{ mr: '24px' }} />
-              </Grid>
               <Grid item sx={{ mb: '16px' }}>
                 <LogoText />
               </Grid>
