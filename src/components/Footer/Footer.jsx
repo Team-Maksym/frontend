@@ -1,11 +1,7 @@
-import * as React from 'react';
 import { Typography, Container, Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Instagram, LinkedIn, Facebook, YouTube } from '@mui/icons-material';
 import { Copyright } from './components/Copyright';
 import { LogoText } from '../Header/components/LogoText';
 
@@ -38,10 +34,10 @@ export const Footer = () => {
             <Typography variant="h6" noWrap sx={{ flexGrow: 1, mb: '12px' }}>
               IWannaBeAStarLight
             </Typography>
-            <InstagramIcon fontSize="large" sx={{ mr: '8px' }} />
-            <LinkedInIcon fontSize="large" sx={{ mr: '8px' }} />
-            <FacebookIcon fontSize="large" sx={{ mr: '8px' }} />
-            <YouTubeIcon fontSize="large" sx={{ mr: '8px' }} />
+            <Instagram fontSize="large" sx={{ mr: '8px' }} />
+            <LinkedIn fontSize="large" sx={{ mr: '8px' }} />
+            <Facebook fontSize="large" sx={{ mr: '8px' }} />
+            <YouTube fontSize="large" sx={{ mr: '8px' }} />
           </Grid>
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
