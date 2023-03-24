@@ -1,36 +1,25 @@
-import { Button } from '@mui/material';
-import { useState } from 'react';
-import { AuthModal } from './Authorization/components/AuthModal/AuthModal';
+import * as React from 'react';
+import { Typography, ThemeProvider, CssBaseline } from '@mui/material';
+import { theme } from './theme/theme';
+import { Header } from './Header';
+import { Wrapper } from './Wrapper';
+import { Footer } from './Footer';
+import { Banner } from './Wrapper/components/Banner';
 
 export const App = () => {
-  const [open, setOpen] = useState(false);
-  const [type, setType] = useState();
-
-  const handleOpenSignIn = () => {
-    setOpen(true);
-    setType('signIn');
-  };
-
-  const handleOpenSignUp = () => {
-    setOpen(true);
-    setType('signUp');
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
-    <div className="App">
-      <Button variant="outlined" onClick={handleOpenSignIn}>
-        Sign In
-      </Button>
-
-      <Button variant="outlined" onClick={handleOpenSignUp}>
-        Sign Up
-      </Button>
-
-      <AuthModal open={open} onClose={handleClose} type={type} />
-    </div>
+    <>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Header />
+        <Banner />
+        <Wrapper>
+          <Typography variant="h3" noWrap sx={{ flexGrow: 1 }}>
+            Talent List
+          </Typography>
+        </Wrapper>
+        <Footer />
+      </ThemeProvider>
+    </>
   );
 };
