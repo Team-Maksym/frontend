@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Typography, ThemeProvider, CssBaseline } from '@mui/material';
+import { ThemeProvider, CssBaseline, Box } from '@mui/material';
 import { theme } from './theme/theme';
 import { Header } from './Header';
 import { Wrapper } from './Wrapper';
 import { Footer } from './Footer';
 import { Banner } from './Wrapper/components/Banner';
 import { TalentList } from './TalentList';
-
 const data = [
   {
     full_name: 'Emmy Higgins',
@@ -72,16 +71,16 @@ const data = [
 
 export const App = () => {
   return (
-    <>
-      <CssBaseline />
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ backgroundColor: 'neutral.whiteGrey' }}>
+        <CssBaseline />
         <Header />
         <Banner />
         <Wrapper>
           <TalentList data={data} />
         </Wrapper>
         <Footer />
-      </ThemeProvider>
-    </>
+      </Box>
+    </ThemeProvider>
   );
 };

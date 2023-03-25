@@ -1,1 +1,1 @@
-export { TalentList } from "./talentList";
+export { TalentList } from "./TalentList";
