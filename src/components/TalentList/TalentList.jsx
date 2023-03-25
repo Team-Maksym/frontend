@@ -1,16 +1,33 @@
 import { SmallTalentCard } from '../SmallTalentCard';
-import axios from 'axios';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useEffect, useState } from 'react';
+import { GetAllUsers } from '../../service';
 import * as React from 'react';
 
-export const TalentList = ({ data }) => {
+
+export const TalentList = () => {
   
-  const items = data.map((item, index) => {
+  const [talents, setTalents] = useState([]);
+
+  useEffect(() => {
+    GetAllUsers()
+      .then((response) => {
+        setTalents(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+  
+  const items = talents.map((item, index) => {
     return (
       <Grid item xs={1} key={index}>
-        <SmallTalentCard talentName={item.firstName + ' ' + item.lastName} position={item.university} avatar={item.image} />
+        <SmallTalentCard
+          talentName={item.firstName + ' ' + item.lastName}
+          position={item.university}
+          avatar={item.image}
+        />
       </Grid>
     );
   });
