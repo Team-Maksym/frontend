@@ -13,7 +13,6 @@ export const PasswordField = (props) => {
 
   return (
     <TextField
-      id="password"
       type={showPassword ? 'text' : 'password'}
       label="Your password"
       InputProps={{

@@ -4,7 +4,6 @@ import { Person } from '@mui/icons-material';
 export const FullNameField = (props) => {
   return (
     <TextField
-      id="fullName"
       label="Your full name"
       InputProps={{
         endAdornment: (

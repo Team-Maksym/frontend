@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { useFormik } from 'formik';
 
-export const Form = ({ initialValues, validationSchema, fieldsRenderers, onSubmit, submitBtnName }) => {
+export const Form = ({ id, initialValues, validationSchema, fieldsRenderers, onSubmit, submitBtnName }) => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -21,7 +21,8 @@ export const Form = ({ initialValues, validationSchema, fieldsRenderers, onSubmi
     >
       {Object.keys(fieldsRenderers).map((item) =>
         fieldsRenderers[item]({
-          key: item,
+          id: id + "-" + item,
+          key: id + "-" + item,
           name: item,
           fullWidth: true,
           margin: 'normal',

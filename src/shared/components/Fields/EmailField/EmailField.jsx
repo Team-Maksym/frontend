@@ -4,7 +4,6 @@ import { Email } from '@mui/icons-material';
 export const EmailField = (props) => {
   return (
     <TextField
-      id="email"
       type="email"
       label="Your email"
       InputProps={{

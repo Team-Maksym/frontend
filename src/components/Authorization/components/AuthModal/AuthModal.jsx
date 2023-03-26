@@ -8,6 +8,7 @@ import { Form } from '../../../../shared/components/Form';
 export const AuthModal = ({ open, onClose, type }) => {
   const info = {
     signIn: {
+      id: 'signIn',
       submitBtnName: 'Sign In',
       title: 'Sign in to your account',
       onSubmit: (values) => {
@@ -31,6 +32,7 @@ export const AuthModal = ({ open, onClose, type }) => {
       },
     },
     signUp: {
+      id: 'signUp',
       submitBtnName: 'Sign Up',
       title: 'Sign up to your account',
       onSubmit: (values) => {
