@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { SmallTalentCard } from '../SmallTalentCard';
-import { Pagination, Stack, Grid, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
+import { PaginationCustom } from './components/PaginationCustom';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
@@ -56,28 +57,7 @@ export const TalentList = () => {
       <Grid container spacing={3} columns={5}>
         {items}
       </Grid>
-      <Stack spacing={2}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: '48px' }}>
-          <Pagination
-            count={10}
-            size="large"
-            shape="rounded"
-            onChange={(event, value) => {
-              setPage(--value);
-            }}
-            color="primary"
-            sx={{
-              '& .MuiPaginationItem-page.Mui-selected': {
-                color: 'secondary.main',
-                fontWeight: 'bold',
-              },
-              '& .MuiPaginationItem-page': {
-                color: 'primary.main',
-              },
-            }}
-          />
-        </Box>
-      </Stack>
+      <PaginationCustom setPage={setPage}/>
     </Box>
   );
 };
