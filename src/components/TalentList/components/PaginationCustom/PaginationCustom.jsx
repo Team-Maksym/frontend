@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Pagination, Stack } from '@mui/material';
 
-export const PaginationCustom = ({setPage}) => {
+export const PaginationCustom = ({setHook, queryFunction}) => {
+  const [page, setPage] = useState(0);
+  const limit = 10;
+
+  useEffect(() => {
+    queryFunction(page,limit)
+      .then((response) => {
+        setHook(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [page,limit]);
+
   return (
     <Stack spacing={2}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '48px' }}>

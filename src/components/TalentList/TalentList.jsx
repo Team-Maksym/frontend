@@ -1,63 +1,44 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { SmallTalentCard } from '../SmallTalentCard';
-import { Grid, Box } from '@mui/material';
-import { PaginationCustom } from './components/PaginationCustom';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { GetAllUsers } from '../../service';
+import {PaginationCustom} from './components/PaginationCustom';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
-
-  useEffect(() => {
-    axios
-      .get('https://dummyjson.com/users', {
-        params: {
-          skip: page * limit,
-          limit: limit,
-        },
-      })
-      .then((response) => {
-        setTalents(response?.data.users);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, [page, limit]);
+  // const [page, setPage] = useState(0);
+  // const limit = 10;
 
   // useEffect(() => {
-  //   axios
-  //     .get('http://18.194.159.42:8083/talents', {
-  //       params: {
-  //         page: 0,
-  //         size: 10,
-  //       },
-  //     })
+  //   GetAllUsers(page,limit)
   //     .then((response) => {
-  //       console.log(response);
-  //       setTalents(response?.data.users);
+  //       setTalents(response);
   //     })
   //     .catch(function (error) {
   //       console.log(error);
   //     });
-  // }, []);
+  // }, [page,limit]);
 
   const items = talents.map((item, index) => {
     return (
       <Grid item xs={1} key={index}>
-        <SmallTalentCard talentName={item.firstName} position={item.company.title} avatar={item.image} />
-        {/*<SmallTalentCard talentName={item.full_name} position={item.position} avatar={item.avatar} />*/}
+        <SmallTalentCard
+          talentName={item.firstName + ' ' + item.lastName}
+          position={item.university}
+          avatar={item.image}
+        />
       </Grid>
     );
   });
 
   return (
     <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
-      <Grid container spacing={3} columns={5}>
+      <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
         {items}
       </Grid>
-      <PaginationCustom setPage={setPage}/>
+      <PaginationCustom setHook={setTalents} queryFunction={GetAllUsers}/>
     </Box>
   );
 };
