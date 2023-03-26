@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
 import { LogoText } from './components/LogoText';
+import { Navbar } from './components/Navbar';
 
 export const Header = () => {
   return (
@@ -7,7 +8,7 @@ export const Header = () => {
       <Container>
         <Toolbar sx={{ flexWrap: 'wrap' }}>
           <LogoText />
-          <nav>{/*Navigation*/}</nav>
+          <Navbar/>
           <Button color="inherit" size="large">
             <Typography variant="h6" noWrap>
               SIGN IN

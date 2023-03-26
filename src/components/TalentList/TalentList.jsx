@@ -1,5 +1,4 @@
 import { SmallTalentCard } from "../SmallTalentCard";
-
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
