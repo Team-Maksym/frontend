@@ -1,42 +1,26 @@
+import { useState } from 'react';
+import { Box, Grid } from '@mui/material';
+import { getAllTalents } from '../../service';
 import { SmallTalentCard } from '../SmallTalentCard';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import { useEffect, useState } from 'react';
-import { GetAllUsers } from '../../service';
-import * as React from 'react';
-
+import { PaginationCustom } from './components/PaginationCustom';
 
 export const TalentList = () => {
-  
   const [talents, setTalents] = useState([]);
 
-  useEffect(() => {
-    GetAllUsers()
-      .then((response) => {
-        setTalents(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
-  
   const items = talents.map((item, index) => {
     return (
-      <Grid item xs={1} key={index}>
-        <SmallTalentCard
-          talentName={item.firstName + ' ' + item.lastName}
-          position={item.university}
-          avatar={item.image}
-        />
+      <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
+        <SmallTalentCard talentName={item.full_name} position={item.position} avatar={item.avatar} />
       </Grid>
     );
   });
 
   return (
     <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
-      <Grid container spacing={3} columns={5} sx={{alignItems: 'stretch'}}>
+      <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
         {items}
       </Grid>
+      <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} />
     </Box>
   );
 };
