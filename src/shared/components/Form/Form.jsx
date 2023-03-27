@@ -5,11 +5,9 @@ export const Form = ({ id, initialValues, validationSchema, fieldsRenderers, onS
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      onSubmit(values);
-    },
+    onSubmit: onSubmit,
   });
-
+  
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -21,8 +19,8 @@ export const Form = ({ id, initialValues, validationSchema, fieldsRenderers, onS
     >
       {Object.keys(fieldsRenderers).map((item) =>
         fieldsRenderers[item]({
-          id: id + "-" + item,
-          key: id + "-" + item,
+          id: id + '-' + item,
+          key: id + '-' + item,
           name: item,
           fullWidth: true,
           margin: 'normal',

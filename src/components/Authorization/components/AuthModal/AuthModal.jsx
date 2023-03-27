@@ -6,14 +6,14 @@ import { Modal } from '../../../../shared/components/Modal';
 import { Form } from '../../../../shared/components/Form';
 
 export const AuthModal = ({ open, onClose, type }) => {
-  const info = {
+  const formsInfo = {
     signIn: {
       id: 'signIn',
       submitBtnName: 'Sign In',
       title: 'Sign in to your account',
       onSubmit: (values) => {
-        onClose();
         alert(JSON.stringify(values, null, 2));
+        onClose();
       },
       initialValues: {
         email: '',
@@ -21,10 +21,7 @@ export const AuthModal = ({ open, onClose, type }) => {
       },
       validationSchema: yup.object({
         email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
-        password: yup
-          .string('Enter your password')
-          .min(8, 'Password should be of minimum 8 characters length')
-          .required('Password is required'),
+        password: yup.string('Enter your password').required('Password is required'),
       }),
       fieldsRenderers: {
         email: EmailField,
@@ -34,10 +31,10 @@ export const AuthModal = ({ open, onClose, type }) => {
     signUp: {
       id: 'signUp',
       submitBtnName: 'Sign Up',
-      title: 'Sign up to your account',
+      title: 'Sign up for your account',
       onSubmit: (values) => {
-        onClose();
         alert(JSON.stringify(values, null, 2));
+        onClose();
       },
       initialValues: {
         fullName: '',
@@ -50,6 +47,9 @@ export const AuthModal = ({ open, onClose, type }) => {
         password: yup
           .string('Enter your password')
           .min(8, 'Password should be of minimum 8 characters length')
+          .matches(/\d+/, 'Password no number')
+          .matches(/[A-Z]+/, 'Password no uppercase')
+          .matches(/[!@#$%^&*()-+]+/, 'Password no special char')
           .required('Password is required'),
       }),
       fieldsRenderers: {
@@ -60,13 +60,13 @@ export const AuthModal = ({ open, onClose, type }) => {
     },
   };
 
-  if (!info[type]) {
+  if (!formsInfo[type]) {
     return <></>;
   }
 
   return (
-    <Modal title={info[type].title} open={open} onClose={onClose}>
-      <Form {...info[type]} />
+    <Modal title={formsInfo[type].title} open={open} onClose={onClose}>
+      <Form {...formsInfo[type]} />
     </Modal>
   );
 };
