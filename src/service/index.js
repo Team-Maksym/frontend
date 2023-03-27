@@ -1,0 +1,1 @@
+export { getAllTalents } from "./ProfileService";

@@ -1,26 +1,33 @@
 import Avatar from '@mui/material/Avatar';
-import { deepOrange, grey } from '@mui/material/colors';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-export const SmallTalentCard = ({talentName, position, avatar}) => {
-	 return (
-     <CardActionArea>
-       <Card sx={{ alignItems: 'center', justifyContent: 'center', display: 'grid' }}>
-         <Avatar
-           alt={talentName} src={avatar} sx={{ bgcolor: deepOrange[500], width: '90px', height: '90px', m:'0 auto', mt:'10px'}}
-         />
-         <CardContent>
-           <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
-             {talentName}
-           </Typography>
-           <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-             {position}
-           </Typography>
-         </CardContent>
-       </Card>
-     </CardActionArea>
-   );
-}
+export const SmallTalentCard = ({ talentName, position, avatar }) => {
+  return (
+    <CardActionArea sx={{ height: '100%' }}>
+      <Card sx={{ justifyContent: 'center', display: 'grid', height: '100%' }}>
+        <CardContent>
+          <Avatar
+            alt={talentName}
+            src={avatar}
+            sx={{
+              bgcolor: 'secondary.main',
+              width: '90px',
+              height: '90px',
+              m: '15px auto',
+              fontSize: '28px',
+            }}
+          />
+          <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>
+            {talentName}
+          </Typography>
+          <Typography variant="body2" component="div" color="text.secondary" sx={{ textAlign: 'center' }}>
+            {position}
+          </Typography>
+        </CardContent>
+      </Card>
+    </CardActionArea>
+  );
+};

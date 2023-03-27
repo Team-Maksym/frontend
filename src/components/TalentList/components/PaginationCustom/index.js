@@ -1,0 +1,1 @@
+export { PaginationCustom } from './PaginationCustom';
