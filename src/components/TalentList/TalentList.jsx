@@ -9,7 +9,7 @@ export const TalentList = () => {
 
   const items = talents.map((item, index) => {
     return (
-      <Grid item xs={1} key={index}>
+      <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
         <SmallTalentCard talentName={item.full_name} position={item.position} avatar={item.avatar} />
       </Grid>
     );

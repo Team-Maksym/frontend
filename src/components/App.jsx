@@ -8,6 +8,7 @@ import { Footer } from './Footer';
 import { Banner } from './Wrapper/components/Banner';
 import { TalentList } from './TalentList';
 import { PreLoader } from './PreLoader';
+
 export const App = () => {
   const [loading, setLoading] = useState(false);
 
