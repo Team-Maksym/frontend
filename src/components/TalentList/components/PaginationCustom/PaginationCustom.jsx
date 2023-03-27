@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Pagination, Stack } from '@mui/material';
 
-export const PaginationCustom = ({setHook, queryFunction}) => {
+export const PaginationCustom = ({ setHook, queryFunction }) => {
   const [page, setPage] = useState(0);
-  const limit = 10;
+  const [count, setCount] = useState(0);
+  const size = 10;
 
   useEffect(() => {
-    queryFunction(page,limit)
+    queryFunction(page, size)
       .then((response) => {
-        setHook(response);
+        setHook(response.data);
+        setCount(Math.ceil(response.total_talents / size));
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, [page,limit]);
+  }, [page, size, setHook, queryFunction]);
 
   return (
     <Stack spacing={2}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '48px' }}>
         <Pagination
-          count={10}
+          count={count}
           size="large"
           shape="rounded"
           onChange={(event, value) => {

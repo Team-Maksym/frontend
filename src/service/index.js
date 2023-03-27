@@ -1,1 +1,1 @@
-export { GetAllUsers } from "./ProfileService";
+export { getAllTalents } from "./ProfileService";

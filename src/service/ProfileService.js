@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-export const GetAllUsers = async (page = 0, limit = 10) => {
-  let users = [];
+export const getAllTalents = async (page , size ) => {
+  let data = [];
 
   await axios
-    .get('https://dummyjson.com/users', {
+    .get('http://18.194.159.42:8082/talents', {
       params: {
-        skip: page*limit,
-        limit: limit,
+        page: page,
+        size: size,
       },
     })
     .then((response) => {
-      users = response.data.users;
-	 });
-	
-  return users;
+      data = response.data;
+    });
+
+  return data;
 };
