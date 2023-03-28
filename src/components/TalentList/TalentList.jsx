@@ -7,13 +7,6 @@ import { PaginationCustom } from './components/PaginationCustom';
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
 
-  const tals = [
-    {
-      full_name: 'Anna Sukharieva',
-      position: 'front-end'
-    }
-  ]
-
   const items = talents.map((item, index) => {
     return (
       <Grid sx={{ minHeight: '255px'}} item xs={1} key={index}>
