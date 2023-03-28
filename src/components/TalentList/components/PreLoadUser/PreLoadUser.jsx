@@ -32,6 +32,6 @@ export const PreLoaderUser = () => {
   for (let i = 0; i < 10; i++) {
     arr[i] = item;
   }
-  console.log(arr);
+
   return arr;
 };
