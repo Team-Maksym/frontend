@@ -6,7 +6,7 @@ export const Copyright = () => {
   return (
     <Typography variant="subtitle1" align="center" sx={{ mt: '40px', pb: '24px', color: 'secondary.main' }}>
       {'Copyright © '}
-      <Link color="inherit" href="src/components/Footer/components/Copyright#">
+      <Link color="inherit" href="#">
         StarLight
       </Link>{' '}
       {new Date().getFullYear()}
