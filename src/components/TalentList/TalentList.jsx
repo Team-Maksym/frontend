@@ -9,16 +9,6 @@ import * as React from 'react';
 export const TalentList = () => {
   
   const [talents, setTalents] = useState([]);
-
-  useEffect(() => {
-    GetAllUsers()
-      .then((response) => {
-        setTalents(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
   
   const items = talents.map((item, index) => {
     return (
