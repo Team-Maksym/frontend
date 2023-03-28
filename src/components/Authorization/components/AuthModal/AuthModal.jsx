@@ -1,18 +1,26 @@
 import * as yup from 'yup';
+import React, { useContext } from 'react';
+import { TalentContext } from '../../../../shared/context/TalentContext';
 import { EmailField } from '../../../../shared/components/Fields/EmailField';
 import { PasswordField } from '../../../../shared/components/Fields/PasswordField';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
 import { Modal } from '../../../../shared/components/Modal';
 import { Form } from '../../../../shared/components/Form';
+import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
 
 export const AuthModal = ({ open, onClose, type }) => {
+  const { setTalent } = useContext(TalentContext);
+
   const formsInfo = {
     signIn: {
       id: 'signIn',
       submitBtnName: 'Sign In',
       title: 'Sign in to your account',
-      onSubmit: (values) => {
+      onSubmit: async (values) => {
         alert(JSON.stringify(values, null, 2));
+        const responseData = await signIn(values);
+        localStorage.setItem('token', responseData.token);
+        setTalent(responseData.user_id);
         onClose();
       },
       initialValues: {
@@ -32,17 +40,20 @@ export const AuthModal = ({ open, onClose, type }) => {
       id: 'signUp',
       submitBtnName: 'Sign Up',
       title: 'Sign up for your account',
-      onSubmit: (values) => {
+      onSubmit: async (values) => {
         alert(JSON.stringify(values, null, 2));
+        const responseData = await signUp(values);
+        localStorage.setItem('token', responseData.token);
+        setTalent(responseData.user_id);
         onClose();
       },
       initialValues: {
-        fullName: '',
+        full_name: '',
         email: '',
         password: '',
       },
       validationSchema: yup.object({
-        fullName: yup.string('Enter your full name').required('Email is required'),
+        full_name: yup.string('Enter your full name').required('Email is required'),
         email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
         password: yup
           .string('Enter your password')
@@ -53,7 +64,7 @@ export const AuthModal = ({ open, onClose, type }) => {
           .required('Password is required'),
       }),
       fieldsRenderers: {
-        fullName: FullNameField,
+        full_name: FullNameField,
         email: EmailField,
         password: PasswordField,
       },
