@@ -18,7 +18,7 @@ export const TalentList = () => {
         <SmallTalentCard
           talentName={item.full_name}
           position={item.position ? item.position : 'Talent'}
-          avatar={avatarId ? `https://drive.google.com/uc?export=view&id=${avatarId}` : 'avatarId'}
+          avatar={avatarId ? `https://drive.google.com/uc?export=view&id=${avatarId}` : `${avatarId}`}
         />
       </Grid>
     );
