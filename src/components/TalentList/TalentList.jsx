@@ -3,6 +3,7 @@ import { Box, Grid } from '@mui/material';
 import { getAllTalents } from '../../shared/service/ProfileService';
 import { SmallTalentCard } from '../SmallTalentCard';
 import { PaginationCustom } from './components/PaginationCustom';
+import { PreLoaderUser } from './components/PreLoadUser';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
@@ -18,7 +19,7 @@ export const TalentList = () => {
   return (
     <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
       <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
-        {items}
+        {items.length != 0 ? items : <PreLoaderUser />}
       </Grid>
       <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} />
     </Box>
