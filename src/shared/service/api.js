@@ -11,7 +11,7 @@ export const protectedAxiosInstance = axios.create({
 });
 
 protectedAxiosInstance.interceptors.request.use((config) => {
-  config.headers.Authorization = `Basic ${localStorage.getItem('token')}`;
+  config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
   return config;
 });
 
@@ -23,6 +23,8 @@ protectedAxiosInstance.interceptors.response.use(
     if (error.response.status === 401) {
       console.log('Not authorized');
       localStorage.removeItem('token');
+    } else {
+      throw error;
     }
   },
 );

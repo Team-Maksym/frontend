@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import jwt_decode from "jwt-decode";
 import React, { useContext } from 'react';
 import { TalentContext } from '../../../../shared/context/TalentContext';
 import { EmailField } from '../../../../shared/components/Fields/EmailField';
@@ -11,18 +12,23 @@ import { signIn, signUp } from '../../../../shared/service/AuthorizationService'
 export const AuthModal = ({ open, onClose, type }) => {
   const { setTalent } = useContext(TalentContext);
 
+  const getSubmitHandler = (action) => {
+    return async (values) => {
+      alert(JSON.stringify(values, null, 2));
+      const responseData = await action(values);
+      localStorage.setItem('token', responseData.token);
+      const decodedToken = jwt_decode(responseData.token);
+      setTalent(decodedToken.sub);
+      onClose();
+    }
+  }
+
   const formsInfo = {
     signIn: {
       id: 'signIn',
       submitBtnName: 'Sign In',
       title: 'Sign in to your account',
-      onSubmit: async (values) => {
-        alert(JSON.stringify(values, null, 2));
-        const responseData = await signIn(values);
-        localStorage.setItem('token', responseData.token);
-        setTalent(responseData.user_id);
-        onClose();
-      },
+      onSubmit: getSubmitHandler(signIn),
       initialValues: {
         email: '',
         password: '',
@@ -40,13 +46,7 @@ export const AuthModal = ({ open, onClose, type }) => {
       id: 'signUp',
       submitBtnName: 'Sign Up',
       title: 'Sign up for your account',
-      onSubmit: async (values) => {
-        alert(JSON.stringify(values, null, 2));
-        const responseData = await signUp(values);
-        localStorage.setItem('token', responseData.token);
-        setTalent(responseData.user_id);
-        onClose();
-      },
+      onSubmit: getSubmitHandler(signUp),
       initialValues: {
         full_name: '',
         email: '',

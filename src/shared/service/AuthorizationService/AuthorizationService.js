@@ -18,7 +18,6 @@ export const signIn = async (talent) => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
       }
-      console.log(response);
       return response.data;
     });
 };
