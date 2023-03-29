@@ -10,7 +10,7 @@ export const Navbar = () => {
   };
 
   return (
-    <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary" variant="h6">
+    <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
       <Tab value="one" label="Profile" component={Link} to="/profile"/>
     </Tabs>
   );
