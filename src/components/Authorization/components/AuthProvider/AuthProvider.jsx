@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { TalentContext } from '../../../../shared/context/TalentContext';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { getOneTalent } from '../../../../shared/service/ProfileService';
-import { ErrorPage } from '../../../ErrorPage';
 import { AuthModal } from '../AuthModal/AuthModal';
 
 export const AuthProvider = ({ children }) => {
@@ -15,11 +14,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const authorizeTalent = () => {
-    getOneTalent(getCurrentTalentId()).then(
-      (talent) => {
+    if (getCurrentTalentId()) {
+      getOneTalent(getCurrentTalentId()).then((talent) => {
         setTalent(talent);
-      }
-    );
+      });
+    } else {
+      setTalent(null);
+    }
   };
 
   const openAuthModal = (type = 'signIn') => {

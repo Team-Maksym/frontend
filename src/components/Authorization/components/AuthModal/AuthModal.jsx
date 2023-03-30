@@ -80,7 +80,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
           .max(128, 'Password must not be more than 128 characters')
           .matches(
             /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
-            'Password must contain at least one letter and one number',
+            'Password must contain at least one uppercase letter and one number',
           )
           .required('Password is required'),
       }),
