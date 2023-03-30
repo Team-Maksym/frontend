@@ -10,19 +10,24 @@ export const BigTalentCard = () => {
     return null;
   }
 
+  let localAvatar = null;
+  if (talent.avatar) {
+    localAvatar = `https://drive.google.com/uc?export=view&id=${talent.avatar.slice(32, -20)}`;
+  }
+
   const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
 
   return (
     <Card sx={{ maxWidth: 345, textAlign: 'center', p: 2, borderRadius: 3 }}>
       <Avatar
         alt={talent.full_name}
-        src={talent.avatar}
+        src={localAvatar || `${localAvatar}`}
         sx={{
           bgcolor: 'secondary.main',
           width: '150px',
           height: '150px',
           m: '15px auto',
-          fontSize: '28px',
+          fontSize: '50px',
         }}
       />
       <CardContent>
