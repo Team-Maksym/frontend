@@ -1,0 +1,1 @@
+export { BigTalentCard } from './BigTalentCard';

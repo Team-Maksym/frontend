@@ -1,17 +1,15 @@
 import * as React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ThemeProvider, CssBaseline, Box } from '@mui/material';
 import { theme } from './theme/theme';
 import { Header } from './Header';
-import { Wrapper } from './Wrapper';
+import { Router } from './Router';
 import { Footer } from './Footer';
-import { Banner } from './Wrapper/components/Banner';
-import { TalentList } from './TalentList';
 import { PreLoader } from './PreLoader';
-import { TalentContext } from '../shared/context/TalentContext';
+import { AuthProvider } from './Authorization/components/AuthProvider';
 
 export const App = () => {
-  const [talent, setTalent] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,25 +20,24 @@ export const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <TalentContext.Provider value={{ talent, setTalent }}>
-        <Box sx={{ backgroundColor: 'neutral.whiteGrey' }}>
-          <CssBaseline />
-          {loading ? (
-            <PreLoader />
-          ) : (
-            <>
-              <Header />
-              <Banner />
-              <Wrapper>
-                <TalentList />
-              </Wrapper>
-              <Footer />
-            </>
-          )}
-        </Box>
-      </TalentContext.Provider>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <Box sx={{ backgroundColor: 'neutral.whiteGrey' }}>
+            <CssBaseline />
+            {loading ? (
+              <PreLoader />
+            ) : (
+              <>
+                <Header />
+                <Router />
+                <Footer />
+              </>
+            )}
+          </Box>
+        </AuthProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 
