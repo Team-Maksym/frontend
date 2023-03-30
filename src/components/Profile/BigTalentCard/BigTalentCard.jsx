@@ -1,19 +1,50 @@
-import {Card, CardContent, Typography, Avatar} from '@mui/material';
+import { useContext } from 'react';
+import { TalentContext } from '../../../shared/context/TalentContext';
+import { Card, CardContent, Typography, Avatar, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Email, Cake, School, WorkHistory } from '@mui/icons-material';
 
-export const BigTalentCard = ({ talentName, position, avatar }) => {
+export const BigTalentCard = () => {
+  const { talent } = useContext(TalentContext);
+
+  if (!talent) {
+    return null;
+  }
+
+  const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
+
   return (
-    <Card sx={{ alignItems: 'center', justifyContent: 'center', display: 'grid' }}>
+    <Card sx={{ maxWidth: 345, textAlign: 'center', p: 2, borderRadius: 3 }}>
       <Avatar
-        alt={talentName}
-        src={avatar}
-        sx={{ bgcolor: 'secondary.main', width: '90px', height: '90px', m: '0 auto', mt: '10px', fontSize: '28px' }}
+        alt={talent.full_name}
+        src={talent.avatar}
+        sx={{
+          bgcolor: 'secondary.main',
+          width: '150px',
+          height: '150px',
+          m: '15px auto',
+          fontSize: '28px',
+        }}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
-          {talentName}
+        <Typography variant="h5" component="div">
+          {talent.full_name}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          {position}
+        <List>
+          {Object.keys(icons).map((item) => (
+            <ListItem disablePadding sx={{ m: '7px auto' }} key={item}>
+              <ListItemIcon
+                sx={{
+                  justifyContent: 'center',
+                }}
+              >
+                {icons[item]}
+              </ListItemIcon>
+              <ListItemText primary={talent[item] || '-'} />
+            </ListItem>
+          ))}
+        </List>
+        <Typography variant="body2" color="text.secondary">
+          {talent.positions || '-'}
         </Typography>
       </CardContent>
     </Card>

@@ -1,3 +1,4 @@
+import { protectedAxiosInstance } from '../api';
 import { publicAxiosInstance } from '../api';
 
 export const getAllTalents = async (page, size) => {
@@ -15,5 +16,9 @@ export const getAllTalents = async (page, size) => {
     });
 
   return data;
+};
+
+export const getOneTalent = async (talentId) => {
+  return await protectedAxiosInstance.get(`talents/${talentId}`).then((response) => response.data);
 };
 

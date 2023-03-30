@@ -7,10 +7,9 @@ import { Header } from './Header';
 import { Router } from './Router';
 import { Footer } from './Footer';
 import { PreLoader } from './PreLoader';
-import { TalentContext } from '../shared/context/TalentContext';
+import { AuthProvider } from './Authorization/components/AuthProvider';
 
 export const App = () => {
-  const [talent, setTalent] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,7 +22,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <TalentContext.Provider value={{ talent, setTalent }}>
+        <AuthProvider>
           <Box sx={{ backgroundColor: 'neutral.whiteGrey' }}>
             <CssBaseline />
             {loading ? (
@@ -36,7 +35,7 @@ export const App = () => {
               </>
             )}
           </Box>
-        </TalentContext.Provider>
+        </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
   );

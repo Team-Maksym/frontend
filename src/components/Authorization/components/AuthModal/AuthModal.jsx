@@ -1,27 +1,37 @@
 import * as yup from 'yup';
-import jwt_decode from "jwt-decode";
-import React, { useContext } from 'react';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import React, { useState } from 'react';
 import { EmailField } from '../../../../shared/components/Fields/EmailField';
 import { PasswordField } from '../../../../shared/components/Fields/PasswordField';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
 import { Modal } from '../../../../shared/components/Modal';
 import { Form } from '../../../../shared/components/Form';
 import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
+import { Alert, LinearProgress } from '@mui/material';
 
-export const AuthModal = ({ open, onClose, type }) => {
-  const { setTalent } = useContext(TalentContext);
+export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
+  const [error, setError] = useState(null);
+  const [loadingProgress, setLoadingProgress] = useState(false);
 
   const getSubmitHandler = (action) => {
     return async (values) => {
-      alert(JSON.stringify(values, null, 2));
-      const responseData = await action(values);
-      localStorage.setItem('token', responseData.token);
-      const decodedToken = jwt_decode(responseData.token);
-      setTalent(decodedToken.sub);
-      onClose();
-    }
-  }
+      try {
+        setError(() => null);
+        setLoadingProgress(() => true);
+        await action(values);
+        authorizeTalent();
+        onClose();
+      } catch (error) {
+        setError(() => error);
+      } finally {
+        setLoadingProgress(() => false);
+      }
+    };
+  };
+
+  const onModalCloseHandler = (e) => {
+    onClose(e);
+    setError(() => null);
+  };
 
   const formsInfo = {
     signIn: {
@@ -53,14 +63,25 @@ export const AuthModal = ({ open, onClose, type }) => {
         password: '',
       },
       validationSchema: yup.object({
-        full_name: yup.string('Enter your full name').required('Email is required'),
-        email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
+        full_name: yup
+          .string('Enter your full name')
+          .min(4, 'Full name must be more than 4 characters')
+          .max(64, 'Full name must be less than 64 characters')
+          .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers')
+          .required('Full name is required'),
+        email: yup
+          .string('Enter your email')
+          .email('Enter a valid email')
+          .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Enter a valid email')
+          .required('Email is required'),
         password: yup
           .string('Enter your password')
-          .min(8, 'Password should be of minimum 8 characters length')
-          .matches(/\d+/, 'Password no number')
-          .matches(/[A-Z]+/, 'Password no uppercase')
-          .matches(/[!@#$%^&*()-+]+/, 'Password no special char')
+          .min(8, 'Password must be more than 8 characters')
+          .max(128, 'Password must not be more than 128 characters')
+          .matches(
+            /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
+            'Password must contain at least one letter and one number',
+          )
           .required('Password is required'),
       }),
       fieldsRenderers: {
@@ -76,7 +97,9 @@ export const AuthModal = ({ open, onClose, type }) => {
   }
 
   return (
-    <Modal title={formsInfo[type].title} open={open} onClose={onClose}>
+    <Modal title={formsInfo[type].title} open={open} onClose={onModalCloseHandler}>
+      {error && <Alert severity="error">{error?.message}</Alert>}
+      {loadingProgress && <LinearProgress color="inherit" />}
       <Form {...formsInfo[type]} />
     </Modal>
   );

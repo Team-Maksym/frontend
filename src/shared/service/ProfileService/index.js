@@ -1,1 +1,1 @@
-export { getAllTalents } from "./ProfileService";
+export { getAllTalents, getOneTalent } from "./ProfileService";

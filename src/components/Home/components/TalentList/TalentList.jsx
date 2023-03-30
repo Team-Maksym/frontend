@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Box, Grid } from '@mui/material';
-import { getAllTalents } from '../../shared/service/ProfileService';
+import { getAllTalents } from '../../../../shared/service/ProfileService';
 import { SmallTalentCard } from '../SmallTalentCard';
 import { PaginationCustom } from './components/PaginationCustom';
 import { PreLoaderUser } from './components/PreLoadUser';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
-
 
   const items = talents.map((item, index) => {
     return (
@@ -26,3 +25,4 @@ export const TalentList = () => {
     </Box>
   );
 };
+
