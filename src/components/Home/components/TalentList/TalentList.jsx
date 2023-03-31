@@ -9,20 +9,22 @@ export const TalentList = () => {
   const [talents, setTalents] = useState([]);
 
   const items = talents.map((item, index) => {
-    let avatarId = null
-    if (item.avatar){
-      avatarId = (item.avatar).slice(32, -20);
+    let localAvatar = null;
+    if (item.avatar) {
+      localAvatar = `https://drive.google.com/uc?export=view&id=${item.avatar.slice(32, -20)}`;
     }
+
     return (
       <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
         <SmallTalentCard
           talentName={item.full_name}
           position={item.position || 'Talent'}
-          avatar={avatarId ? `https://drive.google.com/uc?export=view&id=${avatarId}` : `${avatarId}`}
+          avatar={localAvatar || `${localAvatar}`}
         />
       </Grid>
     );
   });
+
 
   return (
     <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
