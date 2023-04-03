@@ -6,7 +6,58 @@ import { PaginationCustom } from './components/PaginationCustom';
 import { PreLoaderUser } from './components/PreLoadUser';
 
 export const TalentList = () => {
-  const [talents, setTalents] = useState([]);
+  const [talents, setTalents] = useState([
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+        {
+          full_name: 'Anna Sukharieva',
+          avatar: null,
+          position: null,
+        },
+      ]);
 
   const items = talents.map((item, index) => {
     let localAvatar = null;

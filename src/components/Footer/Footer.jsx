@@ -22,7 +22,7 @@ const footers = [
 
 export const Footer = () => {
   return (
-    <Box sx={{ bgcolor: 'primary.main', color: 'secondary.main' }}>
+    <Box sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}>
       <Container component="footer" sx={{ pt: '48px' }}>
         <Grid container spacing={4} justifyContent="space-evenly">
           <Grid item xs={6} sm={3} key="footer title">
@@ -41,13 +41,13 @@ export const Footer = () => {
           </Grid>
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" gutterBottom sx={{ pl: '25px', color: 'secondary.main' }}>
+              <Typography variant="h6" gutterBottom sx={{ pl: '25px', color: 'neutral.white' }}>
                 {footer.title}
               </Typography>
               <ul>
                 {footer.description.map((item, i) => (
                   <li key={i}>
-                    <Link href="#" variant="subtitle1" sx={{ color: 'secondary.main' }}>
+                    <Link href="#" variant="subtitle1" sx={{ color: 'neutral.white' }}>
                       {item}
                     </Link>
                   </li>
