@@ -9,9 +9,9 @@ export const theme = createTheme({
     },
     neutral: {
       white: ' #f5f0e8',
-      lightGrey: '#393e46',
+      // lightGrey: '#393e46',
       whiteGrey: '#393e46',
-      grey: '#6B6C6F',
+      // grey: '#6B6C6F',
     },
   },
   typography: {

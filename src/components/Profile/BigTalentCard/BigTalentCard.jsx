@@ -18,7 +18,16 @@ export const BigTalentCard = () => {
   const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
 
   return (
-    <Card sx={{ maxWidth: 345, textAlign: 'center', p: 2, borderRadius: 3 }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        textAlign: 'center',
+        p: 2,
+        borderRadius: 3,
+        bgcolor: 'primary.main',
+        color: 'neutral.white',
+      }}
+    >
       <Avatar
         alt={talent.full_name}
         src={localAvatar || `${localAvatar}`}
@@ -40,6 +49,7 @@ export const BigTalentCard = () => {
               <ListItemIcon
                 sx={{
                   justifyContent: 'center',
+                  color: 'neutral.white',
                 }}
               >
                 {icons[item]}
@@ -48,9 +58,7 @@ export const BigTalentCard = () => {
             </ListItem>
           ))}
         </List>
-        <Typography variant="body2" color="text.secondary">
-          {talent.positions || '-'}
-        </Typography>
+        <Typography variant="body2">{talent.positions || '-'}</Typography>
       </CardContent>
     </Card>
   );

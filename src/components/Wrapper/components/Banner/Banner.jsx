@@ -58,8 +58,9 @@ export const Banner = () => {
                 Do you wanna be a StarLight?
               </Typography>
               <Button
+                color={'secondary'}
                 variant="contained"
-                sx={{ bgcolor: 'secondary.main', p: '20px', m: '0 50px'}}
+                sx={{ p: '20px', m: '0 50px' }}
               >
                 <Typography variant="h5"> SIGN UP</Typography>
               </Button>
