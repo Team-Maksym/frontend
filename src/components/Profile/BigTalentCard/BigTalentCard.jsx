@@ -18,7 +18,7 @@ export const BigTalentCard = () => {
   const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
 
   return (
-    <Card sx={{ maxWidth: 345, textAlign: 'center', p: 2, borderRadius: 3 }}>
+    <Card sx={{ maxWidth: 360, textAlign: 'center', p: 2, borderRadius: 3, bgcolor: 'primary.main', color: 'neutral.white' }}>
       <Avatar
         alt={talent.full_name}
         src={localAvatar || `${localAvatar}`}
