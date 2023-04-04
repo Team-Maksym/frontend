@@ -22,7 +22,7 @@ const footers = [
 
 export const Footer = () => {
   return (
-    <Box sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}>
+    <Box sx={{ bgcolor: 'primary.main', color: 'neutral.white'}}>
       <Container component="footer" sx={{ pt: '48px' }}>
         <Grid container spacing={4} justifyContent="space-evenly">
           <Grid item xs={6} sm={3} key="footer title">
