@@ -1,5 +1,5 @@
 import { Wrapper } from '../Wrapper';
-import { BigTalentCard } from './BigTalentCard/BigTalentCard';
+import { BigTalentCard } from './components/BigTalentCard/BigTalentCard';
 
 export const Profile = () => {
   return (

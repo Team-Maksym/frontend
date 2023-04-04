@@ -14,8 +14,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const authorizeTalent = () => {
-    if (getCurrentTalentId()) {
-      getOneTalent(getCurrentTalentId()).then((talent) => {
+    const talentId = getCurrentTalentId();
+    if (talentId) {
+      getOneTalent(talentId).then((talent) => {
+        talent.id = talentId;
         setTalent(talent);
       });
     } else {
