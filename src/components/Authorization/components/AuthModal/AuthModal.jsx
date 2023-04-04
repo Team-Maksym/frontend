@@ -9,7 +9,7 @@ import { signIn, signUp } from '../../../../shared/service/AuthorizationService'
 import { Alert, LinearProgress } from '@mui/material';
 
 export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [loadingProgress, setLoadingProgress] = useState(false);
 
   const getSubmitHandler = (action) => {
@@ -21,7 +21,13 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
         authorizeTalent();
         onClose();
       } catch (error) {
-        setError(() => error);
+        if (error.response.status === 401) {
+          setError(() => 'Wrong email or password');
+        } else if (error.response.status === 409) {
+          setError(() => 'An account is already registered with your email');
+        } else {
+          setError(() => 'Oops, something is wrong');
+        }
       } finally {
         setLoadingProgress(() => false);
       }
@@ -65,12 +71,13 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
       validationSchema: yup.object({
         full_name: yup
           .string('Enter your full name')
-          .min(4, 'Full name must be more than 4 characters')
+          .min(3, 'Full name must be more than 3 characters')
           .max(64, 'Full name must be less than 64 characters')
           .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers')
           .required('Full name is required'),
         email: yup
           .string('Enter your email')
+          .max(254, 'Email must not be more than 254 characters')
           .email('Enter a valid email')
           .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Enter a valid email')
           .required('Email is required'),
@@ -79,8 +86,8 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
           .min(8, 'Password must be more than 8 characters')
           .max(128, 'Password must not be more than 128 characters')
           .matches(
-            /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/,
-            'Password must contain at least one uppercase letter and one number',
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)\S+$/,
+            'Password must contain at least one uppercase letter, one lowercase letter, one number, and no spaces',
           )
           .required('Password is required'),
       }),
@@ -98,7 +105,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
 
   return (
     <Modal title={formsInfo[type].title} open={open} onClose={onModalCloseHandler}>
-      {error && <Alert severity="error">{error?.message}</Alert>}
+      {error && <Alert severity="error">{error}</Alert>}
       {loadingProgress && <LinearProgress color="inherit" />}
       <Form {...formsInfo[type]} />
     </Modal>

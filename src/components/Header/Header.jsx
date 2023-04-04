@@ -8,7 +8,7 @@ export const Header = () => {
   const { openAuthModal } = useContext(TalentContext);
 
   return (
-    <AppBar position="static" sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}>
+    <AppBar sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}>
       <Container>
         <Toolbar sx={{ flexWrap: 'wrap' }}>
           <LogoText />

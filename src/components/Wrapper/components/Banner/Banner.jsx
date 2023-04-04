@@ -2,6 +2,8 @@ import { Button, Container, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
+import { useContext } from 'react';
+import { TalentContext } from '../../../../shared/context/TalentContext';
 
 // export const Banner = () => {
 //   return (
@@ -14,13 +16,14 @@ import { CardActionArea } from '@mui/material';
 // };
 
 export const Banner = () => {
+  const { openAuthModal } = useContext(TalentContext);
   return (
     <Container
       disableGutters
       maxWidth="100vw"
       component="main"
       sx={{
-        height: '95vh',
+        height: '100vh',
         background: 'url(static/bg2.png) no-repeat center',
         // backgroundSize: 'contain',
         display: 'flex',
@@ -58,6 +61,7 @@ export const Banner = () => {
                 Do you wanna be a StarLight?
               </Typography>
               <Button
+                onClick={() => openAuthModal('signUp')}
                 color={'secondary'}
                 variant="contained"
                 sx={{ p: '20px', m: '0 50px' }}
