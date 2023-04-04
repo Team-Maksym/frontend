@@ -45,6 +45,7 @@ export const BigTalentCard = () => {
         sx={{
           maxWidth: 360,
           textAlign: 'center',
+          mt: 7,
           p: 2,
           borderRadius: 3,
           bgcolor: 'primary.main',
@@ -52,8 +53,8 @@ export const BigTalentCard = () => {
         }}
       >
         <Avatar
-        alt={talent.full_name.trim().charAt(0).toUpperCase() + talent.full_name.trim().slice(1)}
-        src={localAvatar || `${localAvatar}`}
+          alt={talent.full_name.trim().charAt(0).toUpperCase() + talent.full_name.trim().slice(1)}
+          src={localAvatar || `${localAvatar}`}
           sx={{
             bgcolor: 'secondary.main',
             width: '150px',
@@ -87,11 +88,16 @@ export const BigTalentCard = () => {
           <CardActions disableSpacing>
             <Tooltip title="Delete" placement="top">
               <IconButton onClick={openDeleteModalModal}>
-                <Delete sx={{ color: 'neutral.white', justifyContent: 'space-between' }} />
+                <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
               </IconButton>
             </Tooltip>
           </CardActions>
-          <DeleteAccountModal open={isDeleteModalOpen} onClose={handleClose} talentId={talent.id} setTalent={setTalent} />
+          <DeleteAccountModal
+            open={isDeleteModalOpen}
+            onClose={handleClose}
+            talentId={talent.id}
+            setTalent={setTalent}
+          />
         </CardContent>
       </Card>
     </>
