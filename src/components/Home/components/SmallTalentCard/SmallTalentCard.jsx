@@ -7,10 +7,10 @@ import { CardActionArea } from '@mui/material';
 export const SmallTalentCard = ({ talentName, position, avatar }) => {
   return (
     <CardActionArea sx={{ height: '100%' }}>
-      <Card sx={{ justifyContent: 'center', display: 'grid', height: '100%' }}>
+      <Card sx={{ justifyContent: 'center', display: 'grid', height: '100%', bgcolor: 'primary.main' }}>
         <CardContent>
           <Avatar
-            alt={talentName}
+            alt={talentName.trim().charAt(0).toUpperCase() + talentName.trim().slice(1)}
             src={avatar}
             sx={{
               bgcolor: 'secondary.main',
@@ -20,10 +20,10 @@ export const SmallTalentCard = ({ talentName, position, avatar }) => {
               fontSize: '28px',
             }}
           />
-          <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>
+          <Typography variant="h5" component="div" sx={{ color: 'neutral.white', textAlign: 'center' }}>
             {talentName}
           </Typography>
-          <Typography variant="body2" component="div" color="text.secondary" sx={{ textAlign: 'center' }}>
+          <Typography variant="body2" component="div" color="neutral.white" sx={{ textAlign: 'center' }}>
             {position}
           </Typography>
         </CardContent>

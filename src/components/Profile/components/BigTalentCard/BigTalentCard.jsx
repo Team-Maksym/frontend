@@ -52,8 +52,8 @@ export const BigTalentCard = () => {
         }}
       >
         <Avatar
-          alt={talent.full_name}
-          src={localAvatar || `${localAvatar}`}
+        alt={talent.full_name.trim().charAt(0).toUpperCase() + talent.full_name.trim().slice(1)}
+        src={localAvatar || `${localAvatar}`}
           sx={{
             bgcolor: 'secondary.main',
             width: '150px',
@@ -72,6 +72,7 @@ export const BigTalentCard = () => {
                 <ListItemIcon
                   sx={{
                     justifyContent: 'center',
+                    color: 'neutral.white',
                   }}
                 >
                   {icons[item]}

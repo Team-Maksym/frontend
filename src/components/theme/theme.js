@@ -2,16 +2,16 @@ import { createTheme } from '@mui/material';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#000',
+      main: '#222831',
     },
     secondary: {
-      main: '#f39200',
+      main: '#ff5722',
     },
     neutral: {
-      white: '#ffffff',
-      lightGrey: '#999999',
-      whiteGrey: '#eeeeee',
-      grey: '#6B6C6F',
+      white: ' #f5f0e8',
+      // lightGrey: '#393e46',
+      whiteGrey: '#393e46',
+      // grey: '#6B6C6F',
     },
   },
   typography: {

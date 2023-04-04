@@ -3,7 +3,7 @@ import { Box, Pagination, Stack } from '@mui/material';
 
 export const PaginationCustom = ({ setHook, queryFunction }) => {
   const [page, setPage] = useState(0);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState();
   const size = 10;
 
   useEffect(() => {
@@ -32,9 +32,6 @@ export const PaginationCustom = ({ setHook, queryFunction }) => {
             '& .MuiPaginationItem-page.Mui-selected': {
               color: 'secondary.main',
               fontWeight: 'bold',
-            },
-            '& .MuiPaginationItem-page': {
-              color: 'primary.main',
             },
           }}
         />
