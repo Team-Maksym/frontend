@@ -24,7 +24,7 @@ export const Banner = () => {
       component="main"
       sx={{
         height: '100vh',
-        background: 'url(static/bg2.png) no-repeat center',
+        background: 'url(static/bg.png) no-repeat center',
         // backgroundSize: 'contain',
         display: 'flex',
         justifyContent: 'space-around',

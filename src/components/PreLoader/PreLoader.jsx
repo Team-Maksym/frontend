@@ -26,7 +26,7 @@ export const PreLoader = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        bgcolor: 'neutral.white',
+        bgcolor: 'primary.main',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -63,7 +63,7 @@ export const PreLoader = () => {
             height: '40%',
             position: 'absolute',
             borderRadius: '50%',
-            bgcolor: 'primary.main',
+            bgcolor: 'neutral.white',
             animation: `${spin} 2s ease infinite`,
             animationDelay: '-1s',
           }}
@@ -89,7 +89,7 @@ export const PreLoader = () => {
             height: '40%',
             position: 'absolute',
             borderRadius: '50%',
-            bgcolor: 'primary.main',
+            bgcolor: 'neutral.white',
             animation: `${spin} 2s ease infinite`,
           }}
         ></Box>

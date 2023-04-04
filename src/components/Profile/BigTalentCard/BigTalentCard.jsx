@@ -20,6 +20,7 @@ export const BigTalentCard = () => {
   return (
     <Card
       sx={{
+        mt:7,
         maxWidth: 345,
         textAlign: 'center',
         p: 2,
