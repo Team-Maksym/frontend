@@ -13,10 +13,9 @@ import { PositionField } from '../../../../shared/components/Fields/PositionFiel
 
 export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   const onEditProfileHandler = (action) => {
-    const talentId = getCurrentTalentId();
+    let talentId = getCurrentTalentId();
     return async (values) => {
       values = handleSubmitPositions(values);
-      console.log(values);
       const talentNewProfile = {};
       Object.entries(values).map(([key, value]) => {
         if (values[key] !== '') {
@@ -38,13 +37,13 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   };
 
   const handleSubmitPositions = (values) => {
-    console.log(values);
     const positions = Array.isArray(values.positions)
       ? values.positions.map((position) => position.trim())
       : values.positions
           .trim()
           .split(',')
-          .map((position) => position.trim());
+          .map((position) => position.trim())
+          .filter((position) => position !== '');
     return { ...values, positions };
   };
 
@@ -59,7 +58,7 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
       birthday: talent.birthday,
       education: talent.education,
       experience: talent.experience,
-      positions: talent.positions,
+      positions: talent.positions.toString(),
     },
     validationSchema: yup.object({
       fullName: yup
@@ -68,7 +67,8 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers'),
       avatar: yup.string(),
-      birthday: yup.string(),
+      birthday: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD'),
+      // .required("Date of birth field required")
       education: yup
         .string()
         .min(2, 'Education must be at least 2 characters')

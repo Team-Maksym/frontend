@@ -4,7 +4,7 @@ import { CalendarMonth } from '@mui/icons-material';
 export const BirthdayField = (props) => {
   return (
     <TextField
-      label="Your age"
+      label="Your age in the format YYYY-MM-DD"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
