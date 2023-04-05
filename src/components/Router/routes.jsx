@@ -13,7 +13,7 @@ export const Router = () => {
       path: '/profile',
       element: <Profile />,
     },
-    { path: '*', element: <ErrorPage /> },
+    { path: '*', element: <ErrorPage /> }
   ]);
 
   return element;
