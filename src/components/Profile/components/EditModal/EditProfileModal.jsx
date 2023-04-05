@@ -5,32 +5,18 @@ import { Form } from '../../../../shared/components/Form';
 import React from 'react';
 import { BirthdayField } from '../../../../shared/components/Fields/AgeField';
 import { AvatarLinkField } from '../../../../shared/components/Fields/AvatarLinkField';
-import { ContactInformationField } from '../../../../shared/components/Fields/ContactInformationField';
 import { EducationField } from '../../../../shared/components/Fields/EducationField';
 import { ExperienceField } from '../../../../shared/components/Fields/ExperienceField';
-import { deleteTalent, getOneTalent } from '../../../../shared/service/ProfileService';
-import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  IconButton,
-} from '@mui/material';
-import { Delete } from '@mui/icons-material';
 import { patchTalentProfile } from '../../../../shared/service/ProfileService/ProfileService';
-import async from 'async';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
-import { object } from 'yup';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
 
 export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   const onEditProfileHandler = (action) => {
     const talentId = getCurrentTalentId();
     return async (values) => {
+      values = handleSubmitPositions(values);
+      console.log(values);
       const talentNewProfile = {};
       Object.entries(values).map(([key, value]) => {
         if (values[key] !== '') {
@@ -51,6 +37,17 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     };
   };
 
+  const handleSubmitPositions = (values) => {
+    console.log(values);
+    const positions = Array.isArray(values.positions)
+      ? values.positions.map((position) => position.trim())
+      : values.positions
+          .trim()
+          .split(',')
+          .map((position) => position.trim());
+    return { ...values, positions };
+  };
+
   const editForm = {
     id: 'edit-modal',
     submitBtnName: 'Accept',
@@ -66,26 +63,22 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     },
     validationSchema: yup.object({
       fullName: yup
-        .string('Enter your full name')
+        .string()
         .min(4, 'Full name must be more than 4 characters')
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers'),
-      // .required('Field is required'),
-      avatar: yup.string('Enter your avatar URL'),
-      // .matches(/^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i, 'Invalid image URL'),
+      avatar: yup.string(),
       birthday: yup.string(),
       education: yup
-        .string('Enter your last education')
-        // .required('Education is required')
+        .string()
         .min(2, 'Education must be at least 2 characters')
         .max(50, 'Education must be at most 50 characters'),
       experience: yup
-        .string('Enter your work experience')
-        // .required('Experience is required')
+        .string()
         .matches(/^[a-zA-Z\s]*$/, 'Experience must contain only letters and spaces')
         .min(2, 'Experience must be at least 2 characters')
         .max(50, 'Experience must be at most 50 characters'),
-      positions: yup.array().of(yup.string()),
+      positions: yup.string(),
     }),
     fieldsRenderers: {
       full_name: FullNameField,

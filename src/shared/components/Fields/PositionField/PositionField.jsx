@@ -4,7 +4,7 @@ import { WorkHistory } from '@mui/icons-material';
 export const PositionField = (props) => {
   return (
     <TextField
-      label="Your position"
+      label="Your positions"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -18,4 +18,3 @@ export const PositionField = (props) => {
     />
   );
 };
-

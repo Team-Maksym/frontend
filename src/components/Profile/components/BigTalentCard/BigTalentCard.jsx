@@ -13,7 +13,7 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
-import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
+import { Email, Cake, School, WorkHistory, Delete, Edit, Badge } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
 
@@ -31,7 +31,13 @@ export const BigTalentCard = () => {
     localAvatar = `https://drive.google.com/uc?export=view&id=${talent.avatar.slice(32, -20)}`;
   }
 
-  const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
+  const icons = {
+    email: <Email />,
+    birthday: <Cake />,
+    education: <School />,
+    experience: <WorkHistory />,
+    positions: <Badge />,
+  };
 
   const openDeleteModal = () => {
     setIsDeleteModalOpen(() => true);
@@ -92,9 +98,6 @@ export const BigTalentCard = () => {
               </ListItem>
             ))}
           </List>
-          <Typography variant="body2" color="text.secondary">
-            {talent.positions || '-'}
-          </Typography>
           <CardActions disableSpacing>
             <Tooltip title="Delete" placement="top">
               <IconButton onClick={openDeleteModal}>
