@@ -1,1 +1,1 @@
-export { AgeField } from './AgeField';
+export { BirthdayField } from './BirthdayField';

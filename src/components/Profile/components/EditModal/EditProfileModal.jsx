@@ -1,27 +1,46 @@
-import { Modal } from '../../../shared/components/Modal';
+import { Modal } from '../../../../shared/components/Modal';
 import * as yup from 'yup';
-import { FullNameField } from '../../../shared/components/Fields/FullNameField';
-import { Form } from '../../../shared/components/Form';
+import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
+import { Form } from '../../../../shared/components/Form';
 import React from 'react';
-import { AgeField } from '../../../shared/components/Fields/AgeField';
-import { AvatarLinkField } from '../../../shared/components/Fields/AvatarLinkField';
-import { ContactInformationField } from '../../../shared/components/Fields/ContactInformationField';
-import { EducationField } from '../../../shared/components/Fields/EducationField';
-import { ExperienceField } from '../../../shared/components/Fields/ExperienceField';
+import { BirthdayField } from '../../../../shared/components/Fields/AgeField';
+import { AvatarLinkField } from '../../../../shared/components/Fields/AvatarLinkField';
+import { ContactInformationField } from '../../../../shared/components/Fields/ContactInformationField';
+import { EducationField } from '../../../../shared/components/Fields/EducationField';
+import { ExperienceField } from '../../../../shared/components/Fields/ExperienceField';
+import { deleteTalent, getOneTalent } from '../../../../shared/service/ProfileService';
+import { useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  IconButton,
+} from '@mui/material';
+import { Delete } from '@mui/icons-material';
+import { patchTalentProfile } from '../../../../shared/service/ProfileService/ProfileService';
+import async from 'async';
+import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 
-export const EditModal = ({ isOpen, onClose }) => {
-  // const getSubmitHandler = (action) => {
-  //   return async (values) => {
-  //     await action(values);
-  //     onClose();
-  //   };
-  // };
+export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
+  const navigate = useNavigate();
+  // console.log(talent);
+
+  const onEditProfileHandler = async (action) => {
+    return async (values) => {
+      await action(values);
+      onClose();
+    };
+  };
 
   const editForm = {
     id: 'edit-modal',
     submitBtnName: 'Accept',
     title: 'You can edit your profile',
-    onSubmit: 'getSubmitHandler(patchTalentProfile)',
+    onSubmit: onEditProfileHandler(patchTalentProfile),
     //TODO: add initialValues from DB
     initialValues: {
       full_name: '',
@@ -47,14 +66,7 @@ export const EditModal = ({ isOpen, onClose }) => {
         .matches(/^[a-zA-Z\s]*$/, 'Contact information must contain only letters and spaces')
         .min(2, 'Contact information must be at least 2 characters')
         .max(50, 'Contact information must be at most 50 characters'),
-      age: yup
-        .number()
-        .typeError('Age must be a number')
-        .required('Age is required')
-        .positive('Age must be a positive number')
-        .integer('Age must be an integer')
-        .min(12, 'You must be at least 18 years old')
-        .max(120, 'You cannot be older than 120 years old'),
+      birthday: yup.string(),
       education: yup
         .string('Enter your last education')
         // .required('Education is required')
@@ -72,14 +84,14 @@ export const EditModal = ({ isOpen, onClose }) => {
       full_name: FullNameField,
       avatar: AvatarLinkField,
       contact_information: ContactInformationField,
-      age: AgeField,
+      birthday: BirthdayField,
       education: EducationField,
       experience: ExperienceField,
     },
   };
 
   return (
-    <Modal title={editForm.title} open={isOpen} onClose={onClose}>
+    <Modal title={editForm.title} open={open} onClose={onClose}>
       <Form {...editForm} />
     </Modal>
   );

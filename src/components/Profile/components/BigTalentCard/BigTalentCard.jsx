@@ -13,11 +13,13 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
-import { Email, Cake, School, WorkHistory, Delete } from '@mui/icons-material';
+import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
+import { EditProfileModal } from '../EditModal';
 
 export const BigTalentCard = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { talent, setTalent } = useContext(TalentContext);
 
   if (!talent) {
@@ -31,12 +33,20 @@ export const BigTalentCard = () => {
 
   const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
 
-  const openDeleteModalModal = () => {
+  const openDeleteModal = () => {
     setIsDeleteModalOpen(() => true);
   };
 
-  const handleClose = () => {
+  const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(() => false);
+  };
+
+  const openEditModal = () => {
+    setIsEditModalOpen(() => true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(() => false);
   };
 
   return (
@@ -87,15 +97,26 @@ export const BigTalentCard = () => {
           </Typography>
           <CardActions disableSpacing>
             <Tooltip title="Delete" placement="top">
-              <IconButton onClick={openDeleteModalModal}>
+              <IconButton onClick={openDeleteModal}>
                 <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Edit" placement="top">
+              <IconButton onClick={openEditModal}>
+                <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
               </IconButton>
             </Tooltip>
           </CardActions>
           <DeleteAccountModal
             open={isDeleteModalOpen}
-            onClose={handleClose}
+            onClose={handleCloseDeleteModal}
             talentId={talent.id}
+            setTalent={setTalent}
+          />
+          <EditProfileModal
+            open={isEditModalOpen}
+            onClose={handleCloseEditModal}
+            talent={talent}
             setTalent={setTalent}
           />
         </CardContent>
@@ -103,4 +124,3 @@ export const BigTalentCard = () => {
     </>
   );
 };
-

@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { CalendarMonth } from '@mui/icons-material';
 
-export const AgeField = (props) => {
+export const BirthdayField = (props) => {
   return (
     <TextField
       label="Your age"
