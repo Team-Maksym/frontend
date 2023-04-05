@@ -7,12 +7,11 @@ export const PaginationCustom = ({ setHook, queryFunction, setLoading }) => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const [count, setCount] = useState();
-  const [page, setPage] = useState(parseInt(query.get('page') || '1') -1 );
+  const [page, setPage] = useState(parseInt(query.get('page') || '1') - 1);
   const size = 10;
 
   useEffect(() => {
     // console.log(window.localStorage.scroll)
-    setLoading(true);
     window.scrollBy(0, window.localStorage.scroll);
     queryFunction(page, size)
       .then((response) => {

@@ -10,11 +10,8 @@ export const TalentList = () => {
   const [loading, setLoading] = useState(true);
 
   useState(() => {
-    console.log(loading)
-    if (loading == false) {
-      console.log('yeeeh')
-    }
-  }, [loading])
+    console.log(loading);
+  }, [loading]);
 
   const items = talents.map((item, index) => {
     let localAvatar = null;
@@ -33,14 +30,12 @@ export const TalentList = () => {
     );
   });
 
-
   return (
-    <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px'}}>
+    <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
       <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
-        {items.length !== 0 ? items : <PreLoaderUser />}
+        {!loading ? items : <PreLoaderUser />}
       </Grid>
       <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
     </Box>
   );
 };
-
