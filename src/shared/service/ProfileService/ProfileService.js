@@ -26,15 +26,6 @@ export const deleteTalent = async (talentId) => {
   return await protectedAxiosInstance.delete(`talents/${talentId}`).then((response) => response.data);
 };
 
-export const patchTalentProfile = async (talent) => {
-  // const data = {
-  //   full_name: 'Tyler Durden1',
-  //   birthday: null,
-  //   avatar: null,
-  //   education: null,
-  //   experience: null,
-  //   positions: [],
-  // };
-  console.log('patch' ,talent)
-  // return await protectedAxiosInstance.patch(`talents/${talent.id}`, data).then((response) => response.data);
+export const patchTalentProfile = async (talentNewProfile, talentId) => {
+  return await protectedAxiosInstance.patch(`talents/${talentId}`, talentNewProfile).then((response) => response.data);
 };

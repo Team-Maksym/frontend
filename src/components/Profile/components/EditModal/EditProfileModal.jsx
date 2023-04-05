@@ -24,15 +24,30 @@ import { Delete } from '@mui/icons-material';
 import { patchTalentProfile } from '../../../../shared/service/ProfileService/ProfileService';
 import async from 'async';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
+import { object } from 'yup';
+import { PositionField } from '../../../../shared/components/Fields/PositionField';
 
 export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
-  const navigate = useNavigate();
-  // console.log(talent);
-
-  const onEditProfileHandler = async (action) => {
+  const onEditProfileHandler = (action) => {
+    const talentId = getCurrentTalentId();
     return async (values) => {
-      await action(values);
-      onClose();
+      const talentNewProfile = {};
+      Object.entries(values).map(([key, value]) => {
+        if (values[key] !== '') {
+          talentNewProfile[key] = values[key];
+        }
+      });
+      if (Object.keys(talentNewProfile).length === 0) {
+        onClose();
+      } else {
+        try {
+          const response = await action(talentNewProfile, talentId);
+          setTalent(response);
+        } catch (error) {
+          console.error(error);
+        }
+        onClose();
+      }
     };
   };
 
@@ -41,36 +56,27 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     submitBtnName: 'Accept',
     title: 'You can edit your profile',
     onSubmit: onEditProfileHandler(patchTalentProfile),
-    //TODO: add initialValues from DB
     initialValues: {
-      full_name: '',
-      avatar: '',
-      contact_information: '',
-      age: '',
-      education: '',
-      experience: '',
+      full_name: talent.full_name,
+      avatar: talent.avatar,
+      birthday: talent.birthday,
+      education: talent.education,
+      experience: talent.experience,
+      positions: talent.positions,
     },
     validationSchema: yup.object({
-      full_name: yup
+      fullName: yup
         .string('Enter your full name')
         .min(4, 'Full name must be more than 4 characters')
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers'),
       // .required('Field is required'),
-      avatar: yup
-        .string('Enter your avatar URL')
-        .matches(/^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i, 'Invalid image URL'),
-      contact_information: yup
-        .string('Enter your contact information')
-        // .required('Experience is required')
-        .matches(/^[a-zA-Z\s]*$/, 'Contact information must contain only letters and spaces')
-        .min(2, 'Contact information must be at least 2 characters')
-        .max(50, 'Contact information must be at most 50 characters'),
+      avatar: yup.string('Enter your avatar URL'),
+      // .matches(/^https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp)$/i, 'Invalid image URL'),
       birthday: yup.string(),
       education: yup
         .string('Enter your last education')
         // .required('Education is required')
-        .matches(/^[a-zA-Z\s]*$/, 'Education must contain only letters and spaces')
         .min(2, 'Education must be at least 2 characters')
         .max(50, 'Education must be at most 50 characters'),
       experience: yup
@@ -79,14 +85,15 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .matches(/^[a-zA-Z\s]*$/, 'Experience must contain only letters and spaces')
         .min(2, 'Experience must be at least 2 characters')
         .max(50, 'Experience must be at most 50 characters'),
+      positions: yup.array().of(yup.string()),
     }),
     fieldsRenderers: {
       full_name: FullNameField,
       avatar: AvatarLinkField,
-      contact_information: ContactInformationField,
       birthday: BirthdayField,
       education: EducationField,
       experience: ExperienceField,
+      positions: PositionField,
     },
   };
 
