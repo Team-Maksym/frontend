@@ -22,3 +22,7 @@ export const getOneTalent = async (talentId) => {
   return await protectedAxiosInstance.get(`talents/${talentId}`).then((response) => response.data);
 };
 
+export const deleteTalent = async (talentId) => {
+  return await protectedAxiosInstance.delete(`talents/${talentId}`).then((response) => response.data);
+};
+
