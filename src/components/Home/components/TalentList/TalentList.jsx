@@ -9,10 +9,6 @@ export const TalentList = () => {
   const [talents, setTalents] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useState(() => {
-    console.log(loading);
-  }, [loading]);
-
   const items = talents.map((item, index) => {
     let localAvatar = null;
     if (item.avatar) {
