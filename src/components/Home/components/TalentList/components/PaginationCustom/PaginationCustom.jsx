@@ -11,8 +11,6 @@ export const PaginationCustom = ({ setHook, queryFunction, setLoading }) => {
   const size = 10;
 
   useEffect(() => {
-    // console.log(window.localStorage.scroll)
-    window.scrollBy(0, window.localStorage.scroll);
     queryFunction(page, size)
       .then((response) => {
         setHook(response.data);
@@ -34,10 +32,7 @@ export const PaginationCustom = ({ setHook, queryFunction, setLoading }) => {
           size="large"
           shape="rounded"
           onChange={(event, value) => {
-            event.preventDefault();
             setPage(--value);
-            localStorage.setItem('scroll', window.pageYOffset);
-            window.location.href = `/?page=${value + 1}`;
           }}
           color="primary"
           sx={{
