@@ -1,10 +1,31 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { TalentContext } from '../../../shared/context/TalentContext';
-import { Card, CardContent, Typography, Avatar, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { Email, Cake, School, WorkHistory } from '@mui/icons-material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  CardActions,
+} from '@mui/material';
+import { Email, Cake, School, WorkHistory, Edit, Delete } from '@mui/icons-material';
+import { EditModal } from '../EditModal';
 
 export const BigTalentCard = () => {
   const { talent } = useContext(TalentContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleEditProfileClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   if (!talent) {
     return null;
@@ -51,8 +72,16 @@ export const BigTalentCard = () => {
         <Typography variant="body2" color="text.secondary">
           {talent.positions || '-'}
         </Typography>
+        <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <IconButton aria-label="delete" color="primary">
+            <Delete />
+          </IconButton>
+          <IconButton aria-label="edit" color="primary" onClick={handleEditProfileClick}>
+            <Edit />
+          </IconButton>
+        </CardActions>
+        <EditModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </CardContent>
     </Card>
   );
 };
-
