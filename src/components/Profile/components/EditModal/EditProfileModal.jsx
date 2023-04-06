@@ -66,27 +66,28 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .min(4, 'Full name must be more than 4 characters')
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers'),
-      avatar: yup.string(),
+      avatar: yup.string()
+        .url('Avatar must be a valid url'),
       birthday: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD'),
-      // .required("Date of birth field required")
       education: yup
         .string()
         .min(2, 'Education must be at least 2 characters')
         .max(50, 'Education must be at most 50 characters'),
       experience: yup
         .string()
-        .matches(/^[a-zA-Z\s]*$/, 'Experience must contain only letters and spaces')
         .min(2, 'Experience must be at least 2 characters')
         .max(50, 'Experience must be at most 50 characters'),
-      positions: yup.string(),
+      positions: yup
+        .string()
+        .matches(/^([a-zA-Z]+\s*,\s*)*[a-zA-Z]+$/, 'Positions must contain only comma-separated positions'),
     }),
     fieldsRenderers: {
       full_name: FullNameField,
       avatar: AvatarLinkField,
-      birthday: BirthdayField,
       education: EducationField,
       experience: ExperienceField,
       positions: PositionField,
+      birthday: BirthdayField,
     },
   };
 

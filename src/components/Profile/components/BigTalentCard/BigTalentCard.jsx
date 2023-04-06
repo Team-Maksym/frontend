@@ -12,10 +12,12 @@ import {
   CardActions,
   IconButton,
   Tooltip,
+  Chip,
 } from '@mui/material';
 import { Email, Cake, School, WorkHistory, Delete, Edit, Badge } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
+import { Box } from '@mui/system';
 
 export const BigTalentCard = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -97,15 +99,30 @@ export const BigTalentCard = () => {
               </ListItem>
             ))}
             <ListItem disablePadding sx={{ m: '7px auto' }} key="positions">
-              <ListItemIcon
+              <Box
                 sx={{
-                  justifyContent: 'center',
-                  color: 'neutral.white',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  flexWrap: 'wrap',
+                  listStyle: 'none',
+                  p: 0.5,
+                  m: 0,
                 }}
               >
-                <Badge />
-              </ListItemIcon>
-              <ListItemText primary={talent.positions ? talent.positions.join(', ') : '-'} />
+                {talent.positions.map((position) => (
+                  <Chip
+                    key={position}
+                    label={position}
+                    sx={{
+                      bgcolor: 'secondary.main',
+                      color: 'neutral.white',
+                      fontSize: '14px',
+                      m: 1,
+                      p: 1,
+                    }}
+                  />
+                ))}
+              </Box>
             </ListItem>
           </List>
         </CardContent>
