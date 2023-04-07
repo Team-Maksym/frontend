@@ -1,8 +1,6 @@
-import { Modal } from '../../../../shared/components/Modal';
 import * as yup from 'yup';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
 import { Form } from '../../../../shared/components/Form';
-import React from 'react';
 import { BirthdayField } from '../../../../shared/components/Fields/AgeField';
 import { AvatarLinkField } from '../../../../shared/components/Fields/AvatarLinkField';
 import { EducationField } from '../../../../shared/components/Fields/EducationField';
@@ -10,6 +8,7 @@ import { ExperienceField } from '../../../../shared/components/Fields/Experience
 import { patchTalentProfile } from '../../../../shared/service/ProfileService/ProfileService';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   const onEditProfileHandler = (action) => {
@@ -66,8 +65,7 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .min(4, 'Full name must be more than 4 characters')
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers'),
-      avatar: yup.string()
-        .url('Avatar must be a valid url'),
+      avatar: yup.string().url('Avatar must be a valid url'),
       birthday: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD'),
       education: yup
         .string()
@@ -92,8 +90,30 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   };
 
   return (
-    <Modal title={editForm.title} open={open} onClose={onClose}>
-      <Form {...editForm} />
-    </Modal>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="contained-Dialog-title-vcenter"
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: { borderRadius: 4, bgcolor: 'neutral.white', py: 0 },
+      }}
+    >
+      <DialogTitle id="contained-Dialog-title-vcenter">{editForm.title}</DialogTitle>
+      <DialogContent>
+        <Form {...editForm}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            size="large"
+            sx={{ mt: 4, px: 8, borderRadius: '6px' }}
+          >
+            {editForm.submitBtnName}
+          </Button>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };
