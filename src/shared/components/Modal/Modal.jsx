@@ -6,7 +6,7 @@ export const Modal = ({ title, open, onClose, children }) => {
       open={open}
       onClose={onClose}
       aria-labelledby="contained-Dialog-title-vcenter"
-      scroll={'body'}
+      scroll={'paper'}
       maxWidth="xs"
       fullWidth
       PaperProps={{
