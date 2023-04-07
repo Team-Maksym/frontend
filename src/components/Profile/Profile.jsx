@@ -1,8 +1,7 @@
-import { Box } from '@mui/material';
 import { Wrapper } from '../Wrapper';
-import { BigTalentCard } from './BigTalentCard/BigTalentCard';
-import { ProofMenu } from './ProofMenu/ProofMenu';
-
+import { BigTalentCard } from './components/BigTalentCard/BigTalentCard';
+import { ProofMenu } from './components/ProofMenu/ProofMenu';
+import { Box } from '@mui/material';
 export const Profile = () => {
   return (
     <Wrapper>

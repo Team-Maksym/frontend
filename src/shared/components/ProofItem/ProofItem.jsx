@@ -1,12 +1,9 @@
 import React from 'react';
 import { Box, Typography, Modal } from '@mui/material';
-export const ProofItem = ({ children }) => {
-  const proofTitle =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos consequuntur inventore maxime quas et fugiat velit odit fugit mollitia vel.';
-
+export const ProofItem = ({ children, description, val }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', width: '830px' }}>
-      <Typography>{proofTitle}</Typography>
+      <Typography>{description.substring(0, 100) + '...'}</Typography>
       {children}
     </Box>
   );
