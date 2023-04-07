@@ -39,26 +39,14 @@ export const Header = () => {
           ) : (
             <>
               <Button color="inherit" size="large">
-                <Typography
-                  variant="h6"
-                  noWrap
-                  onClick={() => {
-                    openAuthModal('signIn');
-                  }}
-                >
+                <Typography variant="h6" noWrap onClick={() => openAuthModal('signIn')}>
                   SIGN IN
                 </Typography>
               </Button>
               <Typography variant="h5" noWrap>
                 /
               </Typography>
-              <Button
-                color="inherit"
-                size="large"
-                onClick={() => {
-                  openAuthModal('signUp');
-                }}
-              >
+              <Button color="inherit" size="large" onClick={() => openAuthModal('signUp')}>
                 <Typography variant="h6" noWrap>
                   SIGN UP
                 </Typography>
