@@ -3,7 +3,7 @@ import { Home } from '../Home';
 import { Profile } from '../Profile';
 import { ErrorPage } from '../ErrorPage';
 
-export const Router = ({logged}) => {
+export const Router = () => {
   let element = useRoutes([
     {
       path: '/',
@@ -11,7 +11,7 @@ export const Router = ({logged}) => {
     },
     {
       path: '/profile',
-      element: <Profile logged={logged} />,
+      element: <Profile/>,
     },
     { path: '*', element: <ErrorPage /> },
   ]);

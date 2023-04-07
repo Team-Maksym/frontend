@@ -1,18 +1,11 @@
 import { Wrapper } from '../Wrapper';
 import { BigTalentCard } from './components/BigTalentCard/BigTalentCard';
-import { Navigate } from 'react-router-dom';
 
-export const Profile = ({ logged }) => {
+export const Profile = () => {
 
   return (
-    <>
-      {logged && !!localStorage.token ? (
-        <Wrapper>
-          <BigTalentCard talentName="Susan" position="front-end developer" />
-        </Wrapper>
-      ) : (
-        <Navigate to="/" />
-      )}
-    </>
+    <Wrapper>
+      <BigTalentCard talentName="Susan" position="front-end developer" />
+    </Wrapper>
   );
 };

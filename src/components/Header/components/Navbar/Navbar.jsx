@@ -11,7 +11,7 @@ export const Navbar = ({ logged }) => {
 
   return (
     <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
-      {logged && !!localStorage.token && <Tab value="one" label="Profile" component={Link} to="/profile" />}
+      {!!localStorage.token && <Tab value="one" label="Profile" component={Link} to="/profile" />}
     </Tabs>
   );
 };
