@@ -13,11 +13,11 @@ import {
   IconButton,
   Tooltip,
   Chip,
+  Box
 } from '@mui/material';
-import { Email, Cake, School, WorkHistory, Delete, Edit, Badge } from '@mui/icons-material';
+import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
-import { Box } from '@mui/system';
 
 export const BigTalentCard = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

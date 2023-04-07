@@ -8,7 +8,7 @@ import { ExperienceField } from '../../../../shared/components/Fields/Experience
 import { patchTalentProfile } from '../../../../shared/service/ProfileService/ProfileService';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
-import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 
 export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   const onEditProfileHandler = (action) => {
@@ -103,15 +103,20 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
       <DialogTitle id="contained-Dialog-title-vcenter">{editForm.title}</DialogTitle>
       <DialogContent>
         <Form {...editForm}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            size="large"
-            sx={{ mt: 4, px: 8, borderRadius: '6px' }}
-          >
-            {editForm.submitBtnName}
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
+            <Button variant="outlined" onClick={onClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              size="large"
+              sx={{ mt: 4, px: 8, borderRadius: '6px' }}
+            >
+              {editForm.submitBtnName}
+            </Button>
+          </Box>
         </Form>
       </DialogContent>
     </Dialog>
