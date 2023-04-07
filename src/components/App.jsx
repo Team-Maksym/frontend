@@ -11,6 +11,7 @@ import { AuthProvider } from './Authorization/components/AuthProvider';
 
 export const App = () => {
   const [loading, setLoading] = useState(false);
+  const [logged, setLogged] = useState(!!localStorage.token);
 
   useEffect(() => {
     setLoading(true);
@@ -29,8 +30,8 @@ export const App = () => {
               <PreLoader />
             ) : (
               <>
-                <Header />
-                <Router />
+                <Header logged={logged} setLogged={setLogged} />
+                <Router logged={logged} />
                 <Footer />
               </>
             )}
@@ -40,4 +41,3 @@ export const App = () => {
     </BrowserRouter>
   );
 };
-
