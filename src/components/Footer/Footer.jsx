@@ -22,7 +22,7 @@ const footers = [
 
 export const Footer = () => {
   return (
-    <Box sx={{ bgcolor: 'primary.main', color: 'neutral.white'}}>
+    <Box sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}>
       <Container component="footer" sx={{ pt: '48px' }}>
         <Grid container spacing={4} justifyContent="space-evenly">
           <Grid item xs={6} sm={3} key="footer title">
@@ -34,10 +34,46 @@ export const Footer = () => {
             <Typography variant="h6" noWrap sx={{ flexGrow: 1, mb: '12px' }}>
               IWannaBeAStarLight
             </Typography>
-            <Instagram fontSize="large" sx={{ mr: '8px' }} />
-            <LinkedIn fontSize="large" sx={{ mr: '8px' }} />
-            <Facebook fontSize="large" sx={{ mr: '8px' }} />
-            <YouTube fontSize="large" sx={{ mr: '8px' }} />
+            <Instagram
+              fontSize="large"
+              sx={{
+                mr: '8px',
+                transition: '.2s ease',
+                ':hover': {
+                  color: 'secondary.main',
+                },
+              }}
+            />
+            <LinkedIn
+              fontSize="large"
+              sx={{
+                mr: '8px',
+                transition: '.2s ease',
+                ':hover': {
+                  color: 'secondary.main',
+                },
+              }}
+            />
+            <Facebook
+              fontSize="large"
+              sx={{
+                mr: '8px',
+                transition: '.2s ease',
+                ':hover': {
+                  color: 'secondary.main',
+                },
+              }}
+            />
+            <YouTube
+              fontSize="large"
+              sx={{
+                mr: '8px',
+                transition: '.2s ease',
+                ':hover': {
+                  color: 'secondary.main',
+                },
+              }}
+            />
           </Grid>
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
@@ -47,7 +83,18 @@ export const Footer = () => {
               <ul>
                 {footer.description.map((item, i) => (
                   <li key={i}>
-                    <Link href="#" variant="subtitle1" sx={{ color: 'neutral.white' }}>
+                    <Link
+                      href="#"
+                      variant="subtitle1"
+                      sx={{
+                        color: 'neutral.white',
+                        transition: '.2s ease',
+                        textDecoration: 'none',
+                        ':hover': {
+                          color: 'secondary.main',
+                        },
+                      }}
+                    >
                       {item}
                     </Link>
                   </li>
