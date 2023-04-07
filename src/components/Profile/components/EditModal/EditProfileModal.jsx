@@ -60,24 +60,34 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
       positions: talent.positions.toString(),
     },
     validationSchema: yup.object({
-      fullName: yup
+      full_name: yup
         .string()
         .min(4, 'Full name must be more than 4 characters')
         .max(64, 'Full name must be less than 64 characters')
-        .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers'),
-      avatar: yup.string().url('Avatar must be a valid url'),
-      birthday: yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD'),
+        .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers')
+        .required('Full name is required'),
+      avatar: yup
+        .string()
+        .url('Avatar must be a valid url')
+        .nullable(),
+      birthday: yup
+        .string()
+        .matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD')
+        .nullable(),
       education: yup
         .string()
         .min(2, 'Education must be at least 2 characters')
-        .max(50, 'Education must be at most 50 characters'),
+        .max(50, 'Education must be at most 50 characters')
+        .nullable(),
       experience: yup
         .string()
         .min(2, 'Experience must be at least 2 characters')
-        .max(50, 'Experience must be at most 50 characters'),
+        .max(50, 'Experience must be at most 50 characters')
+        .nullable(),
       positions: yup
         .string()
-        .matches(/^([a-zA-Z]+\s*,\s*)*[a-zA-Z]+$/, 'Positions must contain only comma-separated positions'),
+        .matches(/^([a-zA-Z]+\s*,\s*)*[a-zA-Z]+$/, 'Positions must contain only comma-separated positions')
+        .nullable(),
     }),
     fieldsRenderers: {
       full_name: FullNameField,
