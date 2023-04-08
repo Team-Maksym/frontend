@@ -26,3 +26,6 @@ export const deleteTalent = async (talentId) => {
   return await protectedAxiosInstance.delete(`talents/${talentId}`).then((response) => response.data);
 };
 
+export const patchTalentProfile = async (talentNewProfile, talentId) => {
+  return await protectedAxiosInstance.patch(`talents/${talentId}`, talentNewProfile).then((response) => response.data);
+};

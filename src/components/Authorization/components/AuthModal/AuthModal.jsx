@@ -6,7 +6,7 @@ import { FullNameField } from '../../../../shared/components/Fields/FullNameFiel
 import { Modal } from '../../../../shared/components/Modal';
 import { Form } from '../../../../shared/components/Form';
 import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
-import { Alert, LinearProgress } from '@mui/material';
+import { Alert, Button, LinearProgress } from '@mui/material';
 
 export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
   const [error, setError] = useState('');
@@ -107,7 +107,17 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
     <Modal title={formsInfo[type].title} open={open} onClose={onModalCloseHandler}>
       {error && <Alert severity="error">{error}</Alert>}
       {loadingProgress && <LinearProgress color="inherit" />}
-      <Form {...formsInfo[type]} />
+      <Form {...formsInfo[type]} >
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          size="large"
+          sx={{ mt: 4, px: 8, borderRadius: '6px' }}
+        >
+          {formsInfo[type].submitBtnName}
+        </Button>
+      </Form>
     </Modal>
   );
 };
