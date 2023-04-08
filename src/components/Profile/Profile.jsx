@@ -5,7 +5,7 @@ export const Profile = () => {
 
   return (
     <Wrapper>
-      <BigTalentCard talentName="Susan" position="front-end developer" />
+      <BigTalentCard />
     </Wrapper>
   );
 };
