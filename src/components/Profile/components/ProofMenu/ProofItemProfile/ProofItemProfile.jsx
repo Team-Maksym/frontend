@@ -5,7 +5,6 @@ import { Button, Box } from '@mui/material';
 
 import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 export const ProofItemProfile = ({ val }) => {
-  console.log(val);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
