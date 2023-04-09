@@ -13,7 +13,7 @@ import {
   IconButton,
   Tooltip,
   Chip,
-  Box
+  Box,
 } from '@mui/material';
 import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
@@ -60,7 +60,8 @@ export const BigTalentCard = () => {
     <>
       <Card
         sx={{
-          maxWidth: 360,
+          minWidth: 300,
+          minWidth: 360,
           textAlign: 'center',
           mt: 7,
           p: 2,

@@ -56,4 +56,3 @@ export const DeleteAccountModal = ({ open, onClose, talentId, setTalent }) => {
     </Dialog>
   );
 };
-
