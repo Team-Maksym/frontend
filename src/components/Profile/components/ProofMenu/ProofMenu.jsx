@@ -15,7 +15,7 @@ TabPanel.propTypes = {
 export const ProofMenu = () => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleChangeAcordion = (panel) => (isExpanded) => {
+  const handleChangeAcordion = (panel) => (event, isExpanded) => {
     if (open === false) {
       setExpanded(isExpanded ? panel : false);
     }
