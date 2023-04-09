@@ -7,44 +7,49 @@ import { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { PreLoader } from '../PreLoader/PreLoader';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
-import { getCurrentTalentId } from '../../shared/service/AuthorizationService/AuthorizationService';
 import { Navigate } from 'react-router-dom';
 
-export const Profile = ({ logged }) => {
+export const Profile = () => {
   const { id } = useParams();
   const { talent: currentTalent } = useContext(TalentContext);
   const [talentProfile, setTalentProfile] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (currentTalent) {
-      if (id) {
-        getOneTalent(id).then((talent) => {
-          talent.id = id;
+      const talentId = id || currentTalent.id;
+      getOneTalent(talentId)
+        .then((talent) => {
+          talent.id = talentId;
           setTalentProfile(() => talent);
+        })
+        .catch((error) => {
+          setError(() => error);
         });
-      } else {
-        // console.log("id");
-        // setTalentProfile(() => null);
-        const currentTalentId = getCurrentTalentId();
-        getOneTalent(currentTalentId).then((talent) => {
-          talent.id = currentTalentId;
-          setTalentProfile(() => talent);
-        });
-      }
     }
   }, [id, currentTalent]);
 
   if (!currentTalent) {
-    return <ErrorPage status="401" />;
+    return <ErrorPage status="401" message='You are not authorized to view this page'/>;
   }
 
-  console.log(id);
+  if (error) {
+    return <ErrorPage status="404" />;
+  }
 
   return (
     <>
-      {logged && !!localStorage.token ? (
+      {currentTalent ? (
         <Wrapper>
-          {talentProfile ? <BigTalentCard talent={talentProfile} setTalent={setTalentProfile} /> : <PreLoader />}
+          {talentProfile ? (
+            <BigTalentCard
+              talent={talentProfile}
+              setTalent={setTalentProfile}
+              actionsAccess={talentProfile.id === currentTalent.id}
+            />
+          ) : (
+            <PreLoader />
+          )}
         </Wrapper>
       ) : (
         <Navigate to="/" />

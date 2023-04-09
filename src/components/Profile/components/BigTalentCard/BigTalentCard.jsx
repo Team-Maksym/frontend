@@ -18,7 +18,7 @@ import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-mater
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
 
-export const BigTalentCard = ({ talent, setTalent }) => {
+export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -120,25 +120,35 @@ export const BigTalentCard = ({ talent, setTalent }) => {
             </ListItem>
           </List>
         </CardContent>
-        <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Tooltip title="Delete" placement="top">
-            <IconButton onClick={openDeleteModal}>
-              <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Edit" placement="top">
-            <IconButton onClick={openEditModal}>
-              <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-            </IconButton>
-          </Tooltip>
-        </CardActions>
-        <DeleteAccountModal
-          open={isDeleteModalOpen}
-          onClose={handleCloseDeleteModal}
-          talentId={talent.id}
-          setTalent={setTalent}
-        />
-        <EditProfileModal open={isEditModalOpen} onClose={handleCloseEditModal} talent={talent} setTalent={setTalent} />
+        {actionsAccess && (
+          <>
+            <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Tooltip title="Delete" placement="top">
+                <IconButton onClick={openDeleteModal}>
+                  <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Edit" placement="top">
+                <IconButton onClick={openEditModal}>
+                  <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+                </IconButton>
+              </Tooltip>
+            </CardActions>
+
+            <DeleteAccountModal
+              open={isDeleteModalOpen}
+              onClose={handleCloseDeleteModal}
+              talentId={talent.id}
+              setTalent={setTalent}
+            />
+            <EditProfileModal
+              open={isEditModalOpen}
+              onClose={handleCloseEditModal}
+              talent={talent}
+              setTalent={setTalent}
+            />
+          </>
+        )}
       </Card>
     </>
   );

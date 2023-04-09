@@ -11,9 +11,6 @@ import { AuthProvider } from './Authorization/components/AuthProvider';
 
 export const App = () => {
   const [loading, setLoading] = useState(false);
-  const [logged, setLogged] = useState(!!localStorage.token);
-
-  console.log(logged);
 
   useEffect(() => {
     setLoading(true);
@@ -32,8 +29,8 @@ export const App = () => {
               <PreLoader />
             ) : (
               <>
-                <Header logged={logged} setLogged={setLogged} />
-                <Router logged={logged} />
+                <Header />
+                <Router />
                 <Footer />
               </>
             )}

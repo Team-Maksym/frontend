@@ -3,11 +3,13 @@ import { TalentContext } from '../../../../shared/context/TalentContext';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { getOneTalent } from '../../../../shared/service/ProfileService';
 import { AuthModal } from '../AuthModal/AuthModal';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthProvider = ({ children }) => {
   const [talent, setTalent] = useState(null);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState('signIn');
+  const navigate = useNavigate();
 
   useEffect(() => {
     authorizeTalent();
@@ -34,8 +36,14 @@ export const AuthProvider = ({ children }) => {
     setOpen(false);
   };
 
+  const signOut = () => {
+    localStorage.removeItem('token');
+    setTalent(null);
+    navigate('/');
+  }
+
   return (
-    <TalentContext.Provider value={{ talent, setTalent, openAuthModal }}>
+    <TalentContext.Provider value={{ talent, setTalent, signOut, openAuthModal }}>
       <AuthModal open={open} onClose={handleClose} type={type} authorizeTalent={authorizeTalent} />
       {children}
     </TalentContext.Provider>
