@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Modal } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 export const ProofItem = ({ children, description, val }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', width: '750px' }}>

@@ -18,6 +18,7 @@ export const TalentList = () => {
     return (
       <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
         <SmallTalentCard
+          id={item.id}
           talentName={item.full_name}
           position={item.position || 'Talent'}
           avatar={localAvatar || `${localAvatar}`}

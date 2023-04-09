@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   Divider,
   Button,
@@ -10,17 +11,15 @@ import {
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { deleteTalent } from '../../../../shared/service/ProfileService';
-import { useNavigate } from 'react-router-dom';
+import { TalentContext } from '../../../../shared/context/TalentContext';
 
 export const DeleteAccountModal = ({ open, onClose, talentId, setTalent }) => {
-  const navigate = useNavigate();
+  const { signOut } = useContext(TalentContext);
 
   const onDeleteAccountHandler = async () => {
     await deleteTalent(talentId);
-    localStorage.removeItem('token');
     setTalent(null);
-    onClose();
-    navigate('/');
+    signOut();
   };
 
   return (

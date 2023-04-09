@@ -1,6 +1,6 @@
 import { Typography, Button } from '@mui/material';
 
-export const UnauthorizedNavbar = ({ setAutorized, openAuthModal }) => {
+export const UnauthorizedNavbar = ({ openAuthModal }) => {
 
   return (
     <>
@@ -15,7 +15,6 @@ export const UnauthorizedNavbar = ({ setAutorized, openAuthModal }) => {
           noWrap
           onClick={() => {
             openAuthModal('signIn');
-            setAutorized(true);
           }}
         >
           SIGN IN
@@ -29,7 +28,6 @@ export const UnauthorizedNavbar = ({ setAutorized, openAuthModal }) => {
         size="large"
         onClick={() => {
           openAuthModal('signUp');
-          setAutorized(true);
         }}
       >
         <Typography

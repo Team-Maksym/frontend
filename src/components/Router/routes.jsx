@@ -1,17 +1,31 @@
 import { useRoutes } from 'react-router-dom';
 import { Home } from '../Home';
 import { Profile } from '../Profile';
-import { ErrorPage } from '../ErrorPage';
+import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 
 export const Router = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: <Home />,
-    },
-    {
-      path: '/profile',
-      element: <Profile/>,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: 'profile/',
+          children: [
+            {
+              index: true,
+              element: <Profile />,
+            },
+            {
+              path: ':id',
+              element: <Profile />,
+            },
+          ],
+        },
+      ],
     },
     { path: '*', element: <ErrorPage /> },
   ]);

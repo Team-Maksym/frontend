@@ -66,10 +66,7 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers')
         .required('Full name is required'),
-      avatar: yup
-        .string()
-        .url('Avatar must be a valid url')
-        .nullable(),
+      avatar: yup.string().url('Avatar must be a valid url').nullable(),
       birthday: yup
         .string()
         .matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD')
@@ -132,3 +129,4 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     </Dialog>
   );
 };
+
