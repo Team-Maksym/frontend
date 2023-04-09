@@ -37,7 +37,7 @@ export const ProofMenu = () => {
   const hiddenLength = [el, el];
 
   return (
-    <Box sx={{ maxWidth: '900px', mt: '56px' }}>
+    <Box sx={{ maxWidth: '850px', mt: '56px' }}>
       <Box sx={{ pl: '25px' }}>
         <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
           <Tab label="Published" sx={{ color: 'neutral.white' }} />
