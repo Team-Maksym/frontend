@@ -20,7 +20,6 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         if (values[key] !== '') {
           talentNewProfile[key] = values[key];
         }
-        return talentNewProfile;
       });
       if (Object.keys(talentNewProfile).length === 0) {
         onClose();

@@ -1,15 +1,22 @@
-import { Tabs, Tab, Typography, Button } from '@mui/material';
-import { useState, useContext } from 'react';
+import { Tabs, Tab, Button, Tooltip } from '@mui/material';
+import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
-import { Tooltip } from '@mui/material';
 import { TalentContext } from '../../../../shared/context/TalentContext';
+import { UnauthorizedNavbar } from '../UnauthorizedNavbar';
 
 export const Navbar = () => {
   const [value, setValue] = useState('one');
   const { openAuthModal, talent, signOut } = useContext(TalentContext);
 
-  const handleChange = (newValue) => {
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('/profile')) {
+      setValue('two');
+    }
+  }, []);
+
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -18,14 +25,11 @@ export const Navbar = () => {
       {talent ? (
         <>
           <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
-            <Tab value="one" label="Profile" component={Link} to="/profile" />
+            <Tab value="one" label="Home" component={Link} to="/" />
+            <Tab value="two" label="Profile" component={Link} to="/profile" />
           </Tabs>
           <Tooltip title="Sign out">
-            <Button
-              color="inherit"
-              size="large"
-              onClick={signOut}
-            >
+            <Button color="inherit" size="large" onClick={signOut}>
               <LoginIcon
                 sx={{
                   '&:hover': {
@@ -37,33 +41,7 @@ export const Navbar = () => {
           </Tooltip>
         </>
       ) : (
-        <>
-          <Button color="inherit" size="large">
-            <Typography
-              variant="h6"
-              noWrap
-              onClick={() => {
-                openAuthModal('signIn');
-              }}
-            >
-              SIGN IN
-            </Typography>
-          </Button>
-          <Typography variant="h5" noWrap>
-            /
-          </Typography>
-          <Button
-            color="inherit"
-            size="large"
-            onClick={() => {
-              openAuthModal('signUp');
-            }}
-          >
-            <Typography variant="h6" noWrap>
-              SIGN UP
-            </Typography>
-          </Button>
-        </>
+        <UnauthorizedNavbar openAuthModal={openAuthModal} />
       )}
     </>
   );

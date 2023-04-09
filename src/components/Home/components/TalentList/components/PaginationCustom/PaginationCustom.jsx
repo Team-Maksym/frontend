@@ -37,9 +37,15 @@ export const PaginationCustom = ({ setHook, queryFunction, setLoading }) => {
           }}
           color="primary"
           sx={{
+            '& .MuiPaginationItem-page:not(.Mui-selected)': {
+              color: 'neutral.white',
+            },
             '& .MuiPaginationItem-page.Mui-selected': {
               color: 'secondary.main',
               fontWeight: 'bold',
+            },
+            '& .MuiPaginationItem-icon': {
+              color: 'neutral.white',
             },
           }}
         />

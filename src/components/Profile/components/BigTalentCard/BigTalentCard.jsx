@@ -54,7 +54,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
     <>
       <Card
         sx={{
-          maxWidth: 360,
+          minWidth: 360,
           textAlign: 'center',
           mt: 7,
           p: 2,

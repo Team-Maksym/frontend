@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 import { PreLoader } from '../PreLoader/PreLoader';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { Navigate } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { ProofMenu } from './components/ProofMenu';
 
 export const Profile = () => {
   const { id } = useParams();
@@ -30,7 +32,7 @@ export const Profile = () => {
   }, [id, currentTalent]);
 
   if (!currentTalent) {
-    return <ErrorPage status="401" message='You are not authorized to view this page'/>;
+    return <ErrorPage status="401" message="You are not authorized to view this page" />;
   }
 
   if (error) {
@@ -41,15 +43,18 @@ export const Profile = () => {
     <>
       {currentTalent ? (
         <Wrapper>
-          {talentProfile ? (
-            <BigTalentCard
-              talent={talentProfile}
-              setTalent={setTalentProfile}
-              actionsAccess={talentProfile.id === currentTalent.id}
-            />
-          ) : (
-            <PreLoader />
-          )}
+          <Box sx={{ display: 'flex' }}>
+            {talentProfile ? (
+              <BigTalentCard
+                talent={talentProfile}
+                setTalent={setTalentProfile}
+                actionsAccess={talentProfile.id === currentTalent.id}
+              />
+            ) : (
+              <PreLoader />
+            )}
+            <ProofMenu />
+          </Box>
         </Wrapper>
       ) : (
         <Navigate to="/" />
