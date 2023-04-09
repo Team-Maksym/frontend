@@ -7,10 +7,12 @@ import { Modal } from '../../../../shared/components/Modal';
 import { Form } from '../../../../shared/components/Form';
 import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
 import { Alert, Button, LinearProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
   const [error, setError] = useState('');
   const [loadingProgress, setLoadingProgress] = useState(false);
+  const navigate = useNavigate();
 
   const getSubmitHandler = (action) => {
     return async (values) => {
@@ -20,6 +22,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
         await action(values);
         authorizeTalent();
         onClose();
+        navigate('/profile');
       } catch (error) {
         if (error.response.status === 401) {
           setError(() => 'Wrong email or password');
@@ -107,7 +110,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
     <Modal title={formsInfo[type].title} open={open} onClose={onModalCloseHandler}>
       {error && <Alert severity="error">{error}</Alert>}
       {loadingProgress && <LinearProgress color="inherit" />}
-      <Form {...formsInfo[type]} >
+      <Form {...formsInfo[type]}>
         <Button
           type="submit"
           variant="contained"
@@ -121,4 +124,3 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
     </Modal>
   );
 };
-

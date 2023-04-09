@@ -1,4 +1,5 @@
 import { Wrapper } from '../Wrapper';
+<<<<<<< HEAD
 import { BigTalentCard } from './components/BigTalentCard';
 import { Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
@@ -17,5 +18,15 @@ export const Profile = ({ logged }) => {
         <Navigate to="/" />
       )}
     </>
+=======
+import { BigTalentCard } from './components/BigTalentCard/BigTalentCard';
+
+export const Profile = () => {
+
+  return (
+    <Wrapper>
+      <BigTalentCard />
+    </Wrapper>
+>>>>>>> dev
   );
 };
