@@ -7,6 +7,7 @@ import { PreLoaderUser } from './components/PreLoadUser';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const items = talents.map((item, index) => {
     let localAvatar = null;
@@ -29,10 +30,9 @@ export const TalentList = () => {
   return (
     <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
       <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
-        {items.length !== 0 ? items : <PreLoaderUser />}
+        {!loading ? items : <PreLoaderUser />}
       </Grid>
-      <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} />
+      <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
     </Box>
   );
 };
-

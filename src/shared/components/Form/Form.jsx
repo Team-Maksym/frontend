@@ -1,7 +1,6 @@
-import { Button } from '@mui/material';
 import { useFormik } from 'formik';
 
-export const Form = ({ id, initialValues, validationSchema, fieldsRenderers, onSubmit, submitBtnName }) => {
+export const Form = ({ id, initialValues, validationSchema, fieldsRenderers, onSubmit, children }) => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -30,16 +29,7 @@ export const Form = ({ id, initialValues, validationSchema, fieldsRenderers, onS
           helperText: formik.touched[item] && formik.errors[item],
         }),
       )}
-
-      <Button
-        type="submit"
-        variant="contained"
-        color="secondary"
-        size="large"
-        sx={{ mt: 4, px: 8, borderRadius: '6px' }}
-      >
-        {submitBtnName}
-      </Button>
+      {children}
     </form>
   );
 };

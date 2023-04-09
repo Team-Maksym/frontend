@@ -8,8 +8,9 @@ import { useEffect } from 'react';
 import { PreLoader } from '../PreLoader/PreLoader';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { getCurrentTalentId } from '../../shared/service/AuthorizationService/AuthorizationService';
+import { Navigate } from 'react-router-dom';
 
-export const Profile = () => {
+export const Profile = ({ logged }) => {
   const { id } = useParams();
   const { talent: currentTalent } = useContext(TalentContext);
   const [talentProfile, setTalentProfile] = useState(null);
@@ -40,9 +41,15 @@ export const Profile = () => {
   console.log(id);
 
   return (
-    <Wrapper>
-      {talentProfile ? <BigTalentCard talent={talentProfile} setTalent={setTalentProfile} /> : <PreLoader />}
-    </Wrapper>
+    <>
+      {logged && !!localStorage.token ? (
+        <Wrapper>
+          {talentProfile ? <BigTalentCard talent={talentProfile} setTalent={setTalentProfile} /> : <PreLoader />}
+        </Wrapper>
+      ) : (
+        <Navigate to="/" />
+      )}
+    </>
   );
 };
 

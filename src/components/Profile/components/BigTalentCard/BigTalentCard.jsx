@@ -14,25 +14,40 @@ import {
   Chip,
   Box,
 } from '@mui/material';
-import { Email, Cake, School, WorkHistory, Delete } from '@mui/icons-material';
+import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
+import { EditProfileModal } from '../EditModal';
 
 export const BigTalentCard = ({ talent, setTalent }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   let localAvatar = null;
   if (talent.avatar) {
     localAvatar = `https://drive.google.com/uc?export=view&id=${talent.avatar.slice(32, -20)}`;
   }
 
-  const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
+  const icons = {
+    email: <Email />,
+    birthday: <Cake />,
+    education: <School />,
+    experience: <WorkHistory />,
+  };
 
   const openDeleteModal = () => {
     setIsDeleteModalOpen(() => true);
   };
 
-  const handleClose = () => {
+  const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(() => false);
+  };
+
+  const openEditModal = () => {
+    setIsEditModalOpen(() => true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(() => false);
   };
 
   return (
@@ -77,45 +92,53 @@ export const BigTalentCard = ({ talent, setTalent }) => {
                 <ListItemText primary={talent[item] || '-'} />
               </ListItem>
             ))}
-          </List>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              flexWrap: 'wrap',
-              listStyle: 'none',
-              p: 0.5,
-              m: 0,
-            }}
-          >
-            {talent.positions.map((position) => (
-              <Chip
-                key={position}
-                label={position}
+            <ListItem disablePadding sx={{ m: '7px auto' }} key="positions">
+              <Box
                 sx={{
-                  bgcolor: 'secondary.main',
-                  color: 'neutral.white',
-                  fontSize: '14px',
-                  m: 1,
-                  p: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  flexWrap: 'wrap',
+                  listStyle: 'none',
+                  p: 0.5,
+                  m: 0,
                 }}
-              />
-            ))}
-          </Box>
-          <CardActions disableSpacing>
-            <Tooltip title="Delete" placement="top">
-              <IconButton onClick={openDeleteModal}>
-                <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-              </IconButton>
-            </Tooltip>
-          </CardActions>
-          <DeleteAccountModal
-            open={isDeleteModalOpen}
-            onClose={handleClose}
-            talentId={talent.id}
-            setTalent={setTalent}
-          />
+              >
+                {talent.positions.map((position) => (
+                  <Chip
+                    key={position}
+                    label={position}
+                    sx={{
+                      bgcolor: 'secondary.main',
+                      color: 'neutral.white',
+                      fontSize: '14px',
+                      m: 1,
+                      p: 1,
+                    }}
+                  />
+                ))}
+              </Box>
+            </ListItem>
+          </List>
         </CardContent>
+        <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Tooltip title="Delete" placement="top">
+            <IconButton onClick={openDeleteModal}>
+              <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Edit" placement="top">
+            <IconButton onClick={openEditModal}>
+              <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+            </IconButton>
+          </Tooltip>
+        </CardActions>
+        <DeleteAccountModal
+          open={isDeleteModalOpen}
+          onClose={handleCloseDeleteModal}
+          talentId={talent.id}
+          setTalent={setTalent}
+        />
+        <EditProfileModal open={isEditModalOpen} onClose={handleCloseEditModal} talent={talent} setTalent={setTalent} />
       </Card>
     </>
   );
