@@ -1,22 +1,20 @@
-import { Button, Container, Typography } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { CardActionArea } from '@mui/material';
+import { Button, Container, Typography, Box, Card, CardContent, CardActionArea, Link } from '@mui/material';
 import { useContext } from 'react';
 import { TalentContext } from '../../../../shared/context/TalentContext';
-
-// export const Banner = () => {
-//   return (
-//     <Container disableGutters maxWidth="lg" component="main" sx={{ height: '90vh', bgcolor: 'neutral.whiteGrey' }}>
-//       <Typography variant="h1" align="center" color="text.primary" gutterBottom sx={{ py: '30vh' }}>
-//         WELCOME
-//       </Typography>
-//     </Container>
-//   );
-// };
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export const Banner = () => {
   const { openAuthModal } = useContext(TalentContext);
+
+  function scrollTo(id) {
+    var element = document.querySelector(id);
+    window.scroll({
+      left: 0,
+      top: element.offsetTop - 100,
+      behavior: 'smooth',
+    });
+  }
+
   return (
     <Container
       disableGutters
@@ -56,7 +54,7 @@ export const Banner = () => {
               </Typography>{' '}
               that blinds with its purity.
             </Typography>
-            <div style={{ display: 'flex', flexDirection: 'column', margin: '30px' }}>
+            <Box style={{ display: 'flex', flexDirection: 'column', margin: '30px' }}>
               <Typography variant="h3" align="center" color="neutral.white" gutterBottom>
                 Do you wanna be a StarLight?
               </Typography>
@@ -68,7 +66,29 @@ export const Banner = () => {
               >
                 <Typography variant="h5"> SIGN UP</Typography>
               </Button>
-            </div>
+            </Box>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center' }}
+            >
+              <Typography align="center" color="neutral.white" sx={{ fontSize: 16 }}>
+                Or scroll down to see other{' '}
+                <Typography color="secondary.main" sx={{ display: 'inline', fontWeight: 'bold', fontSize: 16 }}>
+                  talents
+                </Typography>
+              </Typography>
+              <KeyboardArrowDownIcon
+                onClick={() => scrollTo('#TalentList')}
+                className="arrow-link"
+                sx={{
+                  color: 'neutral.white',
+                  fontSize: 45,
+                  mt: 2,
+                  '&:hover': {
+                    color: 'secondary.main',
+                  },
+                }}
+              />
+            </Box>
           </CardContent>
         </CardActionArea>
       </Card>

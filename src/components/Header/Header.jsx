@@ -1,12 +1,13 @@
-import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
+import { AppBar, Toolbar, Container } from '@mui/material';
 import { LogoText } from './components/LogoText';
 import { Navbar } from './components/Navbar';
-import { useContext } from 'react';
+import { useState } from 'react';
+import { UnauthorizedNavbar } from './components/UnauthorizedNavbar';
 import { TalentContext } from '../../shared/context/TalentContext';
-import LoginIcon from '@mui/icons-material/Login';
-import { Tooltip } from '@mui/material';
+import { useContext } from 'react';
 
-export const Header = ({ logged, setLogged }) => {
+export const Header = () => {
+  const [autorized, setAutorized] = useState(!!localStorage.token);
   const { openAuthModal } = useContext(TalentContext);
 
   return (
@@ -14,56 +15,10 @@ export const Header = ({ logged, setLogged }) => {
       <Container>
         <Toolbar sx={{ flexWrap: 'wrap' }}>
           <LogoText />
-          <Navbar logged={logged} />
-          {logged && !!localStorage.token ? (
-            <Tooltip title="Log out">
-              <Button
-                color="inherit"
-                size="large"
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  setLogged(false);
-                }}
-              >
-                <LoginIcon
-                  sx={{
-                    '&:hover': {
-                      color: 'secondary.main',
-                    },
-                  }}
-                />
-              </Button>
-            </Tooltip>
+          {autorized && !!localStorage.token ? (
+            <Navbar setAutorized={setAutorized} />
           ) : (
-            <>
-              <Button color="inherit" size="large">
-                <Typography
-                  variant="h6"
-                  noWrap
-                  onClick={() => {
-                    openAuthModal('signIn');
-                    setLogged(true);
-                  }}
-                >
-                  SIGN IN
-                </Typography>
-              </Button>
-              <Typography variant="h5" noWrap>
-                /
-              </Typography>
-              <Button
-                color="inherit"
-                size="large"
-                onClick={() => {
-                  openAuthModal('signUp');
-                  setLogged(true);
-                }}
-              >
-                <Typography variant="h6" noWrap>
-                  SIGN UP
-                </Typography>
-              </Button>
-            </>
+            <UnauthorizedNavbar setAutorized={setAutorized} openAuthModal={openAuthModal}></UnauthorizedNavbar>
           )}
         </Toolbar>
       </Container>
