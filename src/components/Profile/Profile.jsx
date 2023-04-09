@@ -7,7 +7,7 @@ export const Profile = () => {
     <Wrapper>
       <Box sx={{ display: 'flex' }}>
         <BigTalentCard />
-        {/* <ProofMenu /> */}
+        <ProofMenu />
       </Box>
     </Wrapper>
   );
