@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 export const Navbar = () => {
   const [value, setValue] = useState('one');
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
 
   return (
     <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
-      <Tab value="one" label="Profile" component={Link} to="/profile"/>
+      <Tab value="one" label="Profile" component={Link} to={`/profile`} />
     </Tabs>
   );
 };

@@ -3,10 +3,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-export const SmallTalentCard = ({ talentName, position, avatar }) => {
+export const SmallTalentCard = ({ id, talentName, position, avatar }) => {
+  const navigate = useNavigate();
+
+  const onOpenProfileHandler = () => {
+    navigate(`profile/${id}`);
+  }
+
   return (
-    <CardActionArea sx={{ height: '100%' }}>
+    <CardActionArea sx={{ height: '100%' }} onClick={onOpenProfileHandler}>
       <Card sx={{ justifyContent: 'center', display: 'grid', height: '100%', bgcolor: 'primary.main' }}>
         <CardContent>
           <Avatar

@@ -1,5 +1,4 @@
-import { useContext, useState } from 'react';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -12,17 +11,14 @@ import {
   CardActions,
   IconButton,
   Tooltip,
+  Chip,
+  Box,
 } from '@mui/material';
 import { Email, Cake, School, WorkHistory, Delete } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 
-export const BigTalentCard = () => {
+export const BigTalentCard = ({ talent, setTalent }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { talent, setTalent } = useContext(TalentContext);
-
-  if (!talent) {
-    return null;
-  }
 
   let localAvatar = null;
   if (talent.avatar) {
@@ -31,7 +27,7 @@ export const BigTalentCard = () => {
 
   const icons = { email: <Email />, birthday: <Cake />, education: <School />, experience: <WorkHistory /> };
 
-  const openDeleteModalModal = () => {
+  const openDeleteModal = () => {
     setIsDeleteModalOpen(() => true);
   };
 
@@ -82,12 +78,33 @@ export const BigTalentCard = () => {
               </ListItem>
             ))}
           </List>
-          <Typography variant="body2" color="text.secondary">
-            {talent.positions || '-'}
-          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              flexWrap: 'wrap',
+              listStyle: 'none',
+              p: 0.5,
+              m: 0,
+            }}
+          >
+            {talent.positions.map((position) => (
+              <Chip
+                key={position}
+                label={position}
+                sx={{
+                  bgcolor: 'secondary.main',
+                  color: 'neutral.white',
+                  fontSize: '14px',
+                  m: 1,
+                  p: 1,
+                }}
+              />
+            ))}
+          </Box>
           <CardActions disableSpacing>
             <Tooltip title="Delete" placement="top">
-              <IconButton onClick={openDeleteModalModal}>
+              <IconButton onClick={openDeleteModal}>
                 <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
               </IconButton>
             </Tooltip>

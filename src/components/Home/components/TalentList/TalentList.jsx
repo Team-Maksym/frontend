@@ -17,6 +17,7 @@ export const TalentList = () => {
     return (
       <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
         <SmallTalentCard
+          id={item.id}
           talentName={item.full_name}
           position={item.position || 'Talent'}
           avatar={localAvatar || `${localAvatar}`}
@@ -24,7 +25,6 @@ export const TalentList = () => {
       </Grid>
     );
   });
-
 
   return (
     <Box sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
