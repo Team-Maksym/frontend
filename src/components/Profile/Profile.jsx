@@ -45,15 +45,17 @@ export const Profile = () => {
         <Wrapper>
           <Box sx={{ display: 'flex' }}>
             {talentProfile ? (
-              <BigTalentCard
-                talent={talentProfile}
-                setTalent={setTalentProfile}
-                actionsAccess={talentProfile.id === currentTalent.id}
-              />
+              <>
+                <BigTalentCard
+                  talent={talentProfile}
+                  setTalent={setTalentProfile}
+                  actionsAccess={talentProfile.id === currentTalent.id}
+                />
+                <ProofMenu actionsAccess={talentProfile.id === currentTalent.id} />
+              </>
             ) : (
               <PreLoader />
             )}
-            <ProofMenu />
           </Box>
         </Wrapper>
       ) : (

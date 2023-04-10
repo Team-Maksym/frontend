@@ -12,7 +12,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = () => {
+export const ProofMenu = ({ actionsAccess }) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
@@ -41,8 +41,8 @@ export const ProofMenu = () => {
       <Box sx={{ pl: '25px' }}>
         <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
           <Tab label="Published" sx={{ color: 'neutral.white' }} />
-          <Tab label="Drafts" sx={{ color: 'neutral.white' }} />
-          <Tab label="Hidden" sx={{ color: 'neutral.white' }} />
+          {actionsAccess && <Tab label="Drafts" sx={{ color: 'neutral.white' }} />}
+          {actionsAccess && <Tab label="Hidden" sx={{ color: 'neutral.white' }} />}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -63,7 +63,7 @@ export const ProofMenu = () => {
                   aria-controls={`panel${i}bh-content`}
                   id={`panel${i}bh-header`}
                 >
-                  <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
+                  <ProofItem description={item.desc} children={actionsAccess && <ProofItemProfile val={value} />} />
                 </AccordionSummary>
                 <ProofDescription description={item.desc} link={item.link} />
               </Accordion>
@@ -71,58 +71,63 @@ export const ProofMenu = () => {
           );
         })}
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        {draftsLength.map((item, i) => {
-          return (
-            <Box key={i}>
-              <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                {item.title}
-              </Typography>
-              <Accordion
-                expanded={expanded === `panel${i}`}
-                onChange={handleChangeAcordion(`panel${i}`)}
-                sx={{ mb: '10px' }}
-              >
-                <AccordionSummary
-                  sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
-                  expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                  aria-controls={`panel${i}bh-content`}
-                  id={`panel${i}bh-header`}
-                >
-                  <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
-                </AccordionSummary>
-                <ProofDescription description={item.desc} link={item.link} />
-              </Accordion>
-            </Box>
-          );
-        })}
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {hiddenLength.map((item, i) => {
-          return (
-            <Box key={i}>
-              <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                {item.title}
-              </Typography>
-              <Accordion
-                expanded={expanded === `panel${i}`}
-                onChange={handleChangeAcordion(`panel${i}`)}
-                sx={{ mb: '10px' }}
-              >
-                <AccordionSummary
-                  sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
-                  expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                  aria-controls={`panel${i}bh-content`}
-                  id={`panel${i}bh-header`}
-                >
-                  <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
-                </AccordionSummary>
-                <ProofDescription description={item.desc} link={item.link} />
-              </Accordion>
-            </Box>
-          );
-        })}
-      </TabPanel>
+      {actionsAccess && (
+        <>
+          <TabPanel value={value} index={1}>
+            {draftsLength.map((item, i) => {
+              return (
+                <Box key={i}>
+                  <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                    {item.title}
+                  </Typography>
+                  <Accordion
+                    expanded={expanded === `panel${i}`}
+                    onChange={handleChangeAcordion(`panel${i}`)}
+                    sx={{ mb: '10px' }}
+                  >
+                    <AccordionSummary
+                      sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
+                      expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+                      aria-controls={`panel${i}bh-content`}
+                      id={`panel${i}bh-header`}
+                    >
+                      <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
+                    </AccordionSummary>
+                    <ProofDescription description={item.desc} link={item.link} />
+                  </Accordion>
+                </Box>
+              );
+            })}
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            {hiddenLength.map((item, i) => {
+              return (
+                <Box key={i}>
+                  <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                    {item.title}
+                  </Typography>
+                  <Accordion
+                    expanded={expanded === `panel${i}`}
+                    onChange={handleChangeAcordion(`panel${i}`)}
+                    sx={{ mb: '10px' }}
+                  >
+                    <AccordionSummary
+                      sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
+                      expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+                      aria-controls={`panel${i}bh-content`}
+                      id={`panel${i}bh-header`}
+                    >
+                      <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
+                    </AccordionSummary>
+                    <ProofDescription description={item.desc} link={item.link} />
+                  </Accordion>
+                </Box>
+              );
+            })}
+          </TabPanel>
+        </>
+      )}
     </Box>
   );
 };
+
