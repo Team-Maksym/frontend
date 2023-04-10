@@ -8,15 +8,18 @@ import { LogoText } from '../Header/components/LogoText';
 const footers = [
   {
     title: 'Back-End Devs',
-    description: ['Dev name', 'Dev name', 'Dev name', 'Dev name'],
+    name: ['Kateryna Stetsenko', 'Oleksandr Volyk', 'Serhii Kushnerov'],
+    nickname: ['KateySt', 'tetyaZyna', 'Lion6477'],
   },
   {
     title: 'Front-End Devs',
-    description: ['Dev name', 'Dev name', 'Dev name', 'Dev name'],
+    name: ['Kateryna Podus', 'Anna Sukharieva', 'Danylo Shyrai', 'Mykola Hahenko'],
+    nickname: ['kpodus', 'AnnaSukharieva', 'ShirayDan', 'Scaliariy'],
   },
   {
     title: 'QA',
-    description: ['QA name', 'QA name', 'QA name', 'QA name'],
+    name: ['Andrii Omelnytskyi', 'Kyrylo Lobanov', 'Roman Pevitskyi'],
+    nickname: ['Omelnytskyi', 'Sakolaka', 'roman20in'],
   },
 ];
 
@@ -81,10 +84,10 @@ export const Footer = () => {
                 {footer.title}
               </Typography>
               <ul>
-                {footer.description.map((item, i) => (
+                {footer.name.map((item, i) => (
                   <li key={i}>
                     <Link
-                      href="#"
+                      href={'https://github.com/' + footer.nickname[i]}
                       variant="subtitle1"
                       sx={{
                         color: 'neutral.white',
