@@ -2,6 +2,7 @@ import { useRoutes } from 'react-router-dom';
 import { Home } from '../Home';
 import { Profile } from '../Profile';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
+import { ProofList } from '../ProofList';
 
 export const Router = () => {
   let element = useRoutes([
@@ -25,6 +26,15 @@ export const Router = () => {
             },
           ],
         },
+        {
+          path: 'proofList/',
+          children: [
+            {
+              index: true,
+              element: <ProofList />,
+            },
+          ],
+        },
       ],
     },
     { path: '*', element: <ErrorPage /> },
@@ -32,4 +42,3 @@ export const Router = () => {
 
   return element;
 };
-
