@@ -1,4 +1,4 @@
-import { Button, Container, Typography, Box, Card, CardContent, CardActionArea, Link } from '@mui/material';
+import { Button, Container, Typography, Box, Card, CardContent, CardActionArea } from '@mui/material';
 import { useContext } from 'react';
 import { TalentContext } from '../../../../shared/context/TalentContext';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
