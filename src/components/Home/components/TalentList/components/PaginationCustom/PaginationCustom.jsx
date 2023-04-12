@@ -15,13 +15,15 @@ export const PaginationCustom = ({ setHook, queryFunction, setLoading }) => {
     queryFunction(page, size)
       .then((response) => {
         setHook(response.data);
-        setCount(Math.ceil(response.total_talents / size));
+        setCount(Math.ceil(response.total / size));
         setLoading(false);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, [page, size, setHook, queryFunction, location]);
+
+  
 
   return (
     <Stack spacing={2}>
