@@ -22,6 +22,8 @@ export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoadin
       });
   }, [page, size, sort, setHook, queryFunction, location]);
 
+  
+
   return (
     <Stack spacing={2}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '48px' }}>

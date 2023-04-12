@@ -14,7 +14,12 @@ export const Navbar = () => {
     if (currentUrl.includes('/profile')) {
       setValue('two');
     }
-  }, []);
+    else if (currentUrl.includes('/proofList')) {
+      setValue('three');
+    } else {
+      setValue('one');
+    }
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
