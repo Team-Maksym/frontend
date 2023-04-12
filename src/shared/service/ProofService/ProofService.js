@@ -5,7 +5,7 @@ export const getAllProofs = async (page, size) => {
   let data = [];
 
   await publicAxiosInstance
-    .get('/posts', {
+    .get('/proofs', {
       params: {
         page: page,
         size: size,

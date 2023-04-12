@@ -1,7 +1,7 @@
 import { AccordionDetails, Box, Button, Link, Typography } from '@mui/material';
 export const ProofDescription = ({ description, link }) => {
   return (
-    <AccordionDetails sx={{ bgcolor: 'primary.main', color: 'neutral.white', borderTop: 1 }}>
+    <AccordionDetails sx={{ bgcolor: 'neutral.whiteGrey', color: 'neutral.white', borderTop: 1 }}>
       <Typography>{description}</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'left', mt: '15px' }}>
         {link && (

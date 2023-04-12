@@ -32,7 +32,7 @@ export const TalentList = () => {
       <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
         {!loading ? items : <PreLoaderUser />}
       </Grid>
-      <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
+      <PaginationCustom size={10} setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
     </Box>
   );
 };
