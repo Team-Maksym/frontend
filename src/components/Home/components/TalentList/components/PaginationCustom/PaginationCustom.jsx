@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Pagination, PaginationItem, Stack } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
-export const PaginationCustom = ({ size, setHook, queryFunction, setLoading }) => {
+export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoading }) => {
   const location = useLocation();
   let query = new URLSearchParams(location.search);
   const [count, setCount] = useState();
@@ -11,7 +11,7 @@ export const PaginationCustom = ({ size, setHook, queryFunction, setLoading }) =
   useEffect(() => {
     query = new URLSearchParams(location.search);
     setPage(parseInt(query.get('page') || '1') - 1);
-    queryFunction(page, size)
+    queryFunction(page, size, sort)
       .then((response) => {
         setHook(response.data);
         setCount(Math.ceil(response.total / size));
@@ -20,7 +20,7 @@ export const PaginationCustom = ({ size, setHook, queryFunction, setLoading }) =
       .catch(function (error) {
         console.log(error);
       });
-  }, [page, size, setHook, queryFunction, location]);
+  }, [page, size, sort, setHook, queryFunction, location]);
 
   return (
     <Stack spacing={2}>
@@ -28,7 +28,7 @@ export const PaginationCustom = ({ size, setHook, queryFunction, setLoading }) =
         <Pagination
           page={page + 1}
           count={count}
-          renderItem={(item) => <PaginationItem component={Link} to={`?page=${item.page}`} {...item} />}
+          renderItem={(item) => <PaginationItem component={Link} to={`?page=${item.page}?sort=${item.sort}`} {...item} />}
           size="large"
           shape="rounded"
           onChange={(event, value) => {

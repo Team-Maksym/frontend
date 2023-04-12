@@ -1,7 +1,6 @@
-import { protectedAxiosInstance } from '../api';
 import { publicAxiosInstance } from '../api';
 
-export const getAllProofs = async (page, size) => {
+export const getAllProofs = async (page, size, sort) => {
   let data = [];
 
   await publicAxiosInstance
@@ -9,6 +8,7 @@ export const getAllProofs = async (page, size) => {
       params: {
         page: page,
         size: size,
+        sort: sort
       },
     })
     .then((response) => {
