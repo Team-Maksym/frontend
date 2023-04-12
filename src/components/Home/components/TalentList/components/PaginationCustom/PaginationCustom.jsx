@@ -28,7 +28,7 @@ export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoadin
         <Pagination
           page={page + 1}
           count={count}
-          renderItem={(item) => <PaginationItem component={Link} to={`?page=${item.page}?sort=${item.sort}`} {...item} />}
+          renderItem={(item) => <PaginationItem component={Link} to={`?page=${item.page}`} {...item} />}
           size="large"
           shape="rounded"
           onChange={(event, value) => {
