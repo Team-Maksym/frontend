@@ -15,7 +15,7 @@ TabPanel.propTypes = {
 export const ProofMenu = ({ actionsAccess }) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleChangeAcordion = (panel) => (event, isExpanded) => {
+  const handleChangeAccordion = (panel) => (event, isExpanded) => {
     if (open === false) {
       setExpanded(isExpanded ? panel : false);
     }
@@ -54,7 +54,7 @@ export const ProofMenu = ({ actionsAccess }) => {
               </Typography>
               <Accordion
                 expanded={expanded === `panel${i}`}
-                onChange={handleChangeAcordion(`panel${i}`)}
+                onChange={handleChangeAccordion(`panel${i}`)}
                 sx={{ mb: '10px' }}
               >
                 <AccordionSummary
@@ -82,7 +82,7 @@ export const ProofMenu = ({ actionsAccess }) => {
                   </Typography>
                   <Accordion
                     expanded={expanded === `panel${i}`}
-                    onChange={handleChangeAcordion(`panel${i}`)}
+                    onChange={handleChangeAccordion(`panel${i}`)}
                     sx={{ mb: '10px' }}
                   >
                     <AccordionSummary
@@ -108,7 +108,7 @@ export const ProofMenu = ({ actionsAccess }) => {
                   </Typography>
                   <Accordion
                     expanded={expanded === `panel${i}`}
-                    onChange={handleChangeAcordion(`panel${i}`)}
+                    onChange={handleChangeAccordion(`panel${i}`)}
                     sx={{ mb: '10px' }}
                   >
                     <AccordionSummary
