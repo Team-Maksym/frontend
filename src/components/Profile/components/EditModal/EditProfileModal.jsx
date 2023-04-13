@@ -66,10 +66,7 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .max(64, 'Full name must be less than 64 characters')
         .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers')
         .required('Full name is required'),
-      avatar: yup
-        .string()
-        .url('Avatar must be a valid url')
-        .nullable(),
+      avatar: yup.string().url('Avatar must be a valid url').nullable(),
       birthday: yup
         .string()
         .matches(/^\d{4}-\d{2}-\d{2}$/, 'Enter the date in the format YYYY-MM-DD')
@@ -86,7 +83,16 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .nullable(),
       positions: yup
         .string()
-        .matches(/^([a-zA-Z]+\s*,\s*)*[a-zA-Z]+$/, 'Positions must contain only comma-separated positions')
+        .test(
+          'valid-positions',
+          'Positions must contain only comma-separated positions',
+          (value: string | undefined) => {
+            if (!value) return true;
+
+            const words = value.split(',').map((word) => word.trim());
+            return words.every((word) => /^[a-zA-Zа-яА-Я0-9\s]+$/.test(word));
+          },
+        )
         .nullable(),
     }),
     fieldsRenderers: {
@@ -132,3 +138,4 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     </Dialog>
   );
 };
+

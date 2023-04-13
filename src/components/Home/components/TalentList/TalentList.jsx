@@ -4,20 +4,19 @@ import { getAllTalents } from '../../../../shared/service/ProfileService';
 import { SmallTalentCard } from '../SmallTalentCard';
 import { PaginationCustom } from './components/PaginationCustom';
 import { PreLoaderUser } from './components/PreLoadUser';
+import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const items = talents.map((item, index) => {
-    let localAvatar = null;
-    if (item.avatar) {
-      localAvatar = `https://drive.google.com/uc?export=view&id=${item.avatar.slice(32, -20)}`;
-    }
+    let localAvatar = AvatarValidation(item.avatar);
 
     return (
       <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
         <SmallTalentCard
+          id={item.id}
           talentName={item.full_name}
           position={item.position || 'Talent'}
           avatar={localAvatar || `${localAvatar}`}

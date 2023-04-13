@@ -10,7 +10,7 @@ export const ProofItemProfile = ({ val }) => {
   const handleClose = () => setOpen(false);
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
-      {val != 0 && (
+      {val !== 0 && (
         <Button
           variant="contained"
           sx={{
@@ -25,7 +25,7 @@ export const ProofItemProfile = ({ val }) => {
           Publish
         </Button>
       )}
-      {val != 2 && (
+      {val !== 2 && (
         <Button
           variant="contained"
           sx={{
