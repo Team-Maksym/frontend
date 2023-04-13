@@ -26,6 +26,7 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
       } else {
         try {
           const response = await action(talentNewProfile, talentId);
+          response.id = talentId;
           setTalent(response);
         } catch (error) {
           console.error(error);

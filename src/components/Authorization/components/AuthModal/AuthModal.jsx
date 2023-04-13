@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { EmailField } from '../../../../shared/components/Fields/EmailField';
 import { PasswordField } from '../../../../shared/components/Fields/PasswordField';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
@@ -8,10 +8,12 @@ import { Form } from '../../../../shared/components/Form';
 import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
 import { Alert, Button, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { TalentContext } from '../../../../shared/context/TalentContext';
 
 export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
   const [error, setError] = useState('');
   const [loadingProgress, setLoadingProgress] = useState(false);
+  const { talent } = useContext(TalentContext);
   const navigate = useNavigate();
 
   const getSubmitHandler = (action) => {
@@ -22,7 +24,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
         await action(values);
         authorizeTalent();
         onClose();
-        navigate('/profile');
+        navigate(`/profile/${talent.id}`);
       } catch (error) {
         if (error.response.status === 401) {
           setError(() => 'Wrong email or password');

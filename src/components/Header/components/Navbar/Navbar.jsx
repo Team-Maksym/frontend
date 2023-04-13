@@ -11,8 +11,10 @@ export const Navbar = () => {
 
   useEffect(() => {
     const currentUrl = window.location.href;
-    if (currentUrl.includes('/profile')) {
-      setValue('two');
+    if (talent) {
+      if (currentUrl.includes(`/profile/${talent.id}`)) {
+        setValue('two');
+      }
     }
   }, []);
 
@@ -26,7 +28,7 @@ export const Navbar = () => {
         <>
           <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
             <Tab value="one" label="Home" component={Link} to="/" />
-            <Tab value="two" label="Profile" component={Link} to="/profile" />
+            <Tab value="two" label="Profile" component={Link} to={`/profile/${talent.id}`} />
           </Tabs>
           <Tooltip title="Sign out">
             <Button color="inherit" size="large" onClick={signOut}>

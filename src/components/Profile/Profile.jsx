@@ -7,22 +7,21 @@ import { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { PreLoader } from '../PreLoader/PreLoader';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
-import { Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { ProofMenu } from './components/ProofMenu';
+import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/UnauthorizedPage';
 
-export const Profile = () => {
+export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
-  const { talent: currentTalent } = useContext(TalentContext);
+  const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
   const [talentProfile, setTalentProfile] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (currentTalent) {
-      const talentId = id || currentTalent.id;
-      getOneTalent(talentId)
+      getOneTalent(id)
         .then((talent) => {
-          talent.id = talentId;
+          talent.id = id;
           setTalentProfile(() => talent);
         })
         .catch((error) => {
@@ -31,12 +30,16 @@ export const Profile = () => {
     }
   }, [id, currentTalent]);
 
-  if (!currentTalent) {
-    return <ErrorPage status="401" message="You are not authorized to view this page" />;
-  }
+  useEffect(() => {
+    if (!currentTalent) {
+      if (isTalentDataLoaded) {
+        openAuthModal('signIn');
+      }
+    }
+  }, [currentTalent]);
 
   if (error) {
-    return <ErrorPage status="404" />;
+    return <ErrorPage />;
   }
 
   return (
@@ -59,7 +62,7 @@ export const Profile = () => {
           </Box>
         </Wrapper>
       ) : (
-        <Navigate to="/" />
+        <UnauthorizedPage />
       )}
     </>
   );
