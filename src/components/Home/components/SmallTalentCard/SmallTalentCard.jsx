@@ -1,16 +1,21 @@
 import Avatar from '@mui/material/Avatar';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, Typography, CardContent, Card } from '@mui/material';
+import { useContext } from 'react';
+import { TalentContext } from '../../../../shared/context/TalentContext';
+
 import { useNavigate } from 'react-router-dom';
 
 export const SmallTalentCard = ({ id, talentName, position, avatar }) => {
+  const { talent, openAuthModal } = useContext(TalentContext);
   const navigate = useNavigate();
 
   const onOpenProfileHandler = () => {
-    navigate(`profile/${id}`);
-  }
+    if (talent) {
+      navigate(`profile/${id}`);
+    } else {
+      openAuthModal('signIn');
+    }
+  };
 
   return (
     <CardActionArea sx={{ height: '100%' }} onClick={onOpenProfileHandler}>
@@ -38,3 +43,4 @@ export const SmallTalentCard = ({ id, talentName, position, avatar }) => {
     </CardActionArea>
   );
 };
+
