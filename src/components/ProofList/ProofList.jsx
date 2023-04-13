@@ -13,6 +13,7 @@ export const ProofList = () => {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
+
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
     if (open === false) {
       setExpanded(isExpanded ? panel : false);
