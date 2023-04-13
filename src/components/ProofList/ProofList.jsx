@@ -64,6 +64,7 @@ export const ProofList = () => {
         <PaginationCustom
           size={8}
           sort={sort}
+          setSort={setSort}
           setHook={setProofs}
           queryFunction={getAllProofs}
           setLoading={setLoading}
