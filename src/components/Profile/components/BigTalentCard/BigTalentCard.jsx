@@ -17,15 +17,13 @@ import {
 import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
+import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 
 export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  let localAvatar = null;
-  if (talent.avatar) {
-    localAvatar = `https://drive.google.com/uc?export=view&id=${talent.avatar.slice(32, -20)}`;
-  }
+  let localAvatar = AvatarValidation(talent.avatar);
 
   const icons = {
     email: <Email />,

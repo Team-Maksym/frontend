@@ -4,6 +4,7 @@ import { Profile } from '../Profile';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { useContext } from 'react';
 import { TalentContext } from '../../shared/context/TalentContext';
+import { ProofList } from '../ProofList';
 
 export const Router = () => {
   const { isTalentDataLoaded } = useContext(TalentContext);
@@ -19,6 +20,15 @@ export const Router = () => {
           path: 'profile/:id',
           element: <Profile isTalentDataLoaded={isTalentDataLoaded}/>,
         },
+        {
+          path: 'proofList/',
+          children: [
+            {
+              index: true,
+              element: <ProofList />,
+            },
+          ],
+        },
       ],
     },
     { path: '*', element: <ErrorPage /> },
@@ -26,4 +36,3 @@ export const Router = () => {
 
   return element;
 };
-

@@ -4,16 +4,14 @@ import { getAllTalents } from '../../../../shared/service/ProfileService';
 import { SmallTalentCard } from '../SmallTalentCard';
 import { PaginationCustom } from './components/PaginationCustom';
 import { PreLoaderUser } from './components/PreLoadUser';
+import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const items = talents.map((item, index) => {
-    let localAvatar = null;
-    if (item.avatar) {
-      localAvatar = `https://drive.google.com/uc?export=view&id=${item.avatar.slice(32, -20)}`;
-    }
+    let localAvatar = AvatarValidation(item.avatar);
 
     return (
       <Grid sx={{ minHeight: '255px' }} item xs={1} key={index}>
@@ -32,7 +30,7 @@ export const TalentList = () => {
       <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
         {!loading ? items : <PreLoaderUser />}
       </Grid>
-      <PaginationCustom setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
+      <PaginationCustom size={10} setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
     </Box>
   );
 };

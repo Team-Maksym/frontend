@@ -1,0 +1,1 @@
+export { getAllProofs } from "./ProofService";

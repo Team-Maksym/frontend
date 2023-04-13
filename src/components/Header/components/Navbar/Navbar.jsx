@@ -16,7 +16,12 @@ export const Navbar = () => {
         setValue('two');
       }
     }
-  }, []);
+    else if (currentUrl.includes('/proofList')) {
+      setValue('three');
+    } else {
+      setValue('one');
+    }
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,6 +34,7 @@ export const Navbar = () => {
           <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
             <Tab value="one" label="Home" component={Link} to="/" />
             <Tab value="two" label="Profile" component={Link} to={`/profile/${talent.id}`} />
+            <Tab value="three" label="Proof List" component={Link} to="/proofList" />
           </Tabs>
           <Tooltip title="Sign out">
             <Button color="inherit" size="large" onClick={signOut}>
@@ -48,4 +54,3 @@ export const Navbar = () => {
     </>
   );
 };
-
