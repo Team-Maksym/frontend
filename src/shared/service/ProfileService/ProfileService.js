@@ -19,7 +19,10 @@ export const getAllTalents = async (page, size) => {
 };
 
 export const getOneTalent = async (talentId) => {
-  return await protectedAxiosInstance.get(`talents/${talentId}`).then((response) => response.data);
+  return await protectedAxiosInstance.get(`talents/${talentId}`).then((response) => {
+    console.log(response.data);
+    return response.data;
+  });
 };
 
 export const deleteTalent = async (talentId) => {

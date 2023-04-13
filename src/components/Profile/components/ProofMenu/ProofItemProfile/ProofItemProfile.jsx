@@ -80,17 +80,19 @@ export const ProofItemProfile = ({ val }) => {
           </DialogActions>
         </Dialog>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <EditIcon
-          sx={{
-            color: 'neutral.white',
-            transition: '.2s ease',
-            '&:hover': {
-              color: 'secondary.main',
-            },
-          }}
-        />
-      </Box>
+      {val == 1 && (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <EditIcon
+            sx={{
+              color: 'neutral.white',
+              transition: '.2s ease',
+              '&:hover': {
+                color: 'secondary.main',
+              },
+            }}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
