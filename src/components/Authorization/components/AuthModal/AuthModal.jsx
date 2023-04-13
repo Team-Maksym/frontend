@@ -82,9 +82,8 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
           .required('Full name is required'),
         email: yup
           .string('Enter your email')
-          .max(254, 'Email must not be more than 254 characters')
           .email('Enter a valid email')
-          .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Enter a valid email')
+          .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Enter a valid email')
           .required('Email is required'),
         password: yup
           .string('Enter your password')
