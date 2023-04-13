@@ -14,12 +14,11 @@ export const Navbar = () => {
     if (talent) {
       if (currentUrl.includes(`/profile/${talent.id}`)) {
         setValue('two');
+      } else if (currentUrl.includes('/proofList')) {
+        setValue('three');
+      } else {
+        setValue('one');
       }
-    }
-    else if (currentUrl.includes('/proofList')) {
-      setValue('three');
-    } else {
-      setValue('one');
     }
   });
 
@@ -54,3 +53,4 @@ export const Navbar = () => {
     </>
   );
 };
+

@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Typography, Link} from '@mui/material';
+import { Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export const Copyright = () => {
   return (
     <Typography variant="subtitle1" align="center" sx={{ mt: '40px', pb: '24px', color: 'secondary.main' }}>
       {'Copyright © '}
-      <Link color="secondary.main" href="http://dev.starlight.pepega.cloud/">
+      <Typography color="secondary.main" component={Link} to="/">
         StarLight
-      </Link>{' '}
+      </Typography>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
