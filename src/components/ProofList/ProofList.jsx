@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Box, Typography, Accordion, AccordionSummary, Button } from '@mui/material';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Wrapper } from '../Wrapper';
 import { ProofItem } from '../../shared/components/ProofItem';
@@ -64,7 +65,7 @@ export const ProofList = () => {
       <Box sx={{ mt: '56px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
-            Sort by Date
+            Sort by Date {sort ? <ArrowDropUp/> : <ArrowDropDown/>}
           </Button>
         </Box>
         {items}
