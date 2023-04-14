@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export const AuthProvider = ({ children }) => {
   const [talent, setTalent] = useState(null);
   const [open, setOpen] = useState(false);
+  const [isTalentDataLoaded, setIsTalentDataLoaded] = useState(false);
   const [type, setType] = useState('signIn');
   const navigate = useNavigate();
 
@@ -21,9 +22,11 @@ export const AuthProvider = ({ children }) => {
       getOneTalent(talentId).then((talent) => {
         talent.id = talentId;
         setTalent(talent);
+        setIsTalentDataLoaded(() => true);
       });
     } else {
       setTalent(null);
+      setIsTalentDataLoaded(() => true);
     }
   };
 
@@ -39,11 +42,14 @@ export const AuthProvider = ({ children }) => {
   const signOut = () => {
     localStorage.removeItem('token');
     setTalent(null);
+    setIsTalentDataLoaded(() => true);
     navigate('/');
-  }
+  };
 
   return (
-    <TalentContext.Provider value={{ talent, setTalent, signOut, openAuthModal }}>
+    <TalentContext.Provider
+      value={{ talent, setTalent, signOut, openAuthModal, isTalentDataLoaded, setIsTalentDataLoaded }}
+    >
       <AuthModal open={open} onClose={handleClose} type={type} authorizeTalent={authorizeTalent} />
       {children}
     </TalentContext.Provider>
