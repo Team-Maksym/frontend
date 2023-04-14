@@ -7,8 +7,12 @@ import { ProofDescription } from '../../shared/components/ProofDescription';
 import { PaginationCustom } from '../Home/components/TalentList/components/PaginationCustom';
 import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
+import { useLocation, useNavigate } from 'react-router-dom';
 export const ProofList = () => {
-  const [sort, setSort] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  let query = new URLSearchParams(location.search);
+  const [sort, setSort] = useState(query.get('sort') || false);
   const [proofs, setProofs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -22,6 +26,9 @@ export const ProofList = () => {
 
   const handleSortClick = () => {
     setSort(!sort);
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.set('sort', !sort);
+    navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
   const items = proofs.map((item, i) => {
@@ -64,7 +71,6 @@ export const ProofList = () => {
         <PaginationCustom
           size={8}
           sort={sort}
-          setSort={setSort}
           setHook={setProofs}
           queryFunction={getAllProofs}
           setLoading={setLoading}
