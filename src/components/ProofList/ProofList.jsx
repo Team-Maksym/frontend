@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Box, Typography, Accordion, AccordionSummary, Button } from '@mui/material';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Wrapper } from '../Wrapper';
 import { ProofItem } from '../../shared/components/ProofItem';
@@ -7,8 +8,12 @@ import { ProofDescription } from '../../shared/components/ProofDescription';
 import { PaginationCustom } from '../Home/components/TalentList/components/PaginationCustom';
 import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
+import { useLocation, useNavigate } from 'react-router-dom';
 export const ProofList = () => {
-  const [sort, setSort] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  let query = new URLSearchParams(location.search);
+  const [sort, setSort] = useState(query.get('sort') || false);
   const [proofs, setProofs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -22,6 +27,9 @@ export const ProofList = () => {
 
   const handleSortClick = () => {
     setSort(!sort);
+    let searchParams = new URLSearchParams(location.search);
+    searchParams.set('sort', !sort);
+    navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
   const items = proofs.map((item, i) => {
@@ -57,14 +65,13 @@ export const ProofList = () => {
       <Box sx={{ mt: '56px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
-            Sort by Date
+            Sort by Date {sort ? <ArrowDropUp/> : <ArrowDropDown/>}
           </Button>
         </Box>
         {items}
         <PaginationCustom
           size={8}
           sort={sort}
-          setSort={setSort}
           setHook={setProofs}
           queryFunction={getAllProofs}
           setLoading={setLoading}
