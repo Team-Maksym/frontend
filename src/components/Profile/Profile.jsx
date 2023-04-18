@@ -11,7 +11,6 @@ import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { Box } from '@mui/material';
 import { ProofMenu } from './components/ProofMenu';
 import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/UnauthorizedPage';
-
 export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
@@ -34,21 +33,13 @@ export const Profile = ({ isTalentDataLoaded }) => {
       getOneTalentProofs(talentId, 'HIDDEN').then((proofs) => {
         setHidden(() => proofs.data);
       });
-      // .catch((error) => {
-      //   setError(() => error);
-      // });
       getOneTalentProofs(talentId, 'PUBLISHED').then((proofs) => {
         setPublished(() => proofs.data);
       });
-      // .catch((error) => {
-      //   setError(() => error);
-      // });
+
       getOneTalentProofs(talentId, 'DRAFT').then((proofs) => {
         setDraft(() => proofs.data);
       });
-      // .catch((error) => {
-      //   setError(() => error);
-      // });
     }
   }, [id, currentTalent]);
 
