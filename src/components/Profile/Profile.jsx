@@ -32,27 +32,24 @@ export const Profile = () => {
         .catch((error) => {
           setError(() => error);
         });
-      getOneTalentProofs(talentId, 'HIDDEN')
-        .then((proofs) => {
-          setHidden(() => proofs.data);
-        })
-        .catch((error) => {
-          setError(() => error);
-        });
-      getOneTalentProofs(talentId, 'PUBLISHED')
-        .then((proofs) => {
-          setPublished(() => proofs.data);
-        })
-        .catch((error) => {
-          setError(() => error);
-        });
-      getOneTalentProofs(talentId, 'DRAFT')
-        .then((proofs) => {
-          setDraft(() => proofs.data);
-        })
-        .catch((error) => {
-          setError(() => error);
-        });
+      getOneTalentProofs(talentId, 'HIDDEN').then((proofs) => {
+        setHidden(() => proofs.data);
+      });
+      // .catch((error) => {
+      //   setError(() => error);
+      // });
+      getOneTalentProofs(talentId, 'PUBLISHED').then((proofs) => {
+        setPublished(() => proofs.data);
+      });
+      // .catch((error) => {
+      //   setError(() => error);
+      // });
+      getOneTalentProofs(talentId, 'DRAFT').then((proofs) => {
+        setDraft(() => proofs.data);
+      });
+      // .catch((error) => {
+      //   setError(() => error);
+      // });
     }
   }, [id, currentTalent]);
 

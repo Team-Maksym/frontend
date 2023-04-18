@@ -46,7 +46,6 @@ export const ProofMenu = ({ actionsAccess, published, hidden, draft }) => {
       <TabPanel value={value} index={0}>
         {published &&
           published.map((item, i) => {
-            console.log(publish);
             return (
               <Box key={i}>
                 <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
