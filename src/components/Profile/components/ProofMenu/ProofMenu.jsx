@@ -12,13 +12,13 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, published, hidden, draft }) => {
-  const [publish, setPublish] = useState([]);
-  const [drafted, setDrafted] = useState([]);
-  const [hiddened, setHiddened] = useState([]);
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
+  const [published, setPublished] = useState();
+  const [drafted, setDrafted] = useState();
+  const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleChangeAccordion = (panel) => (event, isExpanded) => {
+  const handleChangeAcordion = (panel) => (event, isExpanded) => {
     if (open === false) {
       setExpanded(isExpanded ? panel : false);
     }
@@ -29,11 +29,10 @@ export const ProofMenu = ({ actionsAccess, published, hidden, draft }) => {
     setValue(newValue);
   };
   useEffect(() => {
-    setPublish(published);
+    setPublished(publish);
     setHiddened(hidden);
     setDrafted(draft);
   });
-
   return (
     <Box sx={{ maxWidth: '850px', mt: '56px' }}>
       <Box sx={{ pl: '25px' }}>
@@ -44,84 +43,90 @@ export const ProofMenu = ({ actionsAccess, published, hidden, draft }) => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {publishedLength.map((item, i) => {
-          return (
-            <Box key={i}>
-              <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                {item.title}
-              </Typography>
-              <Accordion
-                expanded={expanded === `panel${i}`}
-                onChange={handleChangeAcordion(`panel${i}`)}
-                sx={{ mb: '10px' }}
-              >
-                <AccordionSummary
-                  sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
-                  expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                  aria-controls={`panel${i}bh-content`}
-                  id={`panel${i}bh-header`}
+        {published &&
+          published.map((item, i) => {
+            return (
+              <Box key={i}>
+                <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                  {item.title}
+                </Typography>
+                <Accordion
+                  expanded={expanded === `panel${i}`}
+                  onChange={handleChangeAcordion(`panel${i}`)}
+                  sx={{ mb: '10px' }}
                 >
-                  <ProofItem description={item.desc} children={actionsAccess && <ProofItemProfile val={value} />} />
-                </AccordionSummary>
-                <ProofDescription description={item.desc} link={item.link} />
-              </Accordion>
-            </Box>
-          );
-        })}
+                  <AccordionSummary
+                    sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
+                    expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+                    aria-controls={`panel${i}bh-content`}
+                    id={`panel${i}bh-header`}
+                  >
+                    <ProofItem
+                      description={item.description}
+                      children={actionsAccess && <ProofItemProfile val={value} />}
+                    />
+                  </AccordionSummary>
+                  <ProofDescription description={item.description} link={item.link} />
+                </Accordion>
+              </Box>
+            );
+          })}
       </TabPanel>
       {actionsAccess && (
         <>
           <TabPanel value={value} index={1}>
-            {draftsLength.map((item, i) => {
-              return (
-                <Box key={i}>
-                  <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                    {item.title}
-                  </Typography>
-                  <Accordion
-                    expanded={expanded === `panel${i}`}
-                    onChange={handleChangeAcordion(`panel${i}`)}
-                    sx={{ mb: '10px' }}
-                  >
-                    <AccordionSummary
-                      sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
-                      expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                      aria-controls={`panel${i}bh-content`}
-                      id={`panel${i}bh-header`}
+            {drafted &&
+              drafted.map((item, i) => {
+                return (
+                  <Box key={i}>
+                    <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                      {item.title}
+                    </Typography>
+                    <Accordion
+                      expanded={expanded === `panel${i}`}
+                      onChange={handleChangeAcordion(`panel${i}`)}
+                      sx={{ mb: '10px' }}
                     >
-                      <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
-                    </AccordionSummary>
-                    <ProofDescription description={item.desc} link={item.link} />
-                  </Accordion>
-                </Box>
-              );
-            })}
+                      <AccordionSummary
+                        sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
+                        expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+                        aria-controls={`panel${i}bh-content`}
+                        id={`panel${i}bh-header`}
+                      >
+                        <ProofItem description={item.description} children={<ProofItemProfile val={value} />} />
+                      </AccordionSummary>
+                      <ProofDescription description={item.description} link={item.link} />
+                    </Accordion>
+                  </Box>
+                );
+              })}
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {hiddenLength.map((item, i) => {
-              return (
-                <Box key={i}>
-                  <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                    {item.title}
-                  </Typography>
-                  <Accordion
-                    expanded={expanded === `panel${i}`}
-                    onChange={handleChangeAcordion(`panel${i}`)}
-                    sx={{ mb: '10px' }}
-                  >
-                    <AccordionSummary
-                      sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
-                      expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                      aria-controls={`panel${i}bh-content`}
-                      id={`panel${i}bh-header`}
+            {hiddened &&
+              hiddened.map((item, i) => {
+                return (
+                  <Box key={i}>
+                    <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                      {item.title}
+                    </Typography>
+                    <Accordion
+                      expanded={expanded === `panel${i}`}
+                      onChange={handleChangeAcordion(`panel${i}`)}
+                      sx={{ mb: '10px' }}
                     >
-                      <ProofItem description={item.desc} children={<ProofItemProfile val={value} />} />
-                    </AccordionSummary>
-                    <ProofDescription description={item.desc} link={item.link} />
-                  </Accordion>
-                </Box>
-              );
-            })}
+                      <AccordionSummary
+                        sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
+                        expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+                        aria-controls={`panel${i}bh-content`}
+                        id={`panel${i}bh-header`}
+                      >
+                        <ProofItem description={item.description} children={<ProofItemProfile val={value} />} />
+                      </AccordionSummary>
+                      <ProofDescription description={item.description} link={item.link} />
+                    </Accordion>
+                  </Box>
+                );
+              })}
           </TabPanel>
         </>
       )}

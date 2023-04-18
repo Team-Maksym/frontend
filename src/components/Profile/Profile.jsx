@@ -17,7 +17,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
   const [talentProfile, setTalentProfile] = useState(null);
   const [hidden, setHidden] = useState(null);
   const [draft, setDraft] = useState(null);
-  const [published, setPublished] = useState(null);
+  const [publish, setPublish] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -30,14 +30,14 @@ export const Profile = ({ isTalentDataLoaded }) => {
         .catch((error) => {
           setError(() => error);
         });
-      getOneTalentProofs(talentId, 'HIDDEN').then((proofs) => {
-        setHidden(() => proofs.data);
+      getOneTalentProofs(id, 'HIDDEN').then((proofs) => {
+        setHidden(proofs.data);
       });
-      getOneTalentProofs(talentId, 'PUBLISHED').then((proofs) => {
-        setPublished(() => proofs.data);
+      getOneTalentProofs(id, 'PUBLISHED').then((proofs) => {
+        setPublish(() => proofs.data);
       });
 
-      getOneTalentProofs(talentId, 'DRAFT').then((proofs) => {
+      getOneTalentProofs(id, 'DRAFT').then((proofs) => {
         setDraft(() => proofs.data);
       });
     }
@@ -70,7 +70,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
                 <ProofMenu
                   actionsAccess={talentProfile.id === currentTalent.id}
                   draft={draft}
-                  published={published}
+                  publish={publish}
                   hidden={hidden}
                 />
               </>
