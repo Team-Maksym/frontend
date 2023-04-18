@@ -65,7 +65,7 @@ export const ProofList = () => {
       <Box sx={{ mt: '56px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
-            Sort by Date {sort ? <ArrowDropUp/> : <ArrowDropDown/>}
+            Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
         </Box>
         {items}

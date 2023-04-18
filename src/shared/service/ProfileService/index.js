@@ -1,1 +1,1 @@
-export { getAllTalents, getOneTalent, deleteTalent } from "./ProfileService";
+export { getAllTalents, getOneTalent, deleteTalent, getOneTalentProofs } from './ProfileService';
