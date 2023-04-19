@@ -15,14 +15,10 @@ export const ProofList = () => {
   let query = new URLSearchParams(location.search);
   const [sort, setSort] = useState(query.get('sort') || false);
   const [proofs, setProofs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
-    if (open === false) {
-      setExpanded(isExpanded ? panel : false);
-    }
+    setExpanded(isExpanded ? panel : false);
   };
 
   const handleSortClick = () => {
@@ -65,17 +61,11 @@ export const ProofList = () => {
       <Box sx={{ mt: '56px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
-            Sort by Date {sort ? <ArrowDropUp/> : <ArrowDropDown/>}
+            Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
         </Box>
         {items}
-        <PaginationCustom
-          size={8}
-          sort={sort}
-          setHook={setProofs}
-          queryFunction={getAllProofs}
-          setLoading={setLoading}
-        />
+        <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
       </Box>
     </Wrapper>
   );
