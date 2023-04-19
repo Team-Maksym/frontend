@@ -151,4 +151,3 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
     </>
   );
 };
-
