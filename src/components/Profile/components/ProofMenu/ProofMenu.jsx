@@ -12,7 +12,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, talent }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
@@ -63,7 +63,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
                   >
                     <ProofItem
                       description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} />}
+                      children={actionsAccess && <ProofItemProfile val={value} talent={talent} id={item.id} />}
                     />
                   </AccordionSummary>
                   <ProofDescription description={item.description} link={item.link} />
@@ -93,7 +93,10 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
                         aria-controls={`panel${i}bh-content`}
                         id={`panel${i}bh-header`}
                       >
-                        <ProofItem description={item.description} children={<ProofItemProfile val={value} />} />
+                        <ProofItem
+                          description={item.description}
+                          children={<ProofItemProfile val={value} talent={talent} id={item.id} />}
+                        />
                       </AccordionSummary>
                       <ProofDescription description={item.description} link={item.link} />
                     </Accordion>
@@ -120,7 +123,10 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
                         aria-controls={`panel${i}bh-content`}
                         id={`panel${i}bh-header`}
                       >
-                        <ProofItem description={item.description} children={<ProofItemProfile val={value} />} />
+                        <ProofItem
+                          description={item.description}
+                          children={<ProofItemProfile val={value} talent={talent} id={item.id} />}
+                        />
                       </AccordionSummary>
                       <ProofDescription description={item.description} link={item.link} />
                     </Accordion>

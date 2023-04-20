@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
-
+import { deleteProof } from '../../../../../shared/service/ProfileService/ProfileService';
 import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-export const ProofItemProfile = ({ val }) => {
+export const ProofItemProfile = ({ val, talent, id }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleDeleteProof = async (talent, id) => {
+    await deleteProof(talent, id);
+    setOpen(false);
+  };
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
       {val !== 0 && (
@@ -74,7 +80,7 @@ export const ProofItemProfile = ({ val }) => {
             <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="contained" sx={{ bgcolor: '#d32f2f' }} onClick={handleClose}>
+            <Button variant="contained" sx={{ bgcolor: '#d32f2f' }} onClick={() => handleDeleteProof(talent, id)}>
               Delete proof
             </Button>
           </DialogActions>

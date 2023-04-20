@@ -69,9 +69,10 @@ export const Profile = ({ isTalentDataLoaded }) => {
                 />
                 <ProofMenu
                   actionsAccess={talentProfile.id === currentTalent.id}
-                  draft={draft}
                   publish={publish}
-                  hidden={hidden}
+                  // draft={draft}
+                  // hidden={hidden}
+                  talent={talentProfile.id}
                 />
               </>
             ) : (
