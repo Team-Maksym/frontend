@@ -7,7 +7,7 @@ import { ProofLinkField } from '../../../../../../shared/components/Fields/Proof
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export const NewProofModal = ({ open, onClose }) => {
+export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
 
   const onAddProofHandler = (action) => {
@@ -23,6 +23,7 @@ export const NewProofModal = ({ open, onClose }) => {
       } else {
         try {
           await addTalentProof(talentId, newProof);
+          setUpdated(true);
           navigate(`/profile/${talentId}?status=drafts`);
         } catch (error) {
           console.error(error);

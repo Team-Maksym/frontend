@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab } from '@mui/material';
-import { Link, redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { ProofItemProfile } from './components/ProofItemProfile';
 import { TabPanel } from './components/TabPanel';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
-import { EditProfileModal } from '../EditModal';
 import { NewProofModal } from './components/NewProofModal';
 import { ProofItem } from '../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../shared/components/ProofDescription';
@@ -19,7 +18,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
@@ -28,7 +27,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   let talentId = getCurrentTalentId();
-  
+
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     if (open === false) {
       setExpanded(isExpanded ? panel : false);
@@ -102,6 +101,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
   return (
     <Box
       sx={{
+        width:'100%',
         mt: '40px',
         overflow: 'auto',
         '&::-webkit-scrollbar': {
@@ -158,7 +158,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
           <TabItem value={value} index={2} type={hiddened}></TabItem>
         </>
       )}
-      <NewProofModal open={isEditModalOpen} onClose={handleCloseEditModal} setDrafted={setDrafted} />
+      <NewProofModal open={isEditModalOpen} onClose={handleCloseEditModal} setUpdated={setUpdated} />
     </Box>
   );
 };

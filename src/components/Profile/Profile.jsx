@@ -15,6 +15,7 @@ import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/Unaut
 export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
+  const [updated, setUpdated] = useState();
   const [talentProfile, setTalentProfile] = useState(null);
   const [hidden, setHidden] = useState(null);
   const [draft, setDraft] = useState(null);
@@ -42,7 +43,8 @@ export const Profile = ({ isTalentDataLoaded }) => {
         setDraft(() => proofs.data);
       });
     }
-  }, [id, currentTalent]);
+    setUpdated(false);
+  }, [id, currentTalent, updated]);
 
   useEffect(() => {
     if (!currentTalent) {
@@ -73,6 +75,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
                   draft={draft}
                   publish={publish}
                   hidden={hidden}
+                  setUpdated={setUpdated}
                 />
               </>
             ) : (
