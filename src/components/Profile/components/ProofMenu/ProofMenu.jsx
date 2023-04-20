@@ -38,7 +38,6 @@ export const ProofMenu = ({ actionsAccess, publish, talent }) => {
           break;
         case 'HIDDEN':
           setHiddened(() => proofs.data);
-
           break;
       }
     });
@@ -78,7 +77,17 @@ export const ProofMenu = ({ actionsAccess, publish, talent }) => {
                   >
                     <ProofItem
                       description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} talent={talent} id={item.id} />}
+                      children={
+                        actionsAccess && (
+                          <ProofItemProfile
+                            val={value}
+                            talent={talent}
+                            id={item.id}
+                            status={'PUBLISHED'}
+                            setPublished={setPublished}
+                          />
+                        )
+                      }
                     />
                   </AccordionSummary>
                   <ProofDescription description={item.description} link={item.link} />
@@ -110,7 +119,15 @@ export const ProofMenu = ({ actionsAccess, publish, talent }) => {
                       >
                         <ProofItem
                           description={item.description}
-                          children={<ProofItemProfile val={value} talent={talent} id={item.id} />}
+                          children={
+                            <ProofItemProfile
+                              val={value}
+                              talent={talent}
+                              id={item.id}
+                              status={'DRAFT'}
+                              setDrafted={setDrafted}
+                            />
+                          }
                         />
                       </AccordionSummary>
                       <ProofDescription description={item.description} link={item.link} />
@@ -140,7 +157,15 @@ export const ProofMenu = ({ actionsAccess, publish, talent }) => {
                       >
                         <ProofItem
                           description={item.description}
-                          children={<ProofItemProfile val={value} talent={talent} id={item.id} />}
+                          children={
+                            <ProofItemProfile
+                              val={value}
+                              talent={talent}
+                              id={item.id}
+                              status={'HIDDEN'}
+                              setHiddened={setHiddened}
+                            />
+                          }
                         />
                       </AccordionSummary>
                       <ProofDescription description={item.description} link={item.link} />

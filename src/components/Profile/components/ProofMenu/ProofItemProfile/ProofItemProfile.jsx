@@ -4,7 +4,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
 import { deleteProof } from '../../../../../shared/service/ProfileService/ProfileService';
 import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-export const ProofItemProfile = ({ val, talent, id }) => {
+import { getOneTalentProofs } from '../../../../../shared/service/ProfileService/ProfileService';
+export const ProofItemProfile = ({ val, talent, id, status, setPublished, setDrafted, setHiddened }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -12,6 +13,19 @@ export const ProofItemProfile = ({ val, talent, id }) => {
   };
   const handleDeleteProof = async (talent, id) => {
     await deleteProof(talent, id);
+    getOneTalentProofs(talent, status).then((proofs) => {
+      switch (status) {
+        case 'PUBLISHED':
+          setPublished(() => proofs.data);
+          break;
+        case 'DRAFT':
+          setDrafted(() => proofs.data);
+          break;
+        case 'HIDDEN':
+          setHiddened(() => proofs.data);
+          break;
+      }
+    });
     setOpen(false);
   };
   return (
