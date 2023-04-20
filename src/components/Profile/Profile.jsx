@@ -15,8 +15,6 @@ export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
   const [talentProfile, setTalentProfile] = useState(null);
-  const [hidden, setHidden] = useState(null);
-  const [draft, setDraft] = useState(null);
   const [publish, setPublish] = useState(null);
   const [error, setError] = useState(null);
 
@@ -30,15 +28,8 @@ export const Profile = ({ isTalentDataLoaded }) => {
         .catch((error) => {
           setError(() => error);
         });
-      getOneTalentProofs(id, 'HIDDEN').then((proofs) => {
-        setHidden(proofs.data);
-      });
       getOneTalentProofs(id, 'PUBLISHED').then((proofs) => {
         setPublish(() => proofs.data);
-      });
-
-      getOneTalentProofs(id, 'DRAFT').then((proofs) => {
-        setDraft(() => proofs.data);
       });
     }
   }, [id, currentTalent]);
@@ -70,8 +61,6 @@ export const Profile = ({ isTalentDataLoaded }) => {
                 <ProofMenu
                   actionsAccess={talentProfile.id === currentTalent.id}
                   publish={publish}
-                  // draft={draft}
-                  // hidden={hidden}
                   talent={talentProfile.id}
                 />
               </>

@@ -6,13 +6,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ProofDescription } from '../../../../shared/components/ProofDescription';
 import { ProofItemProfile } from './ProofItemProfile';
 import { ProofItem } from '../../../../shared/components/ProofItem';
+import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, talent }) => {
+export const ProofMenu = ({ actionsAccess, publish, talent }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
@@ -23,15 +24,32 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, talent }) => 
       setExpanded(isExpanded ? panel : false);
     }
   };
+  // const [hidden, setHidden] = useState(null);
+  // const [draft, setDraft] = useState(null);
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
+    const items = ['PUBLISHED', 'DRAFT', 'HIDDEN'];
+
+    getOneTalentProofs(talent, items[newValue]).then((proofs) => {
+      switch (items[newValue]) {
+        case 'PUBLISHED':
+          setPublished(() => proofs.data);
+          break;
+        case 'DRAFT':
+          setDrafted(() => proofs.data);
+          break;
+        case 'HIDDEN':
+          setHiddened(() => proofs.data);
+
+          break;
+      }
+    });
+    console.log(items[newValue]);
     setExpanded(false);
     setValue(newValue);
   };
   useEffect(() => {
     setPublished(publish);
-    setHiddened(hidden);
-    setDrafted(draft);
   });
   return (
     <Box sx={{ maxWidth: '850px', mt: '56px' }}>
