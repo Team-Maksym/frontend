@@ -15,14 +15,10 @@ export const ProofList = () => {
   let query = new URLSearchParams(location.search);
   const [sort, setSort] = useState(query.get('sort') || false);
   const [proofs, setProofs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
-    if (open === false) {
-      setExpanded(isExpanded ? panel : false);
-    }
+    setExpanded(isExpanded ? panel : false);
   };
 
   const handleSortClick = () => {
@@ -69,13 +65,7 @@ export const ProofList = () => {
           </Button>
         </Box>
         {items}
-        <PaginationCustom
-          size={8}
-          sort={sort}
-          setHook={setProofs}
-          queryFunction={getAllProofs}
-          setLoading={setLoading}
-        />
+        <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
       </Box>
     </Wrapper>
   );

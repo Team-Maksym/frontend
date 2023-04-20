@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Box, Pagination, PaginationItem, Stack } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoading }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
   const [count, setCount] = useState();
   const [page, setPage] = useState(parseInt(query.get('page') || '1') - 1);
@@ -15,10 +16,13 @@ export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoadin
       .then((response) => {
         setHook(response.data);
         setCount(Math.ceil(response.total / size));
-        setLoading(false);
+        if (typeof setLoading === 'function') {
+          setLoading(false);
+        }
       })
       .catch(function (error) {
         console.log(error);
+        navigate('/404', { replace: true });
       });
   }, [page, size, sort, setHook, queryFunction, location]);
 
