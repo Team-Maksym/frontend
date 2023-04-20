@@ -11,6 +11,7 @@ import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { Box } from '@mui/material';
 import { ProofMenu } from './components/ProofMenu';
 import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/UnauthorizedPage';
+
 export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
@@ -59,7 +60,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
     <>
       {currentTalent ? (
         <Wrapper>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex' }} maxHeight={'90vh'}>
             {talentProfile ? (
               <>
                 <BigTalentCard
