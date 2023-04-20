@@ -24,8 +24,6 @@ export const ProofMenu = ({ actionsAccess, publish, talent }) => {
       setExpanded(isExpanded ? panel : false);
     }
   };
-  // const [hidden, setHidden] = useState(null);
-  // const [draft, setDraft] = useState(null);
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     const items = ['PUBLISHED', 'DRAFT', 'HIDDEN'];
@@ -44,7 +42,6 @@ export const ProofMenu = ({ actionsAccess, publish, talent }) => {
           break;
       }
     });
-    console.log(items[newValue]);
     setExpanded(false);
     setValue(newValue);
   };
