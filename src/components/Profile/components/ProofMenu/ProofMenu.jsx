@@ -73,6 +73,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
       <TabPanel value={value} index={index}>
         {type &&
           type.map((item, i) => {
+            console.log(item.id, item.description)
             return (
               <Box key={i}>
                 <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
@@ -100,6 +101,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
                           setStatus={setStatus}
                           setOpenModal={setOpenModal}
                           openModal={openModal}
+                          setUpdated={setUpdated}
                         />
                       }
                     />

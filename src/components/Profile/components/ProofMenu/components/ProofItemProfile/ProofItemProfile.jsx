@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Box } from '@mui/material';
 import { deleteProof } from '../../../../../../shared/service/ProfileService';
 import { getOneTalentProofs } from '../../../../../../shared/service/ProfileService';
+import {
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Box,
+} from '@mui/material';
 
-import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-export const ProofItemProfile = ({ val, talent, id, status, setStatus, setOpenModal, openModal }) => {
+export const ProofItemProfile = ({ val, talent, id, status, setStatus, setOpenModal, openModal, setUpdated }) => {
   const handleOpenModal = () => {
+    console.log(id);
     setOpenModal(true);
   };
 
@@ -29,6 +38,7 @@ export const ProofItemProfile = ({ val, talent, id, status, setStatus, setOpenMo
       }
     });
     setOpenModal(false);
+    setUpdated(true);
   };
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
