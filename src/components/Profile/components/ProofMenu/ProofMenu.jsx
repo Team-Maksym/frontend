@@ -18,7 +18,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talent}) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talent }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
@@ -68,16 +68,16 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
     setDrafted(draft);
   });
 
-  const TabItem = ({ value, index, type, status, setStatus}) => {
+  const TabItem = ({ value, index, type, status, setStatus }) => {
     return (
       <TabPanel value={value} index={index}>
         {type &&
           type.map((item, i) => {
-            console.log(item.id, item.description)
+            // console.log(item.id, item.description);
             return (
-              <Box key={i}>
+              <Box key={item.id}>
                 <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                  {item.title}
+                  {item.title + `  ${item.id}`}
                 </Typography>
                 <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
                   <AccordionSummary
@@ -93,16 +93,16 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
                     <ProofItem
                       description={item.description}
                       children={
-                        <ProofItemProfile
-                          val={value}
-                          talent={talent}
-                          id={item.id}
-                          status={status}
-                          setStatus={setStatus}
-                          setOpenModal={setOpenModal}
-                          openModal={openModal}
-                          setUpdated={setUpdated}
-                        />
+                        actionsAccess && (
+                          <ProofItemProfile
+                            val={value}
+                            talent={talent}
+                            id={item.id}
+                            setOpenModal={setOpenModal}
+                            openModal={openModal}
+                            setUpdated={setUpdated}
+                          />
+                        )
                       }
                     />
                   </AccordionSummary>
@@ -114,7 +114,6 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
       </TabPanel>
     );
   };
-
 
   return (
     <Box
@@ -177,9 +176,9 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
 
       {actionsAccess && (
         <>
-          <TabItem value={value} index={0} type={published}></TabItem>
-          <TabItem value={value} active index={1} type={drafted}></TabItem>
-          <TabItem value={value} index={2} type={hiddened}></TabItem>
+          <TabItem value={value} index={0} type={published} status={'PUBLISHED'} setStatus={setPublished}></TabItem>
+          <TabItem value={value} active index={1} type={drafted} status={'DRAFT'} setStatus={setDrafted}></TabItem>
+          <TabItem value={value} index={2} type={hiddened} status={'HIDDEN'} setStatus={setHiddened}></TabItem>
         </>
       )}
       <NewProofModal open={isEditModalOpen} onClose={handleCloseEditModal} setUpdated={setUpdated} />
