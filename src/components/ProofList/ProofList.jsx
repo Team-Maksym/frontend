@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, Accordion, AccordionSummary, Button } from '@mui/material';
+import { Box, Typography, Accordion, AccordionSummary, Button, Stack } from '@mui/material';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Wrapper } from '../Wrapper';
@@ -9,6 +9,7 @@ import { PaginationCustom } from '../Home/components/TalentList/components/Pagin
 import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 export const ProofList = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,7 +49,10 @@ export const ProofList = () => {
             aria-controls={`panel${i}bh-content`}
             id={`panel${i}bh-header`}
           >
-            <ProofItem description={item.description} />
+            <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
+              <ProofItem description={item.description} />
+              <Kudos proofId={item.id} isKudosBtnShowing={false} />
+            </Stack>
           </AccordionSummary>
           <ProofDescription description={item.description} />
         </Accordion>
@@ -70,3 +74,4 @@ export const ProofList = () => {
     </Wrapper>
   );
 };
+

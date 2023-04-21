@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TabPanel } from './TabPanel/TabPanel';
-import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab } from '@mui/material';
+import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Stack } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ProofDescription } from '../../../../shared/components/ProofDescription';
 import { ProofItemProfile } from './ProofItemProfile';
 import { ProofItem } from '../../../../shared/components/ProofItem';
+import { Kudos } from './Kudos';
+
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
@@ -24,15 +26,18 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
     }
   };
   const [value, setValue] = useState(0);
+
   const handleChange = (event, newValue) => {
     setExpanded(false);
     setValue(newValue);
   };
+
   useEffect(() => {
     setPublished(publish);
     setHiddened(hidden);
     setDrafted(draft);
-  });
+  }, []);
+
   return (
     <Box sx={{ maxWidth: '850px', mt: '56px' }}>
       <Box sx={{ pl: '25px' }}>
@@ -61,10 +66,13 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
                     aria-controls={`panel${i}bh-content`}
                     id={`panel${i}bh-header`}
                   >
-                    <ProofItem
-                      description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} />}
-                    />
+                    <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
+                      <ProofItem
+                        description={item.description}
+                        children={actionsAccess && <ProofItemProfile val={value} />}
+                      />
+                      <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
+                    </Stack>
                   </AccordionSummary>
                   <ProofDescription description={item.description} link={item.link} />
                 </Accordion>
@@ -133,3 +141,4 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft }) => {
     </Box>
   );
 };
+
