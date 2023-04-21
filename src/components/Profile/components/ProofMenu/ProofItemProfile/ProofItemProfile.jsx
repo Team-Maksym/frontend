@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deleteProof } from '../../../../../../shared/service/ProfileService';
-import {
-  Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Box,
-} from '@mui/material';
-
-export const ProofItemProfile = ({ val, talent, id, setOpenModal, openModal, setUpdated }) => {
-  const [proofId, setProofId] = useState(id);
-
-  const handleOpenModal = () => {
-    setOpenModal(true);
+import { Button, Box } from '@mui/material';
+import { deleteProof } from '../../../../../shared/service/ProfileService/ProfileService';
+import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { getOneTalentProofs } from '../../../../../shared/service/ProfileService/ProfileService';
+export const ProofItemProfile = ({ val, talent, id, status, setPublished, setDrafted, setHiddened }) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
   };
-
-  const handleCloseModal = () => setOpenModal(false);
-
   const handleDeleteProof = async (talent, id) => {
     await deleteProof(talent, id);
-    setOpenModal(false);
-    setUpdated(true);
+    getOneTalentProofs(talent, status).then((proofs) => {
+      switch (status) {
+        case 'PUBLISHED':
+          setPublished(() => proofs.data);
+          break;
+        case 'DRAFT':
+          setDrafted(() => proofs.data);
+          break;
+        case 'HIDDEN':
+          setHiddened(() => proofs.data);
+          break;
+      }
+    });
+    setOpen(false);
   };
-
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
       {val !== 0 && (
@@ -63,11 +63,7 @@ export const ProofItemProfile = ({ val, talent, id, setOpenModal, openModal, set
 
       <Box sx={{ display: 'flex', alignItems: 'center', marginX: '10px' }}>
         <DeleteIcon
-          onClick={() => {
-            console.log(id)
-            setProofId(id);
-            handleOpenModal();
-          }}
+          onClick={handleOpen}
           sx={{
             color: 'neutral.white',
             transition: '.2s ease',
@@ -77,9 +73,8 @@ export const ProofItemProfile = ({ val, talent, id, setOpenModal, openModal, set
           }}
         />
         <Dialog
-          id={proofId}
-          open={openModal}
-          onClick={handleCloseModal}
+          open={open}
+          onClick={handleClose}
           maxWidth="sm"
           PaperProps={{
             sx: { borderRadius: 2, bgcolor: '#fce4ec', px: 2, py: 2 },
@@ -96,11 +91,11 @@ export const ProofItemProfile = ({ val, talent, id, setOpenModal, openModal, set
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="outlined" onClick={handleCloseModal}>
+            <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="contained" sx={{ bgcolor: '#d32f2f' }} onClick={() => handleDeleteProof(talent, proofId)}>
-             { `Delete proof + ${proofId}`}
+            <Button variant="contained" sx={{ bgcolor: '#d32f2f' }} onClick={() => handleDeleteProof(talent, id)}>
+              Delete proof
             </Button>
           </DialogActions>
         </Dialog>
