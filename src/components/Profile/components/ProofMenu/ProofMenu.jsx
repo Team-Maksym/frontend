@@ -18,7 +18,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated }) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talent}) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
@@ -26,6 +26,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState();
   let talentId = getCurrentTalentId();
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
@@ -67,7 +68,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
     setDrafted(draft);
   });
 
-  const TabItem = ({ value, index, type }) => {
+  const TabItem = ({ value, index, type, status, setStatus}) => {
     return (
       <TabPanel value={value} index={index}>
         {type &&
@@ -84,9 +85,23 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
                     aria-controls={`panel${i}bh-content`}
                     id={`panel${i}bh-header`}
                   >
-                    <ProofItem
+                    {/* <ProofItem
                       description={item.description}
                       children={actionsAccess && <ProofItemProfile val={value} />}
+                    /> */}
+                    <ProofItem
+                      description={item.description}
+                      children={
+                        <ProofItemProfile
+                          val={value}
+                          talent={talent}
+                          id={item.id}
+                          status={status}
+                          setStatus={setStatus}
+                          setOpenModal={setOpenModal}
+                          openModal={openModal}
+                        />
+                      }
                     />
                   </AccordionSummary>
                   <ProofDescription description={item.description} link={item.link} />
@@ -98,10 +113,11 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
     );
   };
 
+
   return (
     <Box
       sx={{
-        width:'100%',
+        width: '100%',
         mt: '40px',
         overflow: 'auto',
         '&::-webkit-scrollbar': {
@@ -121,6 +137,8 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
             sx={{ color: 'neutral.white' }}
             component={Link}
             to={`/profile/${talentId}?status=published`}
+            status={'PUBLISHED'}
+            setStatus={setPublished}
           />
           {actionsAccess && (
             <Tab
@@ -129,6 +147,8 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
               value={1}
               component={Link}
               to={`/profile/${talentId}?status=drafts`}
+              status={'DRAFT'}
+              setStatus={setDrafted}
             />
           )}
           {actionsAccess && (
@@ -138,6 +158,8 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
               value={2}
               component={Link}
               to={`/profile/${talentId}?status=hidden`}
+              status={'HIDDEN'}
+              setStatus={setHiddened}
             />
           )}
         </Tabs>
