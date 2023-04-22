@@ -74,13 +74,12 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
           type.map((item, i) => {
             return (
               <Box key={item.id}>
-                {/* <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
                   {item.title}
-                </Typography> */}
+                </Typography>
                 <Accordion
                   expanded={expanded === `panel${i}`}
                   onChange={handleChangeAcordion(`panel${i}`)}
-                  sx={{ my: '20px'}}
                 >
                   <AccordionSummary
                     sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
@@ -172,6 +171,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
         </>
       )}
       <NewProofModal open={NewProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
+      
       <DeleteProofModal
         openModal={openDeleteModal}
         setOpenModal={setOpenDeleteModal}

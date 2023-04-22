@@ -59,8 +59,12 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
           borderRadius: 3,
           bgcolor: 'primary.main',
           color: 'neutral.white',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between'
         }}
       >
+        <Box>
         <Avatar
           alt={talent.full_name.trim().charAt(0).toUpperCase() + talent.full_name.trim().slice(1)}
           src={localAvatar || `${localAvatar}`}
@@ -117,10 +121,11 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
               </Box>
             </ListItem>
           </List>
-        </CardContent>
+          </CardContent>
+          </Box>
         {actionsAccess && (
           <>
-            <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between'}}>
               <Tooltip title="Delete" placement="top">
                 <IconButton onClick={openDeleteModal}>
                   <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />

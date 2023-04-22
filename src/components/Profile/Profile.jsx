@@ -62,7 +62,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
     <>
       {currentTalent ? (
         <Wrapper>
-          <Box sx={{ display: 'flex' }} maxHeight={'90vh'}>
+          <Box sx={{ display: 'flex' }} minHeight={'90vh'} maxHeight={'90vh'}>
             {talentProfile ? (
               <>
                 <BigTalentCard

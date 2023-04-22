@@ -8,6 +8,8 @@ export const DeleteProofModal = ({ openModal, setUpdated, setOpenModal, talentId
     setUpdated(true);
   };
 
+  console.log(talentId, proofId)
+
   return (
     <Dialog
       open={openModal}

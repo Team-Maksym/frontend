@@ -6,15 +6,16 @@ import { ProofTextField } from '../../../../../../shared/components/Fields/Proof
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField'; 
 
 export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
 
-  const onAddProofHandler = (action) => {
+  const onAddProofHandler = () => {
     let talentId = getCurrentTalentId();
     return async (values) => {
       const newProof = {
-        title: values.desc.slice(0, 80),
+        title: values.title,
         description: values.desc,
         link: values.link,
       };
@@ -22,6 +23,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
         onClose();
       } else {
         try {
+          console.log(newProof);
           await addTalentProof(talentId, newProof);
           setUpdated(true);
           navigate(`/profile/${talentId}?status=drafts`);
@@ -39,14 +41,21 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
     title: 'You can add a new proof',
     onSubmit: onAddProofHandler(addTalentProof),
     initialValues: {
+      title: '',
       desc: '',
       link: '',
     },
     validationSchema: yup.object({
+      title: yup
+        .string()
+        .required('Title is required')
+        .min(2, 'Title must be at least 2 characters')
+        .max(80, 'Title must be at most 50 characters'),
       desc: yup.string().required('Some information is required'),
       link: yup.string().url('It must be a valid url').nullable(),
     }),
     fieldsRenderers: {
+      title: ProofTitleField,
       desc: ProofTextField,
       link: ProofLinkField,
     },
