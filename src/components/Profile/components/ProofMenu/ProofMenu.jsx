@@ -12,6 +12,7 @@ import { ProofItem } from '../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../shared/components/ProofDescription';
 import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
+import { EditProofModal } from './components/EditProofModal/EditProofModal';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -21,17 +22,24 @@ TabPanel.propTypes = {
 
 export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated }) => {
   const [published, setPublished] = useState();
-  const [drafted, setDrafted] = useState();
+  const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
-  const [NewProofModalOpen, setNewProofModalOpen] = useState(false);
+  const [newProofModalOpen, setNewProofModalOpen] = useState(false);
   const [proofId, setProofId] = useState();
   const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [proofInfo, setProofInfo] = useState({});
+
   let talentId = getCurrentTalentId();
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const findCurrentProofInfo = (proofId, status) => {
+    return status.find((item) => item.id === proofId);
   };
 
   const [value, setValue] = useState(0);
@@ -73,14 +81,11 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
         {type &&
           type.map((item, i) => {
             return (
-              <Box key={item.id}>
+              <Box key={i}>
                 <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
                   {item.title}
                 </Typography>
-                <Accordion
-                  expanded={expanded === `panel${i}`}
-                  onChange={handleChangeAcordion(`panel${i}`)}
-                >
+                <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
                   <AccordionSummary
                     sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
                     expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
@@ -95,7 +100,11 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
                             val={value}
                             id={item.id}
                             setProofId={setProofId}
-                            setOpenModal={setOpenDeleteModal}
+                            setOpenDeleteModal={setOpenDeleteModal}
+                            setOpenEditModal={setOpenEditModal}
+                            status={drafted}
+                            findProofInfo={findCurrentProofInfo}
+                            setProofInfo={setProofInfo}
                           />
                         )
                       }
@@ -162,7 +171,6 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
           <AddIcon />
         </Fab>
       </Box>
-
       {actionsAccess && (
         <>
           <TabItem value={value} index={0} type={published}></TabItem>
@@ -170,8 +178,14 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
           <TabItem value={value} index={2} type={hiddened}></TabItem>
         </>
       )}
-      <NewProofModal open={NewProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
-      
+      <NewProofModal open={newProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
+      <EditProofModal
+        openModal={openEditModal}
+        setOpenModal={setOpenEditModal}
+        setUpdated={setUpdated}
+        talentId={talentId}
+        proofInfo={proofInfo}
+      />
       <DeleteProofModal
         openModal={openDeleteModal}
         setOpenModal={setOpenDeleteModal}

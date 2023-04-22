@@ -44,6 +44,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
       });
     }
     setUpdated(false);
+
   }, [id, currentTalent, updated]);
 
   useEffect(() => {

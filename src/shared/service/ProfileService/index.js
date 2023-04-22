@@ -6,4 +6,5 @@ export {
   patchTalentProfile,
   deleteProof,
   addTalentProof,
+  editTalentProof,
 } from './ProfileService';

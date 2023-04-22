@@ -1,1 +1,1 @@
-export { getAllProofs } from "./ProofService";
+export { getAllProofs, getProofById } from './ProofService';

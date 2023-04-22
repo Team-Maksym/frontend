@@ -39,6 +39,12 @@ export const addTalentProof = async (talentId, newProof) => {
   return await protectedAxiosInstance.post(`talents/${talentId}/proofs`, newProof).then((response) => response.data);
 };
 
+export const editTalentProof = async (talentId, proofId, newProof) => {
+  return await protectedAxiosInstance
+    .patch(`talents/${talentId}/proofs/${proofId}`, newProof)
+    .then((response) => response.data);
+};
+
 export const deleteProof = async (talentId, proofId) => {
   return await protectedAxiosInstance.delete(`talents/${talentId}/proofs/${proofId}`).then((response) => response.data);
 };
