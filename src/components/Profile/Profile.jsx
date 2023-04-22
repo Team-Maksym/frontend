@@ -75,7 +75,6 @@ export const Profile = ({ isTalentDataLoaded }) => {
                   draft={draft}
                   publish={publish}
                   hidden={hidden}
-                  talent={talentProfile.id}
                   setUpdated={setUpdated}
                 />
               </>

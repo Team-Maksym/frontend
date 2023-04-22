@@ -19,7 +19,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talent }) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
