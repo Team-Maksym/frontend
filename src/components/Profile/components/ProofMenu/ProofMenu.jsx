@@ -11,6 +11,7 @@ import { NewProofModal } from './components/NewProofModal';
 import { ProofItem } from '../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../shared/components/ProofDescription';
 import { useNavigate } from 'react-router-dom';
+import { DeleteProofModal } from './components/DeleteProofModal';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -23,26 +24,24 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
   const [drafted, setDrafted] = useState();
   const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [NewProofModalOpen, setNewProofModalOpen] = useState(false);
+  const [proofId, setProofId] = useState();
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   let talentId = getCurrentTalentId();
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
-    if (open === false) {
-      setExpanded(isExpanded ? panel : false);
-    }
+    setExpanded(isExpanded ? panel : false);
   };
 
   const [value, setValue] = useState(0);
 
-  const openEditModal = () => {
-    setIsEditModalOpen(() => true);
+  const openNewProofModal = () => {
+    setNewProofModalOpen(() => true);
   };
 
-  const handleCloseEditModal = () => {
-    setIsEditModalOpen(() => false);
+  const handleCloseNewProofModal = () => {
+    setNewProofModalOpen(() => false);
   };
 
   const handleChange = (event, newValue) => {
@@ -66,41 +65,38 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
     setPublished(publish);
     setHiddened(hidden);
     setDrafted(draft);
-  });
+  }, [publish, hidden, draft]);
 
-  const TabItem = ({ value, index, type, status, setStatus }) => {
+  const TabItem = ({ value, index, type }) => {
     return (
       <TabPanel value={value} index={index}>
         {type &&
           type.map((item, i) => {
-            // console.log(item.id, item.description);
             return (
               <Box key={item.id}>
-                <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                  {item.title + `  ${item.id}`}
-                </Typography>
-                <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
+                {/* <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                  {item.title}
+                </Typography> */}
+                <Accordion
+                  expanded={expanded === `panel${i}`}
+                  onChange={handleChangeAcordion(`panel${i}`)}
+                  sx={{ my: '20px'}}
+                >
                   <AccordionSummary
                     sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
                     expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
                     aria-controls={`panel${i}bh-content`}
                     id={`panel${i}bh-header`}
                   >
-                    {/* <ProofItem
-                      description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} />}
-                    /> */}
                     <ProofItem
                       description={item.description}
                       children={
                         actionsAccess && (
                           <ProofItemProfile
                             val={value}
-                            talent={talent}
                             id={item.id}
-                            setOpenModal={setOpenModal}
-                            openModal={openModal}
-                            setUpdated={setUpdated}
+                            setProofId={setProofId}
+                            setOpenModal={setOpenDeleteModal}
                           />
                         )
                       }
@@ -138,8 +134,6 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
             sx={{ color: 'neutral.white' }}
             component={Link}
             to={`/profile/${talentId}?status=published`}
-            status={'PUBLISHED'}
-            setStatus={setPublished}
           />
           {actionsAccess && (
             <Tab
@@ -148,8 +142,6 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
               value={1}
               component={Link}
               to={`/profile/${talentId}?status=drafts`}
-              status={'DRAFT'}
-              setStatus={setDrafted}
             />
           )}
           {actionsAccess && (
@@ -159,13 +151,11 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
               value={2}
               component={Link}
               to={`/profile/${talentId}?status=hidden`}
-              status={'HIDDEN'}
-              setStatus={setHiddened}
             />
           )}
         </Tabs>
         <Fab
-          onClick={openEditModal}
+          onClick={openNewProofModal}
           color="secondary"
           aria-label="add"
           sx={{ position: 'sticky', top: '0', left: '90%', mt: '-100%' }}
@@ -176,12 +166,19 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
 
       {actionsAccess && (
         <>
-          <TabItem value={value} index={0} type={published} status={'PUBLISHED'} setStatus={setPublished}></TabItem>
-          <TabItem value={value} active index={1} type={drafted} status={'DRAFT'} setStatus={setDrafted}></TabItem>
-          <TabItem value={value} index={2} type={hiddened} status={'HIDDEN'} setStatus={setHiddened}></TabItem>
+          <TabItem value={value} index={0} type={published}></TabItem>
+          <TabItem value={value} active index={1} type={drafted}></TabItem>
+          <TabItem value={value} index={2} type={hiddened}></TabItem>
         </>
       )}
-      <NewProofModal open={isEditModalOpen} onClose={handleCloseEditModal} setUpdated={setUpdated} />
+      <NewProofModal open={NewProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
+      <DeleteProofModal
+        openModal={openDeleteModal}
+        setOpenModal={setOpenDeleteModal}
+        setUpdated={setUpdated}
+        talentId={talentId}
+        proofId={proofId}
+      />
     </Box>
   );
 };
