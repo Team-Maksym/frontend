@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -62,13 +62,16 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
 
     if (currentUrl.includes(`?status=published`)) {
       setValue(0);
-    } else if (currentUrl.includes('?status=drafts')) {
-      setValue(1);
-    } else if (currentUrl.includes('?status=hidden')) {
-      setValue(2);
-    } else {
-      navigate(`/profile/${talentId}`);
     }
+    if (currentUrl.includes('?status=drafts')) {
+      setValue(1);
+    }
+    if (currentUrl.includes('?status=hidden')) {
+      setValue(2);
+    }
+    // else {
+    //   navigate(`/profile/${talentId}`);
+    // }
 
     setPublished(publish);
     setHiddened(hidden);
