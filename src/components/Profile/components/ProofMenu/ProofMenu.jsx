@@ -108,6 +108,8 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
                             status={drafted}
                             findProofInfo={findCurrentProofInfo}
                             setProofInfo={setProofInfo}
+                            talentId={talentId}
+                            setUpdated={setUpdated}
                           />
                         )
                       }

@@ -1,1 +1,1 @@
-export { EditProofModal } from "./EditProofModal";
+export { EditProofModal } from './EditProofModal';

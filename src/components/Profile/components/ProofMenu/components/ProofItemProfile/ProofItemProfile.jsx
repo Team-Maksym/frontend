@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
-
+import { editTalentProof } from '../../../../../../shared/service/ProfileService';
 export const ProofItemProfile = ({
   val,
   id,
@@ -11,7 +11,18 @@ export const ProofItemProfile = ({
   status,
   findProofInfo,
   setProofInfo,
+  talentId,
+  setUpdated,
 }) => {
+  const changeStatus = (status) => {
+    try {
+      editTalentProof(talentId, id, { status: status });
+      setUpdated(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
       {val !== 0 && (
@@ -25,6 +36,7 @@ export const ProofItemProfile = ({
               bgcolor: 'primary.main',
             },
           }}
+          onClick={() => changeStatus('PUBLISHED')}
         >
           Publish
         </Button>
@@ -40,6 +52,7 @@ export const ProofItemProfile = ({
               bgcolor: 'primary.main',
             },
           }}
+          onClick={() => changeStatus('HIDDEN')}
         >
           Hide
         </Button>
