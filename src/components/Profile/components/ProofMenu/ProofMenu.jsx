@@ -78,10 +78,12 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
       setValue(0);
     } else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
       setValue(1);
+      navigate(`/profile/${talentId}?status=drafts`);
       getProofsByStatus('DRAFT', setDrafted);
     } else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
       setValue(2);
       getProofsByStatus('HIDDEN', setHiddened);
+      navigate(`/profile/${talentId}?status=hidden`);
     } else {
       navigate(`/profile/${talentId}`);
     }
