@@ -61,7 +61,6 @@ export const Profile = ({ isTalentDataLoaded }) => {
                   talentId={talentProfile.id}
                   setUpdated={setUpdated}
                   updated={updated}
-                  currentTalent={currentTalent}
                 />
               </>
             ) : (

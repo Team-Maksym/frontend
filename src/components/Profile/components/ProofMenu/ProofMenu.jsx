@@ -21,7 +21,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, setUpdated, talentId, currentTalent, updated }) => {
+export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
@@ -65,11 +65,11 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, currentTalent, 
   };
 
   useEffect(() => {
-    if (currentTalent) {
+    if (AuthTalentId) {
       getProofsByStatus('PUBLISHED', setPublished);
     }
     setUpdated(false);
-  }, [talentId, currentTalent, updated]);
+  }, [talentId, AuthTalentId, updated]);
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -83,11 +83,9 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, currentTalent, 
       setValue(2);
       getProofsByStatus('HIDDEN', setHiddened);
     } else {
-      setValue(0);
       navigate(`/profile/${talentId}`);
     }
-
-  }, [navigate, talentId, AuthTalentId]);
+  }, []);
 
   const TabItem = ({ value, index, type }) => {
     return (
