@@ -13,6 +13,8 @@ import { ProofDescription } from '../../../../shared/components/ProofDescription
 import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
+import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
+
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -20,7 +22,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talentId }) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talentId, currentTalent, updated }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
@@ -58,26 +60,39 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
   };
 
   useEffect(() => {
+    if (currentTalent) {
+      getOneTalentProofs(talentId, 'HIDDEN').then((proofs) => {
+        setHiddened(proofs.data);
+      });
+      getOneTalentProofs(talentId, 'PUBLISHED').then((proofs) => {
+        setPublished(() => proofs.data);
+      });
+
+      getOneTalentProofs(talentId, 'DRAFT').then((proofs) => {
+        setDrafted(() => proofs.data);
+      });
+    }
+    setUpdated(false);
+  }, [talentId, currentTalent, updated]);
+
+  useEffect(() => {
     const currentUrl = window.location.href;
 
     if (currentUrl.includes(`?status=published`)) {
       setValue(0);
-    }
-    else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
+    } else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
       setValue(1);
-    }
-    else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
+    } else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
       setValue(2);
-    } 
-    else {
+    } else {
       setValue(0);
-      // navigate(`/profile/${talentId}`);
+      navigate(`/profile/${talentId}`);
     }
 
     setPublished(publish);
     setHiddened(hidden);
     setDrafted(draft);
-  }, [publish, hidden, draft]);
+  }, [publish, hidden, draft, navigate, talentId, AuthTalentId]);
 
   const TabItem = ({ value, index, type }) => {
     return (

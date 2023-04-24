@@ -32,16 +32,16 @@ export const Profile = ({ isTalentDataLoaded }) => {
         .catch((error) => {
           setError(() => error);
         });
-      getOneTalentProofs(id, 'HIDDEN').then((proofs) => {
-        setHidden(proofs.data);
-      });
-      getOneTalentProofs(id, 'PUBLISHED').then((proofs) => {
-        setPublish(() => proofs.data);
-      });
+      // getOneTalentProofs(id, 'HIDDEN').then((proofs) => {
+      //   setHidden(proofs.data);
+      // });
+      // getOneTalentProofs(id, 'PUBLISHED').then((proofs) => {
+      //   setPublish(() => proofs.data);
+      // });
 
-      getOneTalentProofs(id, 'DRAFT').then((proofs) => {
-        setDraft(() => proofs.data);
-      });
+      // getOneTalentProofs(id, 'DRAFT').then((proofs) => {
+      //   setDraft(() => proofs.data);
+      // });
     }
     setUpdated(false);
 
@@ -53,7 +53,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
         openAuthModal('signIn');
       }
     }
-  }, [currentTalent]);
+  }, [currentTalent, isTalentDataLoaded, openAuthModal]);
 
   if (error) {
     return <ErrorPage />;
@@ -78,6 +78,8 @@ export const Profile = ({ isTalentDataLoaded }) => {
                   talentId={talentProfile.id}
                   hidden={hidden}
                   setUpdated={setUpdated}
+                  updated={updated}
+                  currentTalent={currentTalent}
                 />
               </>
             ) : (
