@@ -63,13 +63,15 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
     if (currentUrl.includes(`?status=published`)) {
       setValue(0);
     }
-    if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
+    else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
       setValue(1);
     }
-    if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
+    else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
       setValue(2);
-    } else {
-      navigate(`/profile/${talentId}`);
+    } 
+    else {
+      setValue(0);
+      // navigate(`/profile/${talentId}`);
     }
 
     setPublished(publish);
