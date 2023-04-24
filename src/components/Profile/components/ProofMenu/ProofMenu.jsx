@@ -15,14 +15,13 @@ import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
 
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talentId, currentTalent, updated }) => {
+export const ProofMenu = ({ actionsAccess, setUpdated, talentId, currentTalent, updated }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
@@ -59,18 +58,15 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
     setValue(newValue);
   };
 
+  const getProofsByStatus = (status, setStatus) => {
+    getOneTalentProofs(talentId, status).then((proofs) => {
+      setStatus(proofs.data);
+    });
+  };
+
   useEffect(() => {
     if (currentTalent) {
-      getOneTalentProofs(talentId, 'HIDDEN').then((proofs) => {
-        setHiddened(proofs.data);
-      });
-      getOneTalentProofs(talentId, 'PUBLISHED').then((proofs) => {
-        setPublished(() => proofs.data);
-      });
-
-      getOneTalentProofs(talentId, 'DRAFT').then((proofs) => {
-        setDrafted(() => proofs.data);
-      });
+      getProofsByStatus('PUBLISHED', setPublished);
     }
     setUpdated(false);
   }, [talentId, currentTalent, updated]);
@@ -82,17 +78,16 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
       setValue(0);
     } else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
       setValue(1);
+      getProofsByStatus('DRAFT', setDrafted);
     } else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
       setValue(2);
+      getProofsByStatus('HIDDEN', setHiddened);
     } else {
       setValue(0);
       navigate(`/profile/${talentId}`);
     }
 
-    setPublished(publish);
-    setHiddened(hidden);
-    setDrafted(draft);
-  }, [publish, hidden, draft, navigate, talentId, AuthTalentId]);
+  }, [navigate, talentId, AuthTalentId]);
 
   const TabItem = ({ value, index, type }) => {
     return (
@@ -171,6 +166,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
               value={1}
               component={Link}
               to={`/profile/${talentId}?status=drafts`}
+              onClick={() => getProofsByStatus('DRAFT', setDrafted)}
             />
           )}
           {actionsAccess && (
@@ -180,6 +176,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, t
               value={2}
               component={Link}
               to={`/profile/${talentId}?status=hidden`}
+              onClick={() => getProofsByStatus('HIDDEN', setHiddened)}
             />
           )}
         </Tabs>

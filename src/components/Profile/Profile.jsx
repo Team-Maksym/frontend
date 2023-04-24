@@ -2,7 +2,6 @@ import { Wrapper } from '../Wrapper';
 import { BigTalentCard } from './components/BigTalentCard/BigTalentCard';
 import { TalentContext } from '../../shared/context/TalentContext';
 import { getOneTalent } from '../../shared/service/ProfileService';
-import { getOneTalentProofs } from '../../shared/service/ProfileService';
 import { useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { useEffect } from 'react';
@@ -17,9 +16,6 @@ export const Profile = ({ isTalentDataLoaded }) => {
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
   const [updated, setUpdated] = useState();
   const [talentProfile, setTalentProfile] = useState(null);
-  const [hidden, setHidden] = useState(null);
-  const [draft, setDraft] = useState(null);
-  const [publish, setPublish] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -32,19 +28,8 @@ export const Profile = ({ isTalentDataLoaded }) => {
         .catch((error) => {
           setError(() => error);
         });
-      // getOneTalentProofs(id, 'HIDDEN').then((proofs) => {
-      //   setHidden(proofs.data);
-      // });
-      // getOneTalentProofs(id, 'PUBLISHED').then((proofs) => {
-      //   setPublish(() => proofs.data);
-      // });
-
-      // getOneTalentProofs(id, 'DRAFT').then((proofs) => {
-      //   setDraft(() => proofs.data);
-      // });
     }
     setUpdated(false);
-
   }, [id, currentTalent, updated]);
 
   useEffect(() => {
@@ -73,10 +58,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
                 />
                 <ProofMenu
                   actionsAccess={talentProfile.id === currentTalent.id}
-                  draft={draft}
-                  publish={publish}
                   talentId={talentProfile.id}
-                  hidden={hidden}
                   setUpdated={setUpdated}
                   updated={updated}
                   currentTalent={currentTalent}
