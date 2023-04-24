@@ -20,7 +20,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated }) => {
+export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated, talentId }) => {
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
@@ -32,7 +32,7 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
 
-  let talentId = getCurrentTalentId();
+  let AuthTalentId = getCurrentTalentId();
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -63,15 +63,14 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
     if (currentUrl.includes(`?status=published`)) {
       setValue(0);
     }
-    if (currentUrl.includes('?status=drafts')) {
+    if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
       setValue(1);
     }
-    if (currentUrl.includes('?status=hidden')) {
+    if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
       setValue(2);
+    } else {
+      navigate(`/profile/${talentId}`);
     }
-    // else {
-    //   navigate(`/profile/${talentId}`);
-    // }
 
     setPublished(publish);
     setHiddened(hidden);
@@ -167,22 +166,27 @@ export const ProofMenu = ({ actionsAccess, publish, hidden, draft, setUpdated })
             />
           )}
         </Tabs>
-        <Fab
-          onClick={openNewProofModal}
-          color="secondary"
-          aria-label="add"
-          sx={{ position: 'sticky', top: '0', left: '90%', mt: '-100%' }}
-        >
-          <AddIcon />
-        </Fab>
+
+        {actionsAccess && (
+          <Fab
+            onClick={openNewProofModal}
+            color="secondary"
+            aria-label="add"
+            sx={{ position: 'sticky', top: '0', left: '90%', mt: '-100%' }}
+          >
+            <AddIcon />
+          </Fab>
+        )}
       </Box>
+
+      <TabItem value={value} index={0} type={published}></TabItem>
       {actionsAccess && (
         <>
-          <TabItem value={value} index={0} type={published}></TabItem>
           <TabItem value={value} active index={1} type={drafted}></TabItem>
           <TabItem value={value} index={2} type={hiddened}></TabItem>
         </>
       )}
+
       <NewProofModal open={newProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
       <EditProofModal
         openModal={openEditModal}
