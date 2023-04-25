@@ -58,8 +58,8 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
     setValue(newValue);
   };
 
-  const getProofsByStatus = (status, setStatus) => {
-    getOneTalentProofs(talentId, status).then((proofs) => {
+  const getProofsByStatus = async (status, setStatus) => {
+    await getOneTalentProofs(talentId, status).then((proofs) => {
       setStatus(proofs.data);
     });
   };
@@ -78,16 +78,18 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
       setValue(0);
     } else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
       setValue(1);
-      navigate(`/profile/${talentId}?status=drafts`);
+      navigate(`/profile/${talentId}?status=drafts`, { replace: true });
       getProofsByStatus('DRAFT', setDrafted);
     } else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
       setValue(2);
       getProofsByStatus('HIDDEN', setHiddened);
-      navigate(`/profile/${talentId}?status=hidden`);
+      navigate(`/profile/${talentId}?status=hidden`, { replace: true });
     } else {
-      navigate(`/profile/${talentId}`);
+      navigate(`/profile/${talentId}`, { replace: true });
     }
-  }, []);
+
+    setUpdated(false);
+  }, [updated]);
 
   const TabItem = ({ value, index, type }) => {
     return (
