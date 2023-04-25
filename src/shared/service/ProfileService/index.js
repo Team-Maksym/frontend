@@ -1,1 +1,10 @@
-export { getAllTalents, getOneTalent, deleteTalent, getOneTalentProofs } from './ProfileService';
+export {
+  getAllTalents,
+  getOneTalent,
+  deleteTalent,
+  getOneTalentProofs,
+  patchTalentProfile,
+  deleteProof,
+  addTalentProof,
+  editTalentProof,
+} from './ProfileService';

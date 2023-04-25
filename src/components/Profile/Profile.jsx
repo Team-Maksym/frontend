@@ -2,7 +2,6 @@ import { Wrapper } from '../Wrapper';
 import { BigTalentCard } from './components/BigTalentCard/BigTalentCard';
 import { TalentContext } from '../../shared/context/TalentContext';
 import { getOneTalent } from '../../shared/service/ProfileService';
-import { getOneTalentProofs } from '../../shared/service/ProfileService';
 import { useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { useEffect } from 'react';
@@ -11,13 +10,12 @@ import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { Box } from '@mui/material';
 import { ProofMenu } from './components/ProofMenu';
 import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/UnauthorizedPage';
+
 export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
+  const [updated, setUpdated] = useState();
   const [talentProfile, setTalentProfile] = useState(null);
-  const [hidden, setHidden] = useState(null);
-  const [draft, setDraft] = useState(null);
-  const [publish, setPublish] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -30,18 +28,9 @@ export const Profile = ({ isTalentDataLoaded }) => {
         .catch((error) => {
           setError(() => error);
         });
-      getOneTalentProofs(id, 'HIDDEN').then((proofs) => {
-        setHidden(proofs.data);
-      });
-      getOneTalentProofs(id, 'PUBLISHED').then((proofs) => {
-        setPublish(() => proofs.data);
-      });
-
-      getOneTalentProofs(id, 'DRAFT').then((proofs) => {
-        setDraft(() => proofs.data);
-      });
     }
-  }, [id, currentTalent]);
+    setUpdated(false);
+  }, [id, currentTalent, updated]);
 
   useEffect(() => {
     if (!currentTalent) {
@@ -49,7 +38,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
         openAuthModal('signIn');
       }
     }
-  }, [currentTalent]);
+  }, [currentTalent, isTalentDataLoaded, openAuthModal]);
 
   if (error) {
     return <ErrorPage />;
@@ -59,7 +48,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
     <>
       {currentTalent ? (
         <Wrapper>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex' }} minHeight={'90vh'} maxHeight={'90vh'}>
             {talentProfile ? (
               <>
                 <BigTalentCard
@@ -69,9 +58,9 @@ export const Profile = ({ isTalentDataLoaded }) => {
                 />
                 <ProofMenu
                   actionsAccess={talentProfile.id === currentTalent.id}
-                  draft={draft}
-                  publish={publish}
-                  hidden={hidden}
+                  talentId={talentProfile.id}
+                  setUpdated={setUpdated}
+                  updated={updated}
                 />
               </>
             ) : (

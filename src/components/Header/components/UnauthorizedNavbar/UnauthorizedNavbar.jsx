@@ -1,9 +1,13 @@
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Tab, Tabs } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-export const UnauthorizedNavbar = ({ openAuthModal }) => {
-
+export const UnauthorizedNavbar = ({ openAuthModal, value, handleChange }) => {
   return (
     <>
+      <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
+        <Tab value="one" label="Home" component={Link} to="/" />
+        <Tab value="three" label="Proof List" component={Link} to="/proofList" />
+      </Tabs>
       <Button color="inherit" size="large">
         <Typography
           sx={{

@@ -14,7 +14,7 @@ export const ProofList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   let query = new URLSearchParams(location.search);
-  const [sort, setSort] = useState(query.get('sort') || false);
+  const [sort, setSort] = useState(query.get('sort') || true);
   const [proofs, setProofs] = useState([]);
   const [expanded, setExpanded] = useState(false);
 

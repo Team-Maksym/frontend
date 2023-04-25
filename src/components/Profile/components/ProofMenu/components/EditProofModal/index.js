@@ -1,0 +1,1 @@
+export { EditProofModal } from './EditProofModal';
