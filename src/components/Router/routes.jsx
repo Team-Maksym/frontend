@@ -18,7 +18,7 @@ export const Router = () => {
         },
         {
           path: 'profile/:id',
-          element: <Profile isTalentDataLoaded={isTalentDataLoaded}/>,
+          element: <Profile isTalentDataLoaded={isTalentDataLoaded} />,
         },
         {
           path: 'proofList/',

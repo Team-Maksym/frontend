@@ -1,0 +1,1 @@
+export { NewProofModal } from "./NewProofModal";
