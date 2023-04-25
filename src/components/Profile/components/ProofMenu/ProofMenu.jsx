@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
-import { LocalActivity } from '@mui/icons-material';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -23,20 +22,21 @@ TabPanel.propTypes = {
 };
 
 export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  let query = new URLSearchParams(location.search);
+  let AuthTalentId = getCurrentTalentId();
+
   const [published, setPublished] = useState();
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
   const [newProofModalOpen, setNewProofModalOpen] = useState(false);
   const [proofId, setProofId] = useState();
-  const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
-
-  const location = useLocation();
-  let query = new URLSearchParams(location.search);
-  let AuthTalentId = getCurrentTalentId();
+  const [statusUrl, setStatusUrl] = useState(query.get('status'));
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -61,42 +61,32 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
     setValue(newValue);
   };
 
-  const getProofsByStatus = async (status, setStatus) => {
-    await getOneTalentProofs(talentId, status).then((proofs) => {
-      setStatus(proofs.data);
-    });
+  const getProofsByStatus = async (status, setStatus, value) => {
+    await getOneTalentProofs(talentId, status)
+      .then((proofs) => {
+        setStatus(proofs.data);
+        navigate(`/profile/${talentId}?status=${status.toLowerCase()}`, { replace: true });
+        setValue(value);
+      });
   };
 
   useEffect(() => {
+    console.log(statusUrl);
+
     if (AuthTalentId) {
-      getProofsByStatus('PUBLISHED', setPublished);
-    }
-    setUpdated(false);
-  }, [talentId, AuthTalentId, updated]);
-
-  useEffect(() => {
-    query = new URLSearchParams(location.search);
-    const currentUrl = query.get('status');
-
-    console.log(currentUrl);
-
-    if (currentUrl === `published`) {
-      setValue(0);
-      navigate(`/profile/${talentId}?status=published`, { replace: true });
-    } else if (currentUrl === 'drafts' && talentId === AuthTalentId) {
-      setValue(1);
-      navigate(`/profile/${talentId}?status=drafts`, { replace: true });
-      getProofsByStatus('DRAFT', setDrafted);
-    } else if (currentUrl === 'hidden' && talentId === AuthTalentId) {
-      setValue(2);
-      getProofsByStatus('HIDDEN', setHiddened);
-      navigate(`/profile/${talentId}?status=hidden`, { replace: true });
-    } else {
-      navigate(`/profile/${talentId}`, { replace: true });
+      if (statusUrl === `published`) {
+        getProofsByStatus('PUBLISHED', setPublished, 0);
+      } else if (statusUrl === 'draft' && talentId === AuthTalentId) {
+        getProofsByStatus('DRAFT', setDrafted, 1);
+      } else if (statusUrl === 'hidden' && talentId === AuthTalentId) {
+        getProofsByStatus('HIDDEN', setHiddened, 2);
+      } else {
+        getProofsByStatus('PUBLISHED', setPublished);
+      }
     }
 
     setUpdated(false);
-  }, [updated]);
+  }, [updated, statusUrl]);
 
   const TabItem = ({ value, index, type }) => {
     return (
@@ -167,6 +157,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
             sx={{ color: 'neutral.white' }}
             component={Link}
             to={`/profile/${talentId}?status=published`}
+            onClick={() => getProofsByStatus('PUBLISHED', setPublished, 0)}
           />
           {actionsAccess && (
             <Tab
@@ -175,7 +166,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
               value={1}
               component={Link}
               to={`/profile/${talentId}?status=drafts`}
-              onClick={() => getProofsByStatus('DRAFT', setDrafted)}
+              onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
             />
           )}
           {actionsAccess && (
@@ -185,7 +176,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
               value={2}
               component={Link}
               to={`/profile/${talentId}?status=hidden`}
-              onClick={() => getProofsByStatus('HIDDEN', setHiddened)}
+              onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
             />
           )}
         </Tabs>
