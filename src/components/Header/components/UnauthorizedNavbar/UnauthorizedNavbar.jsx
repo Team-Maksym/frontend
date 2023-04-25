@@ -5,6 +5,7 @@ export const UnauthorizedNavbar = ({ openAuthModal, value, handleChange }) => {
   return (
     <>
       <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
+        <Tab value="one" label="Home" component={Link} to="/" />
         <Tab value="three" label="Proof List" component={Link} to="/proofList" />
       </Tabs>
       <Button color="inherit" size="large">

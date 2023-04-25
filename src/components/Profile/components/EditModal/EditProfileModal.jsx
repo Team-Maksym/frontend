@@ -5,7 +5,7 @@ import { BirthdayField } from '../../../../shared/components/Fields/AgeField';
 import { AvatarLinkField } from '../../../../shared/components/Fields/AvatarLinkField';
 import { EducationField } from '../../../../shared/components/Fields/EducationField';
 import { ExperienceField } from '../../../../shared/components/Fields/ExperienceField';
-import { patchTalentProfile } from '../../../../shared/service/ProfileService/ProfileService';
+import { patchTalentProfile } from '../../../../shared/service/ProfileService';
 import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
@@ -87,7 +87,7 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .test(
           'valid-positions',
           'Positions must contain only comma-separated positions',
-          (value: string | undefined) => {
+          (value) => {
             if (!value) return true;
 
             const words = value.split(',').map((word) => word.trim());
@@ -139,4 +139,3 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     </Dialog>
   );
 };
-
