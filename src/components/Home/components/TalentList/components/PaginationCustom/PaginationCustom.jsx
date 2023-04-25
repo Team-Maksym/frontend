@@ -10,7 +10,7 @@ export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoadin
   const [page, setPage] = useState(parseInt(query.get('page') || '1') - 1);
 
   useEffect(() => {
-    query = new URLSearchParams(location.search);
+    // query = new URLSearchParams(location.search);
     setPage(parseInt(query.get('page') || '1') - 1);
     queryFunction(page, size, sort)
       .then((response) => {

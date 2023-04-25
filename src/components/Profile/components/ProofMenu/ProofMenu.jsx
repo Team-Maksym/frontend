@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { ProofItemProfile } from './components/ProofItemProfile';
@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
+import { LocalActivity } from '@mui/icons-material';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -33,6 +34,8 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
 
+  const location = useLocation();
+  let query = new URLSearchParams(location.search);
   let AuthTalentId = getCurrentTalentId();
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
@@ -72,15 +75,19 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
   }, [talentId, AuthTalentId, updated]);
 
   useEffect(() => {
-    const currentUrl = window.location.href;
+    query = new URLSearchParams(location.search);
+    const currentUrl = query.get('status');
 
-    if (currentUrl.includes(`?status=published`)) {
+    console.log(currentUrl);
+
+    if (currentUrl === `published`) {
       setValue(0);
-    } else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
+      navigate(`/profile/${talentId}?status=published`, { replace: true });
+    } else if (currentUrl === 'drafts' && talentId === AuthTalentId) {
       setValue(1);
       navigate(`/profile/${talentId}?status=drafts`, { replace: true });
       getProofsByStatus('DRAFT', setDrafted);
-    } else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
+    } else if (currentUrl === 'hidden' && talentId === AuthTalentId) {
       setValue(2);
       getProofsByStatus('HIDDEN', setHiddened);
       navigate(`/profile/${talentId}?status=hidden`, { replace: true });
