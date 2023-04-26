@@ -23,10 +23,9 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
         onClose();
       } else {
         try {
-          console.log(newProof);
           await addTalentProof(talentId, newProof);
           setUpdated(true);
-          navigate(`/profile/${talentId}?status=drafts`);
+          navigate(`/profile/${talentId}?status=draft`);
         } catch (error) {
           console.error(error);
         }

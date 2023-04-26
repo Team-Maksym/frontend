@@ -16,6 +16,7 @@ export const ProofItemProfile = ({
 }) => {
   const changeStatus = (status) => {
     try {
+      console.log(status)
       editTalentProof(talentId, id, { status: status });
       setUpdated(true);
     } catch (error) {

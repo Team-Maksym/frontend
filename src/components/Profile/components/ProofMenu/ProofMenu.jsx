@@ -21,13 +21,14 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
+export const ProofMenu = ({ actionsAccess, talentId }) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
   let AuthTalentId = getCurrentTalentId();
 
   const [published, setPublished] = useState();
+  const [updated, setUpdated] = useState(false)
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
@@ -37,6 +38,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
   const [statusUrl, setStatusUrl] = useState(query.get('status'));
+  const [value, setValue] = useState(0);
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -46,8 +48,6 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
     return status.find((item) => item.id === proofId);
   };
 
-  const [value, setValue] = useState(0);
-
   const openNewProofModal = () => {
     setNewProofModalOpen(() => true);
   };
@@ -56,37 +56,36 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
     setNewProofModalOpen(() => false);
   };
 
-  const handleChange = (event, newValue) => {
-    setExpanded(false);
-    setValue(newValue);
-  };
-
   const getProofsByStatus = async (status, setStatus, value) => {
     await getOneTalentProofs(talentId, status)
       .then((proofs) => {
         setStatus(proofs.data);
-        navigate(`/profile/${talentId}?status=${status.toLowerCase()}`, { replace: true });
+        // navigate(`/profile/${talentId}?status=${status.toLowerCase()}`, { replace: true });
         setValue(value);
+        setStatusUrl(status.toLowerCase());
+      })
+      .catch(function (error) {
+        console.log(error);
+        navigate('/404', { replace: true });
       });
   };
 
-  useEffect(() => {
-    console.log(statusUrl);
+  console.log('render')
 
-    if (AuthTalentId) {
-      if (statusUrl === `published`) {
-        getProofsByStatus('PUBLISHED', setPublished, 0);
-      } else if (statusUrl === 'draft' && talentId === AuthTalentId) {
-        getProofsByStatus('DRAFT', setDrafted, 1);
-      } else if (statusUrl === 'hidden' && talentId === AuthTalentId) {
-        getProofsByStatus('HIDDEN', setHiddened, 2);
-      } else {
-        getProofsByStatus('PUBLISHED', setPublished);
-      }
+  useEffect(() => {
+    const url = query.get('status');
+
+    if (url === 'draft' && talentId === AuthTalentId) {
+      getProofsByStatus('DRAFT', setDrafted, 1);
+    } else if (url === 'hidden' && talentId === AuthTalentId) {
+      getProofsByStatus('HIDDEN', setHiddened, 2);
+    } else {
+      getProofsByStatus('PUBLISHED', setPublished, 0);
     }
 
-    setUpdated(false);
-  }, [updated, statusUrl]);
+    setUpdated(false)
+
+  }, [updated, location.search]);
 
   const TabItem = ({ value, index, type }) => {
     return (
@@ -98,7 +97,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
                 <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
                   {item.title}
                 </Typography>
-                <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
+                <Accordion expanded={expanded === `panel${i}`} onChange={() => handleChangeAcordion(`panel${i}`)}>
                   <AccordionSummary
                     sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
                     expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
@@ -150,7 +149,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
       }}
     >
       <Box sx={{ pl: '25px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
-        <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
+        <Tabs value={value} textColor="secondary" indicatorColor="secondary">
           <Tab
             value={0}
             label="Published"
@@ -161,11 +160,11 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
           />
           {actionsAccess && (
             <Tab
-              label="Drafts"
+              label="Draft"
               sx={{ color: 'neutral.white' }}
               value={1}
               component={Link}
-              to={`/profile/${talentId}?status=drafts`}
+              to={`/profile/${talentId}?status=draft`}
               onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
             />
           )}
@@ -196,7 +195,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
       <TabItem value={value} index={0} type={published}></TabItem>
       {actionsAccess && (
         <>
-          <TabItem value={value} active index={1} type={drafted}></TabItem>
+          <TabItem value={value} index={1} type={drafted}></TabItem>
           <TabItem value={value} index={2} type={hiddened}></TabItem>
         </>
       )}
