@@ -97,7 +97,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
                 <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
                   {item.title}
                 </Typography>
-                <Accordion expanded={expanded === `panel${i}`} onChange={() => handleChangeAcordion(`panel${i}`)}>
+                <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
                   <AccordionSummary
                     sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
                     expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
