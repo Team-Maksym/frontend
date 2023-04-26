@@ -20,13 +20,6 @@ export const Navbar = () => {
         setValue('one');
       }
     }
-    if (!talent) {
-      if (currentUrl.includes('/proofList')) {
-        setValue('three');
-      } else if (currentUrl.includes('')) {
-        setValue('one');
-      }
-    }
   });
 
   const handleChange = (event, newValue) => {
