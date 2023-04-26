@@ -57,6 +57,12 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     setNewProofModalOpen(() => false);
   };
 
+    const handleChange = (event, newValue) => {
+      setExpanded(false);
+      setValue(newValue);
+    };
+
+
   const getProofsByStatus = async (status, setStatus, value) => {
     await getOneTalentProofs(talentId, status)
       .then((proofs) => {
@@ -149,7 +155,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
       }}
     >
       <Box sx={{ pl: '25px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
-        <Tabs value={value} textColor="secondary" indicatorColor="secondary">
+        <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
           <Tab
             value={0}
             label="Published"
