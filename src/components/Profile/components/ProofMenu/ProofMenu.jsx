@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab } from '@mui/material';
+
 import { Link, useLocation } from 'react-router-dom';
+import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab, Stack } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { ProofItemProfile } from './components/ProofItemProfile';
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
+import { Kudos } from './Kudos';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -99,25 +101,28 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
                     aria-controls={`panel${i}bh-content`}
                     id={`panel${i}bh-header`}
                   >
-                    <ProofItem
-                      description={item.description}
-                      children={
-                        actionsAccess && (
-                          <ProofItemProfile
-                            val={value}
-                            id={item.id}
-                            setProofId={setProofId}
-                            setOpenDeleteModal={setOpenDeleteModal}
-                            setOpenEditModal={setOpenEditModal}
-                            status={drafted}
-                            findProofInfo={findCurrentProofInfo}
-                            setProofInfo={setProofInfo}
-                            talentId={talentId}
-                            setUpdated={setUpdated}
-                          />
-                        )
-                      }
-                    />
+                    <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
+                      <ProofItem
+                        description={item.description}
+                        children={
+                          actionsAccess && (
+                            <ProofItemProfile
+                              val={value}
+                              id={item.id}
+                              setProofId={setProofId}
+                              setOpenDeleteModal={setOpenDeleteModal}
+                              setOpenEditModal={setOpenEditModal}
+                              status={drafted}
+                              findProofInfo={findCurrentProofInfo}
+                              setProofInfo={setProofInfo}
+                              talentId={talentId}
+                              setUpdated={setUpdated}
+                            />
+                          )
+                        }
+                      />
+                      <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
+                    </Stack>
                   </AccordionSummary>
                   <ProofDescription description={item.description} link={item.link} />
                 </Accordion>
@@ -213,3 +218,4 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     </Box>
   );
 };
+
