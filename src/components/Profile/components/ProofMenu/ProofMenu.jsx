@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import { Link, useLocation } from 'react-router-dom';
 import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab, Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { ProofItemProfile } from './components/ProofItemProfile';
@@ -22,19 +23,23 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
+export const ProofMenu = ({ actionsAccess, talentId }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  let query = new URLSearchParams(location.search);
+  let AuthTalentId = getCurrentTalentId();
+
   const [published, setPublished] = useState();
+  const [updated, setUpdated] = useState(false)
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
   const [newProofModalOpen, setNewProofModalOpen] = useState(false);
   const [proofId, setProofId] = useState();
-  const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
-
-  let AuthTalentId = getCurrentTalentId();
+  const [value, setValue] = useState(0);
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -44,8 +49,6 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
     return status.find((item) => item.id === proofId);
   };
 
-  const [value, setValue] = useState(0);
-
   const openNewProofModal = () => {
     setNewProofModalOpen(() => true);
   };
@@ -54,43 +57,38 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
     setNewProofModalOpen(() => false);
   };
 
-  const handleChange = (event, newValue) => {
-    setExpanded(false);
-    setValue(newValue);
-  };
+    const handleChange = (event, newValue) => {
+      setExpanded(false);
+      setValue(newValue);
+    };
 
-  const getProofsByStatus = async (status, setStatus) => {
-    await getOneTalentProofs(talentId, status).then((proofs) => {
-      setStatus(proofs.data);
-    });
+
+  const getProofsByStatus = async (status, setStatus, value) => {
+    await getOneTalentProofs(talentId, status)
+      .then((proofs) => {
+        setStatus(proofs.data);
+        setValue(value);
+      })
+      .catch(function (error) {
+        console.log(error);
+        navigate('/404', { replace: true });
+      });
   };
 
   useEffect(() => {
-    if (AuthTalentId) {
-      getProofsByStatus('PUBLISHED', setPublished);
-    }
-    setUpdated(false);
-  }, [talentId, AuthTalentId, updated]);
+    const url = query.get('status');
 
-  useEffect(() => {
-    const currentUrl = window.location.href;
-
-    if (currentUrl.includes(`?status=published`)) {
-      setValue(0);
-    } else if (currentUrl.includes('?status=drafts') && talentId === AuthTalentId) {
-      setValue(1);
-      navigate(`/profile/${talentId}?status=drafts`, { replace: true });
-      getProofsByStatus('DRAFT', setDrafted);
-    } else if (currentUrl.includes('?status=hidden') && talentId === AuthTalentId) {
-      setValue(2);
-      getProofsByStatus('HIDDEN', setHiddened);
-      navigate(`/profile/${talentId}?status=hidden`, { replace: true });
+    if (url === 'draft' && talentId === AuthTalentId) {
+      getProofsByStatus('DRAFT', setDrafted, 1);
+    } else if (url === 'hidden' && talentId === AuthTalentId) {
+      getProofsByStatus('HIDDEN', setHiddened, 2);
     } else {
-      navigate(`/profile/${talentId}`, { replace: true });
+      getProofsByStatus('PUBLISHED', setPublished, 0);
     }
 
-    setUpdated(false);
-  }, [updated]);
+    setUpdated(false)
+
+  }, [updated, location.search]);
 
   const TabItem = ({ value, index, type }) => {
     return (
@@ -164,15 +162,16 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
             sx={{ color: 'neutral.white' }}
             component={Link}
             to={`/profile/${talentId}?status=published`}
+            onClick={() => getProofsByStatus('PUBLISHED', setPublished, 0)}
           />
           {actionsAccess && (
             <Tab
-              label="Drafts"
+              label="Draft"
               sx={{ color: 'neutral.white' }}
               value={1}
               component={Link}
-              to={`/profile/${talentId}?status=drafts`}
-              onClick={() => getProofsByStatus('DRAFT', setDrafted)}
+              to={`/profile/${talentId}?status=draft`}
+              onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
             />
           )}
           {actionsAccess && (
@@ -182,7 +181,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
               value={2}
               component={Link}
               to={`/profile/${talentId}?status=hidden`}
-              onClick={() => getProofsByStatus('HIDDEN', setHiddened)}
+              onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
             />
           )}
         </Tabs>
@@ -192,7 +191,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
             onClick={openNewProofModal}
             color="secondary"
             aria-label="add"
-            sx={{ position: 'sticky', top: '0', left: '90%', mt: '-100%' }}
+            sx={{ position: 'sticky', top: '5px', left: '90%', mt: '-100%' }}
           >
             <AddIcon />
           </Fab>
@@ -202,7 +201,7 @@ export const ProofMenu = ({ actionsAccess, setUpdated, talentId, updated }) => {
       <TabItem value={value} index={0} type={published}></TabItem>
       {actionsAccess && (
         <>
-          <TabItem value={value} active index={1} type={drafted}></TabItem>
+          <TabItem value={value} index={1} type={drafted}></TabItem>
           <TabItem value={value} index={2} type={hiddened}></TabItem>
         </>
       )}

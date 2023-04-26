@@ -25,7 +25,7 @@ export const EditProofModal = ({ openModal, setOpenModal, proofInfo, setUpdated 
         try {
           await editTalentProof(talentId, proofInfo.id, newProof);
           setUpdated(true);
-          navigate(`/profile/${talentId}?status=drafts`);
+          navigate(`/profile/${talentId}?status=draft`);
         } catch (error) {
           console.error(error);
         }

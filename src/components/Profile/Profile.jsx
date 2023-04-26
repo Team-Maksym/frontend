@@ -14,7 +14,6 @@ import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/Unaut
 export const Profile = ({ isTalentDataLoaded }) => {
   const { id } = useParams();
   const { talent: currentTalent, openAuthModal } = useContext(TalentContext);
-  const [updated, setUpdated] = useState();
   const [talentProfile, setTalentProfile] = useState(null);
   const [error, setError] = useState(null);
 
@@ -29,8 +28,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
           setError(() => error);
         });
     }
-    setUpdated(false);
-  }, [id, currentTalent, updated]);
+  }, [id, currentTalent]);
 
   useEffect(() => {
     if (!currentTalent) {
@@ -58,9 +56,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
                 />
                 <ProofMenu
                   actionsAccess={talentProfile.id === currentTalent.id}
-                  talentId={talentProfile.id}
-                  setUpdated={setUpdated}
-                  updated={updated}
+                  talentId={talentProfile.id}           
                 />
               </>
             ) : (
