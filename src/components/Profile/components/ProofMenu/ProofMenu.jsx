@@ -180,7 +180,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
             onClick={openNewProofModal}
             color="secondary"
             aria-label="add"
-            sx={{ position: 'sticky', top: '0', left: '90%', mt: '-100%' }}
+            sx={{ position: 'sticky', top: '5px', left: '90%', mt: '-100%' }}
           >
             <AddIcon />
           </Fab>
