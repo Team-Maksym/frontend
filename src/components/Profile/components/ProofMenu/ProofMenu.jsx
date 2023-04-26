@@ -37,7 +37,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
-  const [statusUrl, setStatusUrl] = useState(query.get('status'));
   const [value, setValue] = useState(0);
 
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
@@ -60,17 +59,13 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     await getOneTalentProofs(talentId, status)
       .then((proofs) => {
         setStatus(proofs.data);
-        // navigate(`/profile/${talentId}?status=${status.toLowerCase()}`, { replace: true });
         setValue(value);
-        setStatusUrl(status.toLowerCase());
       })
       .catch(function (error) {
         console.log(error);
         navigate('/404', { replace: true });
       });
   };
-
-  console.log('render')
 
   useEffect(() => {
     const url = query.get('status');
