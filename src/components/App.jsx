@@ -10,10 +10,9 @@ import { PreLoader } from './PreLoader';
 import { AuthProvider } from './Authorization/components/AuthProvider';
 
 export const App = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -40,4 +39,3 @@ export const App = () => {
     </BrowserRouter>
   );
 };
-

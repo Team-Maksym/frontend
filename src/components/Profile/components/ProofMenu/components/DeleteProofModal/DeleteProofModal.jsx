@@ -1,17 +1,21 @@
 import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { deleteProof } from '../../../../../../shared/service/ProfileService';
+import { useContext } from 'react';
+import { ProofsOneTalentContext } from '../../../../../../shared/context';
 
-export const DeleteProofModal = ({ openModal, setUpdated, setOpenModal, talentId, proofId }) => {
+export const DeleteProofModal = ({ openDeleteModal, proofId }) => {
+  const { setOpenDeleteModal, setUpdated, talentId } = useContext(ProofsOneTalentContext);
+
   const handleDeleteProof = async (talentId, id) => {
     await deleteProof(talentId, id);
-    setOpenModal(false);
+    setOpenDeleteModal(false);
     setUpdated(true);
   };
 
   return (
     <Dialog
-      open={openModal}
-      onClick={() => setOpenModal(false)}
+      open={openDeleteModal}
+      onClick={() => setOpenDeleteModal(false)}
       maxWidth="sm"
       PaperProps={{
         sx: { borderRadius: 2, bgcolor: '#fce4ec', px: 2, py: 2 },
