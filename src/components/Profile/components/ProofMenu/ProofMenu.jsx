@@ -15,6 +15,7 @@ import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
 import { Kudos } from './Kudos';
+import { EmptyProofs } from './components/EmptyProofs/EmptyProofs';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -85,12 +86,12 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     }
 
     setUpdated(false);
-  }, [updated, location.search]);
+  }, [updated, location.search, talentId]);
 
   const TabItem = ({ value, index, type }) => {
     return (
       <TabPanel value={value} index={index}>
-        {type &&
+        {type?.length ? (
           type.map((item, i) => {
             return (
               <Box key={i}>
@@ -131,7 +132,10 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
                 </Accordion>
               </Box>
             );
-          })}
+          })
+        ) : (
+          <EmptyProofs />
+        )}
       </TabPanel>
     );
   };
