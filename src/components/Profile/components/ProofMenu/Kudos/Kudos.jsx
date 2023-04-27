@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Chip, IconButton, Skeleton } from '@mui/material';
+import { Chip, IconButton } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudos, postKudos } from '../../../../../shared/service/KudosService/KudosService';
 

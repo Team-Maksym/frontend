@@ -6,7 +6,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { ProofItemProfile } from './components/ProofItemProfile';
 import { TabPanel } from './components/TabPanel';
-import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { NewProofModal } from './components/NewProofModal';
 import { ProofItem } from '../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../shared/components/ProofDescription';
@@ -27,8 +26,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
-  let AuthTalentId = getCurrentTalentId();
-
   const [published, setPublished] = useState();
   const [updated, setUpdated] = useState(false);
   const [drafted, setDrafted] = useState([]);
@@ -77,9 +74,9 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   useEffect(() => {
     const url = query.get('status');
 
-    if (url === 'draft' && talentId === AuthTalentId) {
+    if (url === 'draft' && actionsAccess) {
       getProofsByStatus('DRAFT', setDrafted, 1);
-    } else if (url === 'hidden' && talentId === AuthTalentId) {
+    } else if (url === 'hidden' && actionsAccess) {
       getProofsByStatus('HIDDEN', setHiddened, 2);
     } else {
       getProofsByStatus('PUBLISHED', setPublished, 0);
@@ -90,53 +87,59 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
 
   const TabItem = ({ value, index, type }) => {
     return (
-      <TabPanel value={value} index={index}>
-        {type?.length ? (
-          type.map((item, i) => {
-            return (
-              <Box key={i}>
-                <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
-                  {item.title}
-                </Typography>
-                <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
-                  <AccordionSummary
-                    sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
-                    expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
-                    aria-controls={`panel${i}bh-content`}
-                    id={`panel${i}bh-header`}
-                  >
-                    <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
-                      <ProofItem
-                        description={item.description}
-                        children={
-                          actionsAccess && (
-                            <ProofItemProfile
-                              val={value}
-                              id={item.id}
-                              setProofId={setProofId}
-                              setOpenDeleteModal={setOpenDeleteModal}
-                              setOpenEditModal={setOpenEditModal}
-                              status={drafted}
-                              findProofInfo={findCurrentProofInfo}
-                              setProofInfo={setProofInfo}
-                              talentId={talentId}
-                              setUpdated={setUpdated}
-                            />
-                          )
-                        }
-                      />
-                      <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
-                    </Stack>
-                  </AccordionSummary>
-                  <ProofDescription description={item.description} link={item.link} />
-                </Accordion>
-              </Box>
-            );
-          })
+      <>
+        {type ? (
+          <TabPanel value={value} index={index}>
+            {type.length ? (
+              type.map((item, i) => {
+                return (
+                  <Box key={i}>
+                    <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
+                      {item.title}
+                    </Typography>
+                    <Accordion expanded={expanded === `panel${i}`} onChange={handleChangeAcordion(`panel${i}`)}>
+                      <AccordionSummary
+                        sx={{ bgcolor: 'primary.main', color: 'neutral.white' }}
+                        expandIcon={<ExpandMoreIcon sx={{ color: 'white' }} />}
+                        aria-controls={`panel${i}bh-content`}
+                        id={`panel${i}bh-header`}
+                      >
+                        <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
+                          <ProofItem
+                            description={item.description}
+                            children={
+                              actionsAccess && (
+                                <ProofItemProfile
+                                  val={value}
+                                  id={item.id}
+                                  setProofId={setProofId}
+                                  setOpenDeleteModal={setOpenDeleteModal}
+                                  setOpenEditModal={setOpenEditModal}
+                                  status={drafted}
+                                  findProofInfo={findCurrentProofInfo}
+                                  setProofInfo={setProofInfo}
+                                  talentId={talentId}
+                                  setUpdated={setUpdated}
+                                />
+                              )
+                            }
+                          />
+                          <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
+                        </Stack>
+                      </AccordionSummary>
+                      <ProofDescription description={item.description} link={item.link} />
+                    </Accordion>
+                  </Box>
+                );
+              })
+            ) : (
+              <EmptyProofs />
+            )}
+          </TabPanel>
         ) : (
-          <EmptyProofs />
+          <></>
         )}
-      </TabPanel>
+      </>
     );
   };
 
@@ -199,11 +202,11 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
         )}
       </Box>
 
-      <TabItem value={value} index={0} type={published}></TabItem>
+      <TabItem value={value} index={0} type={published} />
       {actionsAccess && (
         <>
-          <TabItem value={value} index={1} type={drafted}></TabItem>
-          <TabItem value={value} index={2} type={hiddened}></TabItem>
+          <TabItem value={value} index={1} type={drafted} />
+          <TabItem value={value} index={2} type={hiddened} />
         </>
       )}
 
