@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { Link, useLocation } from 'react-router-dom';
 import { Accordion, AccordionSummary, Box, Typography, Tabs, Tab, Fab, Stack } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,6 +15,7 @@ import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
 import { Kudos } from './Kudos';
+import { EmptyProofs } from './components/EmptyProofs/EmptyProofs';
 
 TabPanel.propTypes = {
   children: PropTypes.node,
@@ -30,7 +30,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   let AuthTalentId = getCurrentTalentId();
 
   const [published, setPublished] = useState();
-  const [updated, setUpdated] = useState(false)
+  const [updated, setUpdated] = useState(false);
   const [drafted, setDrafted] = useState([]);
   const [hiddened, setHiddened] = useState();
   const [expanded, setExpanded] = useState(false);
@@ -57,11 +57,10 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     setNewProofModalOpen(() => false);
   };
 
-    const handleChange = (event, newValue) => {
-      setExpanded(false);
-      setValue(newValue);
-    };
-
+  const handleChange = (event, newValue) => {
+    setExpanded(false);
+    setValue(newValue);
+  };
 
   const getProofsByStatus = async (status, setStatus, value) => {
     await getOneTalentProofs(talentId, status)
@@ -86,14 +85,13 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
       getProofsByStatus('PUBLISHED', setPublished, 0);
     }
 
-    setUpdated(false)
-
-  }, [updated, location.search]);
+    setUpdated(false);
+  }, [updated, location.search, talentId]);
 
   const TabItem = ({ value, index, type }) => {
     return (
       <TabPanel value={value} index={index}>
-        {type &&
+        {type?.length ? (
           type.map((item, i) => {
             return (
               <Box key={i}>
@@ -134,7 +132,10 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
                 </Accordion>
               </Box>
             );
-          })}
+          })
+        ) : (
+          <EmptyProofs />
+        )}
       </TabPanel>
     );
   };

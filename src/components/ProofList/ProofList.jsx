@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Box, Typography, Accordion, AccordionSummary, Button, Stack } from '@mui/material';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -10,6 +10,8 @@ import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Kudos } from '../Profile/components/ProofMenu/Kudos';
+import { TalentContext } from '../../shared/context/TalentContext';
+import { PreLoader } from '../PreLoader';
 export const ProofList = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,6 +19,7 @@ export const ProofList = () => {
   const [sort, setSort] = useState(query.get('sort') || true);
   const [proofs, setProofs] = useState([]);
   const [expanded, setExpanded] = useState(false);
+  const { talent } = useContext(TalentContext);
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -51,7 +54,7 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
-              <Kudos proofId={item.id} isKudosBtnShowing={false} />
+              <Kudos proofId={item.id} isKudosBtnShowing={!!talent} />
             </Stack>
           </AccordionSummary>
           <ProofDescription description={item.description} />
@@ -68,7 +71,7 @@ export const ProofList = () => {
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
         </Box>
-        {items}
+        {items.length === 0 ? <PreLoader /> : items}
         <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
       </Box>
     </Wrapper>
