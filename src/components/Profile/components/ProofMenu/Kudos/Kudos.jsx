@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Chip, IconButton } from '@mui/material';
+import { Chip, IconButton, Skeleton } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudos, postKudos } from '../../../../../shared/service/KudosService/KudosService';
 
 export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
-  const [kudos, setKudos] = useState(0);
+  const [kudos, setKudos] = useState(null);
 
   useEffect(() => {
     getKudos(proofId).then((kudos) => {
@@ -33,7 +33,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
           <Star sx={{ fontSize: 28, color: isKudosBtnShowing ? 'secondary.main' : 'neutral.white' }} />
         </IconButton>
       }
-      label={`${kudos}`}
+      label={kudos !== null ? kudos : ''}
       sx={{
         display: 'flex',
         alignItems: 'center',

@@ -23,6 +23,11 @@ export const ProofItemProfile = ({
     }
   };
 
+  const getChangeStatusHandler = (status) => (e) => {
+    changeStatus(status);
+    e.stopPropagation();
+  };
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
       {val !== 0 && (
@@ -36,7 +41,7 @@ export const ProofItemProfile = ({
               bgcolor: 'primary.main',
             },
           }}
-          onClick={() => changeStatus('PUBLISHED')}
+          onClick={getChangeStatusHandler('PUBLISHED')}
         >
           Publish
         </Button>
@@ -52,7 +57,7 @@ export const ProofItemProfile = ({
               bgcolor: 'primary.main',
             },
           }}
-          onClick={() => changeStatus('HIDDEN')}
+          onClick={getChangeStatusHandler('HIDDEN')}
         >
           Hide
         </Button>
@@ -73,7 +78,7 @@ export const ProofItemProfile = ({
           }}
         />
       </Box>
-      {val == 1 && (
+      {val === 1 && (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <EditIcon
             onClick={() => {
@@ -94,3 +99,4 @@ export const ProofItemProfile = ({
     </Box>
   );
 };
+
