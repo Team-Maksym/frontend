@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Box, Tabs, Tab, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TabPanel } from './components/TabPanel';
-import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
 import { NewProofModal } from './components/NewProofModal';
 import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
@@ -23,8 +22,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
-  let AuthTalentId = getCurrentTalentId();
-
   const [published, setPublished] = useState();
   const [updated, setUpdated] = useState(false);
   const [drafted, setDrafted] = useState([]);
@@ -73,9 +70,9 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   useEffect(() => {
     const url = query.get('status');
 
-    if (url === 'draft' && talentId === AuthTalentId) {
+    if (url === 'draft' && actionsAccess) {
       getProofsByStatus('DRAFT', setDrafted, 1);
-    } else if (url === 'hidden' && talentId === AuthTalentId) {
+    } else if (url === 'hidden' && actionsAccess) {
       getProofsByStatus('HIDDEN', setHiddened, 2);
     } else {
       getProofsByStatus('PUBLISHED', setPublished, 0);
@@ -165,7 +162,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
             <TabItem value={value} index={2} type={hiddened}></TabItem>
           </>
         )}
-
         <NewProofModal open={newProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
         <EditProofModal openEditModal={openEditModal} proofInfo={proofInfo} />
         <DeleteProofModal openDeleteModal={openDeleteModal} proofId={proofId} />
