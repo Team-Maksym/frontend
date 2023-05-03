@@ -7,8 +7,12 @@ import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
 import { editTalentProof } from '../../../../../../shared/service/ProfileService';
+import { useContext } from 'react';
+import { ProofsOneTalentContext } from '../../../../../../shared/context';
 
-export const EditProofModal = ({ openModal, setOpenModal, proofInfo, setUpdated }) => {
+export const EditProofModal = ({ openEditModal, proofInfo }) => {
+  const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
+
   const navigate = useNavigate();
   const onEditProofHandler = () => {
     let talentId = getCurrentTalentId();
@@ -20,7 +24,7 @@ export const EditProofModal = ({ openModal, setOpenModal, proofInfo, setUpdated 
         status: 'DRAFT',
       };
       if (Object.keys(newProof).length === 0) {
-        setOpenModal(false);
+        setOpenEditModal(false);
       } else {
         try {
           await editTalentProof(talentId, proofInfo.id, newProof);
@@ -29,7 +33,7 @@ export const EditProofModal = ({ openModal, setOpenModal, proofInfo, setUpdated 
         } catch (error) {
           console.error(error);
         }
-        setOpenModal(false);
+        setOpenEditModal(false);
       }
     };
   };
@@ -62,8 +66,8 @@ export const EditProofModal = ({ openModal, setOpenModal, proofInfo, setUpdated 
 
   return (
     <Dialog
-      open={openModal}
-      onClose={() => setOpenModal(false)}
+      open={openEditModal}
+      onClose={() => setOpenEditModal(false)}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="sm"
       fullWidth
@@ -75,7 +79,11 @@ export const EditProofModal = ({ openModal, setOpenModal, proofInfo, setUpdated 
       <DialogContent>
         <Form {...editProof}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-            <Button variant="outlined" onClick={() => setOpenModal(false)} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
+            <Button
+              variant="outlined"
+              onClick={() => setOpenEditModal(false)}
+              sx={{ mt: 4, px: 8, borderRadius: '6px' }}
+            >
               Cancel
             </Button>
             <Button
