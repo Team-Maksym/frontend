@@ -4,6 +4,7 @@ import { getCurrentTalentId } from '../../../../shared/service/AuthorizationServ
 import { getOneTalent } from '../../../../shared/service/ProfileService';
 import { AuthModal } from '../AuthModal/AuthModal';
 import { useNavigate } from 'react-router-dom';
+import { getOneSponsor } from '../../../../shared/service/SponsorProfileService/SponsorProfileService';
 
 export const AuthProvider = ({ children }) => {
   const [talent, setTalent] = useState(null);
@@ -16,14 +17,22 @@ export const AuthProvider = ({ children }) => {
     authorizeTalent();
   }, []);
 
-  const authorizeTalent = () => {
+  const authorizeTalent = (type) => {
     const talentId = getCurrentTalentId();
     if (talentId) {
-      getOneTalent(talentId).then((talent) => {
-        talent.id = talentId;
-        setTalent(talent);
-        setIsTalentDataLoaded(() => true);
-      });
+      if (type === 'talents') {
+        getOneTalent(talentId).then((talent) => {
+          talent.id = talentId;
+          setTalent(talent);
+          setIsTalentDataLoaded(() => true);
+        });
+      } else if (type === 'sponsors') {
+        getOneSponsor(talentId).then((talent) => {
+          talent.id = talentId;
+          setTalent(talent);
+          setIsTalentDataLoaded(() => true);
+        });
+      }
     } else {
       setTalent(null);
       setIsTalentDataLoaded(() => true);
@@ -55,4 +64,3 @@ export const AuthProvider = ({ children }) => {
     </TalentContext.Provider>
   );
 };
-

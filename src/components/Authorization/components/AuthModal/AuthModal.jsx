@@ -22,8 +22,8 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
       try {
         setError(() => null);
         setLoadingProgress(() => true);
-        await action(values);
-        authorizeTalent();
+        const response = await action(values);
+        authorizeTalent(response.type);
         onClose();
         navigate(`/profile/${talent.id}`);
       } catch (error) {
@@ -54,14 +54,17 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
       initialValues: {
         email: '',
         password: '',
+        type: '',
       },
       validationSchema: yup.object({
         email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
         password: yup.string('Enter your password').required('Password is required'),
+        type: yup.string(),
       }),
       fieldsRenderers: {
         email: EmailField,
         password: PasswordField,
+        type: TypeField,
       },
     },
     signUp: {

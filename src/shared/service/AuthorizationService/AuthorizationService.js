@@ -6,24 +6,23 @@ export const getCurrentTalentId = () => {
   return token && jwt_decode(token).sub;
 };
 
-export const signUp = async (talent) => {
-  return await publicAxiosInstance.post('talents', talent).then((response) => {
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-    }
-    return response.data;
-  });
+export const signUp = async ({ type, ...person }) => {
+  const response = await publicAxiosInstance.post(type, person);
+  if (response.data.token) {
+    localStorage.setItem('token', response.data.token);
+  }
+  return {data: response.data, type: type};
 };
 
-export const signIn = async (talent) => {
+export const signIn = async ({ type, ...person }) => {
   return await publicAxiosInstance
     .post(
-      'talents/login',
+      `${type}/login`,
       {},
       {
         auth: {
-          username: talent.email,
-          password: talent.password,
+          username: person.email,
+          password: person.password,
         },
       },
     )
@@ -31,7 +30,6 @@ export const signIn = async (talent) => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
       }
-      return response.data;
+      return {data: response.data, type: type};
     });
 };
-

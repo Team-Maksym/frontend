@@ -3,11 +3,11 @@ import { TextField, MenuItem } from '@mui/material';
 export const TypeField = (props) => {
   const types = [
     {
-      value: 'talent',
+      value: 'talents',
       label: 'Talent',
     },
     {
-      value: 'sponsor',
+      value: 'sponsors',
       label: 'Sponsor',
     },
   ];
