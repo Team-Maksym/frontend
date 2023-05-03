@@ -48,9 +48,8 @@ export const Navbar = () => {
           </Tooltip>
         </>
       ) : (
-        <UnauthorizedNavbar openAuthModal={openAuthModal} />
+        <UnauthorizedNavbar openAuthModal={openAuthModal} value={value} handleChange={handleChange} />
       )}
     </>
   );
 };
-

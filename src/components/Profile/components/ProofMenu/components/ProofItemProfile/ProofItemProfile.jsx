@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
+import { editTalentProof } from '../../../../../../shared/service/ProfileService';
+export const ProofItemProfile = ({
+  val,
+  id,
+  setProofId,
+  setOpenDeleteModal,
+  setOpenEditModal,
+  status,
+  findProofInfo,
+  setProofInfo,
+  talentId,
+  setUpdated,
+}) => {
+  const changeStatus = (status) => {
+    try {
+      editTalentProof(talentId, id, { status: status });
+      setUpdated(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-export const ProofItemProfile = ({ val }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const getChangeStatusHandler = (status) => (e) => {
+    changeStatus(status);
+    e.stopPropagation();
+  };
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
       {val !== 0 && (
@@ -21,6 +41,7 @@ export const ProofItemProfile = ({ val }) => {
               bgcolor: 'primary.main',
             },
           }}
+          onClick={getChangeStatusHandler('PUBLISHED')}
         >
           Publish
         </Button>
@@ -36,6 +57,7 @@ export const ProofItemProfile = ({ val }) => {
               bgcolor: 'primary.main',
             },
           }}
+          onClick={getChangeStatusHandler('HIDDEN')}
         >
           Hide
         </Button>
@@ -43,7 +65,10 @@ export const ProofItemProfile = ({ val }) => {
 
       <Box sx={{ display: 'flex', alignItems: 'center', marginX: '10px' }}>
         <DeleteIcon
-          onClick={handleOpen}
+          onClick={() => {
+            setOpenDeleteModal(true);
+            setProofId(id);
+          }}
           sx={{
             color: 'neutral.white',
             transition: '.2s ease',
@@ -52,37 +77,15 @@ export const ProofItemProfile = ({ val }) => {
             },
           }}
         />
-        <Dialog
-          open={open}
-          onClick={handleClose}
-          maxWidth="sm"
-          PaperProps={{
-            sx: { borderRadius: 2, bgcolor: '#fce4ec', px: 2, py: 2 },
-          }}
-        >
-          <DialogTitle variant="h5" sx={{ display: 'flex', alignItems: 'center', px: 1 }}>
-            Delete proof?
-          </DialogTitle>
-          <Divider />
-          <DialogContent>
-            <DialogContentText sx={{ mb: 1 }}>
-              Are you sure you want to delete your proof? All of your data will be permanently removed.
-              <strong> This process cannot be undone!</strong>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button variant="outlined" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="contained" sx={{ bgcolor: '#d32f2f' }} onClick={handleClose}>
-              Delete proof
-            </Button>
-          </DialogActions>
-        </Dialog>
       </Box>
-      {val == 1 && (
+      {val === 1 && (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <EditIcon
+            onClick={() => {
+              setOpenEditModal(true);
+              setProofId(id);
+              setProofInfo(findProofInfo(id, status));
+            }}
             sx={{
               color: 'neutral.white',
               transition: '.2s ease',
@@ -96,3 +99,4 @@ export const ProofItemProfile = ({ val }) => {
     </Box>
   );
 };
+
