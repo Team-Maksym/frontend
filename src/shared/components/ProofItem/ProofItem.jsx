@@ -1,10 +1,17 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 export const ProofItem = ({ children, description }) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', width: '750px' }}>
+    <Stack
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+      }}
+    >
       <Typography>{description.length > 50 ? description.substring(0, 50) + '...' : description}</Typography>
       {children}
-    </Box>
+    </Stack>
   );
 };

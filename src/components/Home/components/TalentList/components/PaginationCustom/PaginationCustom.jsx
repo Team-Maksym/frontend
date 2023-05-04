@@ -34,6 +34,7 @@ export const PaginationCustom = ({ size, sort, setHook, queryFunction, setLoadin
           count={count}
           renderItem={(item) => (
             <PaginationItem
+              sx={{ minWidth: { xs: '35px', sm: '40px' }, height: { xs: '35px', sm: '40px' } }}
               component={Link}
               to={`?page=${item.page}${sort !== undefined ? `&sort=${sort}` : ''}`}
               {...item}
