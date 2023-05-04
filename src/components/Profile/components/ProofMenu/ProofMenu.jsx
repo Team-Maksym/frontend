@@ -111,7 +111,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
           },
         }}
       >
-        <Box sx={{ pl: '25px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
+        <Box sx={{ pl: '10px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
           <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
             <Tab
               value={0}
@@ -122,36 +122,36 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
               onClick={() => getProofsByStatus('PUBLISHED', setPublished, 0)}
             />
             {actionsAccess && (
-              <Tab
-                label="Draft"
-                sx={{ color: 'neutral.white' }}
-                value={1}
-                component={Link}
-                to={`/profile/${talentId}?status=draft`}
-                onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
-              />
-            )}
-            {actionsAccess && (
-              <Tab
-                label="Hidden"
-                sx={{ color: 'neutral.white' }}
-                value={2}
-                component={Link}
-                to={`/profile/${talentId}?status=hidden`}
-                onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
-              />
+              <>
+                <Tab
+                  label="Draft"
+                  sx={{ color: 'neutral.white' }}
+                  value={1}
+                  component={Link}
+                  to={`/profile/${talentId}?status=draft`}
+                  onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
+                />
+
+                <Tab
+                  label="Hidden"
+                  sx={{ color: 'neutral.white' }}
+                  value={2}
+                  component={Link}
+                  to={`/profile/${talentId}?status=hidden`}
+                  onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
+                />
+
+                <Fab
+                  onClick={openNewProofModal}
+                  color="secondary"
+                  aria-label="add"
+                  sx={{ top: '0', right: '15px', position: 'absolute', width: '45px', height: '45px' }}
+                >
+                  <AddIcon />
+                </Fab>
+              </>
             )}
           </Tabs>
-          {actionsAccess && (
-            <Fab
-              onClick={openNewProofModal}
-              color="secondary"
-              aria-label="add"
-              sx={{ position: 'sticky', top: '5px', left: '90%', mt: '-100%' }}
-            >
-              <AddIcon />
-            </Fab>
-          )}
         </Box>
 
         <TabItem value={value} index={0} type={published}></TabItem>
