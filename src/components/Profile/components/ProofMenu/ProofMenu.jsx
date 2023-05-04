@@ -142,7 +142,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
               />
             )}
           </Tabs>
-
           {actionsAccess && (
             <Fab
               onClick={openNewProofModal}
