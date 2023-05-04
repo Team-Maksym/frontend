@@ -1,0 +1,1 @@
+export { ProofDescription } from './ProofDescription';

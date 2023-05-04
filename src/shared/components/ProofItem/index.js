@@ -1,0 +1,1 @@
+export { ProofItem } from './ProofItem';
