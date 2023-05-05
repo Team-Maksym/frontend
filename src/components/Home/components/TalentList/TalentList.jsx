@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Grid } from '@mui/material';
-import { getAllTalents } from '../../../../shared/service/ProfileService';
+import { getAllTalents } from '../../../../shared/service/TalentProfileService';
 import { SmallTalentCard } from '../SmallTalentCard';
 import { PaginationCustom } from './components/PaginationCustom';
 import { PreLoaderUser } from './components/PreLoadUser';

@@ -1,10 +1,10 @@
 import { Button, Container, Typography, Box, Card, CardContent, CardActionArea } from '@mui/material';
 import { useContext } from 'react';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { PersonContext } from '../../../../shared/context/PersonContext';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export const Banner = () => {
-  const { openAuthModal } = useContext(TalentContext);
+  const { openAuthModal } = useContext(PersonContext);
 
   function scrollTo(id) {
     var element = document.querySelector(id);

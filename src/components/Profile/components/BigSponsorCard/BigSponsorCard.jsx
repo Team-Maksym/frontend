@@ -14,22 +14,19 @@ import {
   Chip,
   Box,
 } from '@mui/material';
-import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
+import { Business, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 
-export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
+export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   let localAvatar = AvatarValidation(person.avatar);
 
   const icons = {
-    email: <Email />,
-    birthday: <Cake />,
-    education: <School />,
-    experience: <WorkHistory />,
+    company: <Business />,
   };
 
   const openDeleteModal = () => {
@@ -94,62 +91,36 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
                 <ListItemText primary={person[item] || '-'} />
               </ListItem>
             ))}
-            <ListItem disablePadding sx={{ m: '7px auto' }} key="positions">
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  flexWrap: 'wrap',
-                  listStyle: 'none',
-                  p: 0.5,
-                  m: 0,
-                }}
-              >
-                {person.positions.map((position) => (
-                  <Chip
-                    key={position}
-                    label={position}
-                    sx={{
-                      bgcolor: 'secondary.main',
-                      color: 'neutral.white',
-                      fontSize: '14px',
-                      m: 1,
-                      p: 1,
-                    }}
-                  />
-                ))}
-              </Box>
-            </ListItem>
           </List>
           </CardContent>
           </Box>
         {actionsAccess && (
           <>
-            <CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between'}}>
-              <Tooltip title="Delete" placement="top">
-                <IconButton onClick={openDeleteModal}>
-                  <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Edit" placement="top">
-                <IconButton onClick={openEditModal}>
-                  <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-                </IconButton>
-              </Tooltip>
-            </CardActions>
+            {/*<CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between'}}>*/}
+            {/*  <Tooltip title="Delete" placement="top">*/}
+            {/*    <IconButton onClick={openDeleteModal}>*/}
+            {/*      <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />*/}
+            {/*    </IconButton>*/}
+            {/*  </Tooltip>*/}
+            {/*  <Tooltip title="Edit" placement="top">*/}
+            {/*    <IconButton onClick={openEditModal}>*/}
+            {/*      <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />*/}
+            {/*    </IconButton>*/}
+            {/*  </Tooltip>*/}
+            {/*</CardActions>*/}
 
-            <DeleteAccountModal
-              open={isDeleteModalOpen}
-              onClose={handleCloseDeleteModal}
-              personId={person.id}
-              setPerson={setPerson}
-            />
-            <EditProfileModal
-              open={isEditModalOpen}
-              onClose={handleCloseEditModal}
-              person={person}
-              setPerson={setPerson}
-            />
+            {/*<DeleteAccountModal*/}
+            {/*  open={isDeleteModalOpen}*/}
+            {/*  onClose={handleCloseDeleteModal}*/}
+            {/*  personId={person.id}*/}
+            {/*  setPerson={setPerson}*/}
+            {/*/>*/}
+            {/*<EditProfileModal*/}
+            {/*  open={isEditModalOpen}*/}
+            {/*  onClose={handleCloseEditModal}*/}
+            {/*  person={person}*/}
+            {/*  setPerson={setPerson}*/}
+            {/*/>*/}
           </>
         )}
       </Card>

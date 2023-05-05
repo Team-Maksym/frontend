@@ -12,7 +12,7 @@ export const TypeField = (props) => {
     },
   ];
   return (
-    <TextField select label="Choose your way" defaultValue="talent" {...props}>
+    <TextField select label="Choose your way" {...props}>
       {types.map((option) => (
         <MenuItem key={option.value} value={option.value}>
           {option.label}

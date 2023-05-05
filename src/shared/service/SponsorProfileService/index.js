@@ -1,10 +1,3 @@
 export {
-  getAllTalents,
-  getOneTalent,
-  deleteTalent,
-  getOneTalentProofs,
-  patchTalentProfile,
-  deleteProof,
-  addTalentProof,
-  editTalentProof,
+  getOneSponsor,
 } from './SponsorProfileService';

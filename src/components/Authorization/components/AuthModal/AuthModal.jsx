@@ -8,13 +8,13 @@ import { Form } from '../../../../shared/components/Form';
 import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
 import { Alert, Button, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { PersonContext } from '../../../../shared/context/PersonContext';
 import { TypeField } from '../../../../shared/components/Fields/TypeField';
 
-export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
+export const AuthModal = ({ open, onClose, type, authorizePerson }) => {
   const [error, setError] = useState('');
   const [loadingProgress, setLoadingProgress] = useState(false);
-  const { talent } = useContext(TalentContext);
+  const { person } = useContext(PersonContext);
   const navigate = useNavigate();
 
   const getSubmitHandler = (action) => {
@@ -22,10 +22,10 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
       try {
         setError(() => null);
         setLoadingProgress(() => true);
-        const response = await action(values);
-        authorizeTalent(response.type);
+        await action(values);
+        authorizePerson();
         onClose();
-        navigate(`/profile/${talent.id}`);
+        navigate(`/profile/${person.id}`);
       } catch (error) {
         if (error.response.status === 401) {
           setError(() => 'Wrong email or password');
@@ -54,7 +54,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
       initialValues: {
         email: '',
         password: '',
-        type: '',
+        type: 'talents',
       },
       validationSchema: yup.object({
         email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
@@ -76,7 +76,7 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
         full_name: '',
         email: '',
         password: '',
-        type: '',
+        type: 'talents',
       },
       validationSchema: yup.object({
         full_name: yup

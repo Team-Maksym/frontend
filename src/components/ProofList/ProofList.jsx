@@ -10,7 +10,7 @@ import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Kudos } from '../Profile/components/ProofMenu/Kudos';
-import { TalentContext } from '../../shared/context/TalentContext';
+import { PersonContext } from '../../shared/context/PersonContext';
 import { PreLoader } from '../PreLoader';
 export const ProofList = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const ProofList = () => {
   const [sort, setSort] = useState(query.get('sort') || true);
   const [proofs, setProofs] = useState([]);
   const [expanded, setExpanded] = useState(false);
-  const { talent } = useContext(TalentContext);
+  const { person } = useContext(PersonContext);
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -54,7 +54,7 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
-              <Kudos proofId={item.id} isKudosBtnShowing={!!talent} />
+              <Kudos proofId={item.id} isKudosBtnShowing={!!person} />
             </Stack>
           </AccordionSummary>
           <ProofDescription description={item.description} />

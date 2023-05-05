@@ -1,5 +1,5 @@
 import { Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
-import { deleteProof } from '../../../../../../shared/service/ProfileService';
+import { deleteProof } from '../../../../../../shared/service/TalentProfileService';
 import { useContext } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 

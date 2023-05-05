@@ -2,17 +2,17 @@ import { Tabs, Tab, Button, Tooltip } from '@mui/material';
 import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { PersonContext } from '../../../../shared/context/PersonContext';
 import { UnauthorizedNavbar } from '../UnauthorizedNavbar';
 
 export const Navbar = () => {
   const [value, setValue] = useState('one');
-  const { openAuthModal, talent, signOut } = useContext(TalentContext);
+  const { openAuthModal, person, signOut } = useContext(PersonContext);
 
   useEffect(() => {
     const currentUrl = window.location.href;
-    if (talent) {
-      if (currentUrl.includes(`/profile/${talent.id}`)) {
+    if (person) {
+      if (currentUrl.includes(`/profile/${person.id}`)) {
         setValue('two');
       } else if (currentUrl.includes('/proofList')) {
         setValue('three');
@@ -28,11 +28,11 @@ export const Navbar = () => {
 
   return (
     <>
-      {talent ? (
+      {person ? (
         <>
           <Tabs value={value} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
             <Tab value="one" label="Home" component={Link} to="/" />
-            <Tab value="two" label="Profile" component={Link} to={`/profile/${talent.id}`} />
+            <Tab value="two" label="Profile" component={Link} to={`/profile/${person.id}`} />
             <Tab value="three" label="Proof List" component={Link} to="/proofList" />
           </Tabs>
           <Tooltip title="Sign out">

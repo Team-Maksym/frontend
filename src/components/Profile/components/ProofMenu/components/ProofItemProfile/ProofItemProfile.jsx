@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
-import { editTalentProof } from '../../../../../../shared/service/ProfileService';
+import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
 import { useContext } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 

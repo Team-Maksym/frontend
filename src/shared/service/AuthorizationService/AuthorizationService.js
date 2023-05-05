@@ -1,9 +1,14 @@
 import { publicAxiosInstance } from '../api';
 import jwt_decode from 'jwt-decode';
 
-export const getCurrentTalentId = () => {
+export const getCurrentPersonId = () => {
   const token = localStorage.getItem('token');
   return token && jwt_decode(token).sub;
+};
+
+export const getCurrentPersonRole = () => {
+  const token = localStorage.getItem('token');
+  return token && jwt_decode(token).scope;
 };
 
 export const signUp = async ({ type, ...person }) => {
@@ -11,7 +16,6 @@ export const signUp = async ({ type, ...person }) => {
   if (response.data.token) {
     localStorage.setItem('token', response.data.token);
   }
-  return {data: response.data, type: type};
 };
 
 export const signIn = async ({ type, ...person }) => {
@@ -30,6 +34,5 @@ export const signIn = async ({ type, ...person }) => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
       }
-      return {data: response.data, type: type};
     });
 };

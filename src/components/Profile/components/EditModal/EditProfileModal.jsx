@@ -5,14 +5,14 @@ import { BirthdayField } from '../../../../shared/components/Fields/AgeField';
 import { AvatarLinkField } from '../../../../shared/components/Fields/AvatarLinkField';
 import { EducationField } from '../../../../shared/components/Fields/EducationField';
 import { ExperienceField } from '../../../../shared/components/Fields/ExperienceField';
-import { patchTalentProfile } from '../../../../shared/service/ProfileService';
-import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
+import { patchTalentProfile } from '../../../../shared/service/TalentProfileService';
+import { getCurrentPersonId } from '../../../../shared/service/AuthorizationService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 
 export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
   const onEditProfileHandler = (action) => {
-    let talentId = getCurrentTalentId();
+    let talentId = getCurrentPersonId();
     return async (values) => {
       values = handleSubmitPositions(values);
       const talentNewProfile = {};
