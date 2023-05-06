@@ -12,7 +12,11 @@ export const Navbar = () => {
   useEffect(() => {
     const currentUrl = window.location.href;
     if (person) {
-      if (currentUrl.includes(`/profile/${person.id}`)) {
+      const personIdString = person.id.toString();
+      const urlParts = currentUrl.split('/');
+      const urlPersonId = urlParts[urlParts.length - 1];
+
+      if (urlPersonId === personIdString) {
         setValue('two');
       } else if (currentUrl.includes('/proofList')) {
         setValue('three');
