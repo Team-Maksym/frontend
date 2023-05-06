@@ -23,14 +23,13 @@ export const Banner = () => {
       sx={{
         height: '100vh',
         background: 'url(static/bg.png) no-repeat center',
-        // backgroundSize: 'contain',
         display: 'flex',
         justifyContent: 'space-around',
         alignItems: 'center',
       }}
     >
       <Card sx={{ maxWidth: 750, bgcolor: 'rgba(34, 40, 49, 0.65)', backdropFilter: 'blur(5px)' }}>
-        <CardActionArea sx={{ p: '25px' }}>
+        <CardActionArea sx={{ p: { xs: '10px', sm: '15px', md: '25px' } }}>
           <CardContent>
             <Typography variant="h2" align="center" color="neutral.white" gutterBottom sx={{ fontWeight: 'bold' }}>
               WELCOME!
@@ -54,7 +53,7 @@ export const Banner = () => {
               </Typography>{' '}
               that blinds with its purity.
             </Typography>
-            <Box style={{ display: 'flex', flexDirection: 'column', margin: '30px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', m: { xs: '10px', sm: '15px', md: '30px' } }}>
               <Typography variant="h3" align="center" color="neutral.white" gutterBottom>
                 Do you wanna be a StarLight?
               </Typography>
@@ -62,7 +61,7 @@ export const Banner = () => {
                 onClick={() => openAuthModal('signUp')}
                 color={'secondary'}
                 variant="contained"
-                sx={{ p: '20px', m: '0 50px' }}
+                sx={{ p: { xs: '10px', sm: '15px', md: '20px' }, m: { xs: '0 auto', md: '0 50px' } }}
               >
                 <Typography variant="h5"> SIGN UP</Typography>
               </Button>

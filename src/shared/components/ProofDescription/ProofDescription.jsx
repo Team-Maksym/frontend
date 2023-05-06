@@ -23,7 +23,15 @@ export const ProofDescription = ({ description, link }) => {
       <Typography>{description.join(' ')}</Typography>
       <Box sx={{ display: 'flex', justifyContent: 'left', mt: '15px' }}>
         {link && (
-          <Button variant="contained" sx={{ bgcolor: 'secondary.main' }}>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: 'secondary.main',
+              ':hover': {
+                bgcolor: 'primary.main',
+              },
+            }}
+          >
             <Link
               sx={{
                 color: 'neutral.white',

@@ -26,8 +26,8 @@ export const TalentList = () => {
   });
 
   return (
-    <Box id="TalentList" sx={{ flexGrow: 1, m: '25px auto', p: '0 25px' }}>
-      <Grid container spacing={3} columns={5} sx={{ alignItems: 'stretch' }}>
+    <Box id="TalentList" sx={{ flexGrow: 1, m: '25px auto', p: { xs: '0 10px', md: '0 25px' } }}>
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 3, md: 5 }} sx={{ alignItems: 'stretch' }}>
         {!loading ? items : <PreLoaderUser />}
       </Grid>
       <PaginationCustom size={10} setHook={setTalents} queryFunction={getAllTalents} setLoading={setLoading} />
