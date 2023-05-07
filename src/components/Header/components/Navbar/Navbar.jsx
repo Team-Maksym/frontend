@@ -56,7 +56,7 @@ export const Navbar = () => {
               />
             </Button>
           </Tooltip>
-          <DrawerComp talent={talent} signOut={signOut} />
+          <DrawerComp person={person} signOut={signOut} />
         </>
       ) : (
         <UnauthorizedNavbar openAuthModal={openAuthModal} value={value} handleChange={handleChange} />

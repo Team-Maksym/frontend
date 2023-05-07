@@ -3,7 +3,7 @@ import { Drawer, Box, IconButton, Tab, List, ListItem, Button } from '@mui/mater
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
-export const DrawerComp = ({ talent, signOut }) => {
+export const DrawerComp = ({ person, signOut }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -15,7 +15,7 @@ export const DrawerComp = ({ talent, signOut }) => {
               <Tab value="one" label="Home" component={Link} to="/" />
             </ListItem>
             <ListItem>
-              <Tab value="two" label="Profile" component={Link} to={`/profile/${talent.id}`} />
+              <Tab value="two" label="Profile" component={Link} to={`/profile/${person.id}`} />
             </ListItem>
             <ListItem>
               <Tab value="three" label="Proof List" component={Link} to="/proofList" />
