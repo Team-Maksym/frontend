@@ -29,7 +29,7 @@ export const TabItem = ({ value, index, type }) => {
                   aria-controls={`panel${i}bh-content`}
                   id={`panel${i}bh-header`}
                 >
-                  <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
+                  <Stack spacing={2} sx={{ display: 'block', width: '100%' }}>
                     <ProofItem
                       description={item.description}
                       children={actionsAccess && <ProofItemProfile val={value} id={item.id} status={drafted} />}

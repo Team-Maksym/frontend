@@ -72,7 +72,14 @@ export const Profile = ({ isPersonDataLoaded }) => {
     <>
       {currentPerson ? (
         <Wrapper>
-          <Box sx={{ display: 'flex' }} minHeight={'90vh'} maxHeight={'90vh'}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', lg: 'row' },
+              minHeight: '90vh',
+              maxHeight: { lg: '90vh' },
+            }}
+          >
             {personProfile ? (
               <>
                 {id === currentPerson.id && personRole === 'ROLE_SPONSOR' ? (

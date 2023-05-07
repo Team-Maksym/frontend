@@ -10,7 +10,7 @@ import { getCurrentPersonId } from '../../../../shared/service/AuthorizationServ
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 
-export const EditProfileModal = ({ open, onClose, person: talent, setTalent }) => {
+export const EditProfileModal = ({ open, onClose, person: talent, setPerson: setTalent }) => {
   const onEditProfileHandler = (action) => {
     let talentId = getCurrentPersonId();
     return async (values) => {
