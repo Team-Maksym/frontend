@@ -46,7 +46,14 @@ export const Profile = ({ isTalentDataLoaded }) => {
     <>
       {currentTalent ? (
         <Wrapper>
-          <Box sx={{ display: 'flex' }} minHeight={'90vh'} maxHeight={'90vh'}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', lg: 'row' },
+              minHeight: '90vh',
+              maxHeight: { lg: '90vh' },
+            }}
+          >
             {talentProfile ? (
               <>
                 <BigTalentCard
@@ -54,10 +61,7 @@ export const Profile = ({ isTalentDataLoaded }) => {
                   setTalent={setTalentProfile}
                   actionsAccess={talentProfile.id === currentTalent.id}
                 />
-                <ProofMenu
-                  actionsAccess={talentProfile.id === currentTalent.id}
-                  talentId={talentProfile.id}           
-                />
+                <ProofMenu actionsAccess={talentProfile.id === currentTalent.id} talentId={talentProfile.id} />
               </>
             ) : (
               <PreLoader />
@@ -70,4 +74,3 @@ export const Profile = ({ isTalentDataLoaded }) => {
     </>
   );
 };
-

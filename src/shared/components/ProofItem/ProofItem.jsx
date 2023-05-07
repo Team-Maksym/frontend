@@ -5,9 +5,11 @@ export const ProofItem = ({ children, description }) => {
     <Stack
       sx={{
         display: 'flex',
-        alignItems: 'center',
+        alignItems: { md: 'center' },
         justifyContent: 'space-between',
-        flexDirection: 'row',
+        flexDirection: { xs: 'column', md: 'row' },
+        p: '10px 10px 0 0',
+        width: '100%',
       }}
     >
       <Typography>{description.length > 50 ? description.substring(0, 50) + '...' : description}</Typography>
