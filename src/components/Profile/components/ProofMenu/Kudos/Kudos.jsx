@@ -5,7 +5,6 @@ import { getKudos, postKudos } from '../../../../../shared/service/KudosService/
 
 export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   const [kudos, setKudos] = useState(null);
-  const [isKudasPlaced, setIsKudasPlaced] = useState(false);
 
   useEffect(() => {
     getKudos(proofId).then((kudos) => {
@@ -14,21 +13,20 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   }, [proofId]);
 
   const onClickHandler = () => {
-    const newKudos = kudos.kudos_on_proof + 1;
-    console.log(newKudos);
-    postKudos(proofId, newKudos).then(
-      (kudos) => {
-        console.log("kudos", kudos);
-        // setKudos((prevState) => ({ kudos: { ...prevState.kudos, kudos_on_proof: prevState.kudos_on_proof + 1 } }));
-      },
-      (error) => {
-        if (error.response.status === 409) {
-          setIsKudasPlaced(() => true);
-        } else {
-          throw error;
-        }
-      },
-    );
+    postKudos(proofId, 1).catch(error => console.log(error))
+    // .then(
+    //   (kudos) => {
+    //     console.log("kudos", kudos);
+    //     // setKudos((prevState) => ({ kudos: { ...prevState.kudos, kudos_on_proof: prevState.kudos_on_proof + 1 } }));
+    //   },
+    //   (error) => {
+    //     if (error.response.status === 409) {
+    //       setIsKudasPlaced(() => true);
+    //     } else {
+    //       throw error;
+    //     }
+    //   },
+    // );
   };
 
   return (
@@ -36,7 +34,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       disabled={!isKudosBtnShowing}
       icon={
         <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} onClick={onClickHandler} sx={{ p: 0 }}>
-          <Star sx={{ fontSize: 28, color: isKudosBtnShowing ? 'secondary.main' : 'neutral.white' }} />
+          <Star sx={{ fontSize: 28, color: kudos?.is_kudosed ? 'secondary.main' : 'neutral.white' }} />
         </IconButton>
       }
       label={kudos !== null ? kudos.kudos_on_proof : ''}
