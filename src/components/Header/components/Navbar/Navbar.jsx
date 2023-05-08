@@ -34,6 +34,7 @@ export const Navbar = () => {
     <>
       {person ? (
         <>
+          <div> {person.unused_kudos} </div>
           <Tabs
             sx={{ display: { xs: 'none', md: 'flex' } }}
             value={value}
