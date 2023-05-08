@@ -5,8 +5,6 @@ export const getKudos = async (proofId) => {
 };
 
 export const postKudos = async (proofId, kudos) => {
-  return await protectedAxiosInstance
-    .post(`proofs/${proofId}/kudos${kudos ? `?kudos=${kudos}` : ''}`)
-    .then((response) => response.data);
+  return await protectedAxiosInstance.post(`proofs/${proofId}/kudos?kudos=${kudos}`).then((response) => response.data);
 };
 

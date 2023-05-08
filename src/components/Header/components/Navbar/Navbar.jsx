@@ -34,7 +34,11 @@ export const Navbar = () => {
     <>
       {person ? (
         <>
+<<<<<<< HEAD
           <div> {person.unused_kudos} </div>
+=======
+          <div> {person.unused_kudos}</div>
+>>>>>>> 3.2.2
           <Tabs
             sx={{ display: { xs: 'none', md: 'flex' } }}
             value={value}
