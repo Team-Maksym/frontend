@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Chip, IconButton } from '@mui/material';
 import { Star } from '@mui/icons-material';
-import { getKudos, postKudos } from '../../../../../shared/service/KudosService/KudosService';
+import { getKudos } from '../../../../../shared/service/KudosService/KudosService';
 import { KudosGiveModal } from './components/KudosGiveModal';
 
 export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
@@ -16,13 +16,6 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
     setClickedKudos(false);
   }, [proofId, clickedKudos]);
 
-  const onClickHandler = () => {
-    postKudos(proofId, 1)
-      .then(() => setClickedKudos(true))
-      .catch((error) => console.log(error));
-  };
-
-  console.log(kudos);
 
   const message = (kudos) => {
     if (kudos.kudos_on_proof && kudos.kudos_from_me) {
@@ -43,7 +36,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       <Chip
         disabled={!isKudosBtnShowing}
         icon={
-          <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} onClick={onClickHandler} sx={{ p: 0 }}>
+          <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} x={{ p: 0 }}>
             <Star sx={{ fontSize: 28, color: kudos?.is_kudosed ? 'secondary.main' : 'neutral.white' }} />
           </IconButton>
         }
@@ -59,7 +52,12 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
           setOpenModal(true);
         }}
       />
-      <KudosGiveModal openModal={openModal} setOpenModal={setOpenModal} />
+      <KudosGiveModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        setClickedKudos={setClickedKudos}
+        proofId={proofId}
+      />
     </>
   );
 };
