@@ -88,7 +88,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.3, mt: 1 }}>
           <Star sx={{ color: 'action.active', mr: 1, my: 0.5, mt: 2 }} />
           <TextField
-            error={error}
+            error={!!error}
             id="input-with-sx"
             label="Enter amount of stars"
             variant="standard"
@@ -98,7 +98,6 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
         </Box>
         {increaseSuccess && loading && (
           <Alert
-            isVisible={loading}
             variant="outlined"
             icon={<Check fontSize="inherit" />}
             severity="success"
