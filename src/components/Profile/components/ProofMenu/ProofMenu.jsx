@@ -122,34 +122,34 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
               onClick={() => getProofsByStatus('PUBLISHED', setPublished, 0)}
             />
             {actionsAccess && (
-              <>
-                <Tab
-                  label="Draft"
-                  sx={{ color: 'neutral.white' }}
-                  value={1}
-                  component={Link}
-                  to={`/profile/${talentId}?status=draft`}
-                  onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
-                />
-
-                <Tab
-                  label="Hidden"
-                  sx={{ color: 'neutral.white' }}
-                  value={2}
-                  component={Link}
-                  to={`/profile/${talentId}?status=hidden`}
-                  onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
-                />
-
-                <Fab
-                  onClick={openNewProofModal}
-                  color="secondary"
-                  aria-label="add"
-                  sx={{ top: '0', right: '15px', position: 'absolute', width: '45px', height: '45px' }}
-                >
-                  <AddIcon />
-                </Fab>
-              </>
+              <Tab
+                label="Draft"
+                sx={{ color: 'neutral.white' }}
+                value={1}
+                component={Link}
+                to={`/profile/${talentId}?status=draft`}
+                onClick={() => getProofsByStatus('DRAFT', setDrafted, 1)}
+              />
+            )}
+            {actionsAccess && (
+              <Tab
+                label="Hidden"
+                sx={{ color: 'neutral.white' }}
+                value={2}
+                component={Link}
+                to={`/profile/${talentId}?status=hidden`}
+                onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
+              />
+            )}
+            {actionsAccess && (
+              <Fab
+                onClick={openNewProofModal}
+                color="secondary"
+                aria-label="add"
+                sx={{ top: '0', right: '15px', position: 'absolute', width: '45px', height: '45px' }}
+              >
+                <AddIcon />
+              </Fab>
             )}
           </Tabs>
         </Box>
