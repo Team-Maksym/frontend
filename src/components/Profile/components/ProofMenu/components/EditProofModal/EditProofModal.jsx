@@ -1,12 +1,12 @@
 import * as yup from 'yup';
 import { Form } from '../../../../../../shared/components/Form';
-import { getCurrentTalentId } from '../../../../../../shared/service/AuthorizationService';
+import { getCurrentPersonId } from '../../../../../../shared/service/AuthorizationService';
 import { ProofTextField } from '../../../../../../shared/components/Fields/ProofTextField';
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
-import { editTalentProof } from '../../../../../../shared/service/ProfileService';
+import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
 import { useContext } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 
@@ -15,7 +15,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
 
   const navigate = useNavigate();
   const onEditProofHandler = () => {
-    let talentId = getCurrentTalentId();
+    let talentId = getCurrentPersonId();
     return async (values) => {
       const newProof = {
         title: values.title,

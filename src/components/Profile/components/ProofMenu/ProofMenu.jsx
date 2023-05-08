@@ -8,7 +8,7 @@ import { NewProofModal } from './components/NewProofModal';
 import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
-import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
+import { getOneTalentProofs } from '../../../../shared/service/TalentProfileService';
 import { ProofsOneTalentContext } from '../../../../shared/context';
 import { TabItem } from './components/TabItem';
 

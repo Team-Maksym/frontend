@@ -19,11 +19,11 @@ import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 
-export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
+export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  let localAvatar = AvatarValidation(talent.avatar);
+  let localAvatar = AvatarValidation(person.avatar);
 
   const icons = {
     email: <Email />,
@@ -74,7 +74,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
         >
           <Box>
             <Avatar
-              alt={talent.full_name.trim().charAt(0).toUpperCase() + talent.full_name.trim().slice(1)}
+              alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
               src={localAvatar || `${localAvatar}`}
               sx={{
                 bgcolor: 'secondary.main',
@@ -86,7 +86,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
               }}
             />
             <Typography variant="h5" component="div">
-              {talent.full_name}
+              {person.full_name}
             </Typography>
           </Box>
 
@@ -102,7 +102,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
                   >
                     {icons[item]}
                   </ListItemIcon>
-                  <ListItemText primary={talent[item] || '-'} />
+                  <ListItemText primary={person[item] || '-'} />
                 </ListItem>
               ))}
               <ListItem disablePadding sx={{ m: '7px auto' }} key="positions">
@@ -116,7 +116,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
                     m: 0,
                   }}
                 >
-                  {talent.positions.map((position) => (
+                  {person.positions.map((position) => (
                     <Chip
                       key={position}
                       label={position}
@@ -152,14 +152,14 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
             <DeleteAccountModal
               open={isDeleteModalOpen}
               onClose={handleCloseDeleteModal}
-              talentId={talent.id}
-              setTalent={setTalent}
+              personId={person.id}
+              setPerson={setPerson}
             />
             <EditProfileModal
               open={isEditModalOpen}
               onClose={handleCloseEditModal}
-              talent={talent}
-              setTalent={setTalent}
+              person={person}
+              setPerson={setPerson}
             />
           </>
         )}
