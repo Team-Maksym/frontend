@@ -16,7 +16,7 @@ export const Navbar = () => {
       const urlParts = currentUrl.split('/');
       const urlPersonId = urlParts[urlParts.length - 1];
 
-      if (urlPersonId === personIdString) {
+      if (urlPersonId.includes(personIdString)) {
         setValue('two');
       } else if (currentUrl.includes('/proofList')) {
         setValue('three');
@@ -34,6 +34,7 @@ export const Navbar = () => {
     <>
       {person ? (
         <>
+          <div> {person.unused_kudos}</div>
           <Tabs
             sx={{ display: { xs: 'none', md: 'flex' } }}
             value={value}

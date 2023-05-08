@@ -13,27 +13,31 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   }, [proofId]);
 
   const onClickHandler = () => {
-    postKudos(proofId).then(
-      () => {
-        setKudos((prev) => prev + 1);
-      },
-      (error) => {
-        if (error.response.status !== 409) {
-          throw error;
-        }
-      },
-    );
+    postKudos(proofId, 1).catch(error => console.log(error))
+    // .then(
+    //   (kudos) => {
+    //     console.log("kudos", kudos);
+    //     // setKudos((prevState) => ({ kudos: { ...prevState.kudos, kudos_on_proof: prevState.kudos_on_proof + 1 } }));
+    //   },
+    //   (error) => {
+    //     if (error.response.status === 409) {
+    //       setIsKudasPlaced(() => true);
+    //     } else {
+    //       throw error;
+    //     }
+    //   },
+    // );
   };
 
   return (
     <Chip
       disabled={!isKudosBtnShowing}
       icon={
-        <IconButton aria-label={kudos} onClick={onClickHandler} sx={{ p: 0 }}>
-          <Star sx={{ fontSize: 28, color: isKudosBtnShowing ? 'secondary.main' : 'neutral.white' }} />
+        <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} onClick={onClickHandler} sx={{ p: 0 }}>
+          <Star sx={{ fontSize: 28, color: kudos?.is_kudosed ? 'secondary.main' : 'neutral.white' }} />
         </IconButton>
       }
-      label={kudos !== null ? kudos : ''}
+      label={kudos !== null ? kudos.kudos_on_proof : ''}
       sx={{
         bgcolor: 'neutral.whiteGrey',
         color: 'neutral.white',
