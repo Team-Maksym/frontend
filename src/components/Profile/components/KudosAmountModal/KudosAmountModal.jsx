@@ -1,5 +1,4 @@
-import { AccountBalance, Close, Star, Wallet } from '@mui/icons-material';
-import { Form } from '../../../../shared/components/Form';
+import { Check, Close, Star, Wallet } from '@mui/icons-material';
 import {
   Button,
   Dialog,
@@ -11,28 +10,47 @@ import {
   TextField,
   DialogActions,
   IconButton,
+  Alert,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getOneSponsor, patchSponsor } from '../../../../shared/service/SponsorProfileService';
 
-export const KudosAmountModal = ({ open, onClose }) => {
+export const KudosAmountModal = ({ open, onClose, person }) => {
   const [kudosAmount, setKudosAmount] = useState(null);
   const [newKudosAmount, setNewKudosAmount] = useState(null);
+  const [error, setError] = useState('');
+  const [increaseSuccess, setIncreaseSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   getKudos(personId).then((kudos) => {
-  //     setKudosAmount(() => kudos);
-  //   });
-  // }, [personId]);
+  useEffect(() => {
+    getOneSponsor(person.id).then((person) => {
+      setKudosAmount(() => person.unused_kudos);
+    });
+  }, [person.id]);
 
   const onIncreaseKudosAmount = () => {
-    // postKudos(personId, newKudosAmount).then(
-    //   (kudos) => {
-    //     setKudosAmount(() => kudos);
-    //   },
-    //   (error) => {
-    //     console.log("error");
-    //   },
-    // );
+    person.unused_kudos = +newKudosAmount;
+    patchSponsor(person.id, person).then(
+      (person) => {
+        setKudosAmount(() => person.unused_kudos);
+        setLoading(() => true);
+        setTimeout(() => setLoading(() => false), 2000);
+        setIncreaseSuccess(() => true);
+      },
+      (error) => {
+        console.log('error');
+      },
+    );
+  };
+
+  const onValueChange = (e) => {
+    if (e.target.value > 0) {
+      setNewKudosAmount(e.target.value);
+      setError(() => '');
+    } else {
+      setNewKudosAmount(e.target.value);
+      setError(() => 'Number cannot be 0 or negative');
+    }
   };
 
   return (
@@ -67,15 +85,28 @@ export const KudosAmountModal = ({ open, onClose }) => {
           </Box>
         </Box>
         <Divider />
-        <Box sx={{ display: 'flex', alignItems: 'flex-end', ml: 0.3, mt: 1 }}>
-          <Star sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.3, mt: 1 }}>
+          <Star sx={{ color: 'action.active', mr: 1, my: 0.5, mt: 2 }} />
           <TextField
+            error={error}
             id="input-with-sx"
             label="Enter amount of stars"
             variant="standard"
-            onClick={(e) => setNewKudosAmount(e.target.value)}
+            onChange={onValueChange}
+            helperText={error && 'Incorrect value'}
           />
         </Box>
+        {increaseSuccess && loading && (
+          <Alert
+            isVisible={loading}
+            variant="outlined"
+            icon={<Check fontSize="inherit" />}
+            severity="success"
+            sx={{ mt: 2 }}
+          >
+            Operation completed successfully!
+          </Alert>
+        )}
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center', m: 1 }}>
         <Button variant="contained" color="secondary" onClick={onIncreaseKudosAmount}>

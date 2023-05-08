@@ -1,3 +1,2 @@
-export {
-  getOneSponsor,
-} from './SponsorProfileService';
+export { getOneSponsor, patchSponsor } from './SponsorProfileService';
+

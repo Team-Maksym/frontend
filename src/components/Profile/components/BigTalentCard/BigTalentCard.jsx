@@ -24,7 +24,6 @@ import { KudosAmountModal } from '../KudosAmountModal';
 export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isKudosAmountModalOpen, setIsKudosAmountModalOpen] = useState(false);
 
   let localAvatar = AvatarValidation(person.avatar);
 
@@ -49,14 +48,6 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
 
   const handleCloseEditModal = () => {
     setIsEditModalOpen(() => false);
-  };
-
-  const openKudosAmountModal = () => {
-    setIsKudosAmountModalOpen(() => true);
-  };
-
-  const handleCloseKudosAmountModal = () => {
-    setIsKudosAmountModalOpen(() => false);
   };
 
   return (
@@ -143,11 +134,6 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
                 </Box>
               </ListItem>
             </List>
-            {actionsAccess && (
-              <Button variant="contained" color="secondary" onClick={openKudosAmountModal}>
-                Add balance
-              </Button>
-            )}
           </CardContent>
         </Box>
         {actionsAccess && (
@@ -177,7 +163,6 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
               person={person}
               setPerson={setPerson}
             />
-            <KudosAmountModal open={isKudosAmountModalOpen} onClose={handleCloseKudosAmountModal} />
           </>
         )}
       </Card>
