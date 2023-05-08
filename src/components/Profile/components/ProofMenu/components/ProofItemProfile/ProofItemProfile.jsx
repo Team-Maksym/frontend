@@ -1,19 +1,14 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
-import { editTalentProof } from '../../../../../../shared/service/ProfileService';
-export const ProofItemProfile = ({
-  val,
-  id,
-  setProofId,
-  setOpenDeleteModal,
-  setOpenEditModal,
-  status,
-  findProofInfo,
-  setProofInfo,
-  talentId,
-  setUpdated,
-}) => {
+import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
+import { useContext } from 'react';
+import { ProofsOneTalentContext } from '../../../../../../shared/context';
+
+export const ProofItemProfile = ({ val, id, status }) => {
+  const { setProofId, setOpenDeleteModal, setOpenEditModal, setProofInfo, talentId, setUpdated, findCurrentProofInfo } =
+    useContext(ProofsOneTalentContext);
+
   const changeStatus = (status) => {
     try {
       editTalentProof(talentId, id, { status: status });
@@ -29,7 +24,16 @@ export const ProofItemProfile = ({
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        mt: { xs: '10px', md: 0 },
+        pl: { md: '15px' },
+        ml: { md: 'auto' },
+        alignItems: 'center',
+        justifyContent: 'left',
+      }}
+    >
       {val !== 0 && (
         <Button
           variant="contained"
@@ -84,7 +88,7 @@ export const ProofItemProfile = ({
             onClick={() => {
               setOpenEditModal(true);
               setProofId(id);
-              setProofInfo(findProofInfo(id, status));
+              setProofInfo(findCurrentProofInfo(id, status));
             }}
             sx={{
               color: 'neutral.white',
@@ -99,4 +103,3 @@ export const ProofItemProfile = ({
     </Box>
   );
 };
-

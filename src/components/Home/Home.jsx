@@ -3,14 +3,14 @@ import { Wrapper } from '../Wrapper';
 import { TalentList } from './components/TalentList';
 import { Banner } from '../Wrapper/components/Banner';
 import { Box } from '@mui/material';
-import { TalentContext } from '../../shared/context/TalentContext';
+import { PersonContext } from '../../shared/context/PersonContext';
 
 export const Home = () => {
-  const { talent } = useContext(TalentContext);
+  const { person } = useContext(PersonContext);
   
   return (
     <>
-      {talent ? (
+      {person ? (
         <Box
           sx={{
             height: 70,

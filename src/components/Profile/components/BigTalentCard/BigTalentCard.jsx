@@ -21,12 +21,12 @@ import { EditProfileModal } from '../EditModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 import { KudosAmountModal } from '../KudosAmountModal';
 
-export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
+export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isKudosAmountModalOpen, setIsKudosAmountModalOpen] = useState(false);
 
-  let localAvatar = AvatarValidation(talent.avatar);
+  let localAvatar = AvatarValidation(person.avatar);
 
   const icons = {
     email: <Email />,
@@ -63,7 +63,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
     <>
       <Card
         sx={{
-          minWidth: 360,
+          minWidth: { xs: 290, lg: 360 },
           textAlign: 'center',
           mt: 7,
           p: 2,
@@ -73,25 +73,36 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          mx: '10px',
         }}
       >
-        <Box>
-          <Avatar
-            alt={talent.full_name.trim().charAt(0).toUpperCase() + talent.full_name.trim().slice(1)}
-            src={localAvatar || `${localAvatar}`}
-            sx={{
-              bgcolor: 'secondary.main',
-              width: '150px',
-              height: '150px',
-              m: '15px auto',
-              fontSize: '50px',
-            }}
-          />
-          <CardContent>
+        <Box
+          sx={{
+            display: { xs: 'grid', lg: 'flex' },
+            gridTemplateColumns: { xs: '1fr', sm: '200px 1fr', md: '350px 1fr' },
+            flexDirection: { lg: 'column' },
+          }}
+        >
+          <Box>
+            <Avatar
+              alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
+              src={localAvatar || `${localAvatar}`}
+              sx={{
+                bgcolor: 'secondary.main',
+                width: { xs: '150px', md: '300px', lg: '150px' },
+                height: { xs: '150px', md: '300px', lg: '150px' },
+                m: '15px auto',
+                mt: { sm: '5px' },
+                fontSize: '50px',
+              }}
+            />
             <Typography variant="h5" component="div">
-              {talent.full_name}
+              {person.full_name}
             </Typography>
-            <List>
+          </Box>
+
+          <CardContent sx={{ py: { sm: 0 } }}>
+            <List sx={{ pt: { sm: 0 } }}>
               {Object.keys(icons).map((item) => (
                 <ListItem disablePadding sx={{ m: '7px auto' }} key={item}>
                   <ListItemIcon
@@ -102,7 +113,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
                   >
                     {icons[item]}
                   </ListItemIcon>
-                  <ListItemText primary={talent[item] || '-'} />
+                  <ListItemText primary={person[item] || '-'} />
                 </ListItem>
               ))}
               <ListItem disablePadding sx={{ m: '7px auto' }} key="positions">
@@ -116,7 +127,7 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
                     m: 0,
                   }}
                 >
-                  {talent.positions.map((position) => (
+                  {person.positions.map((position) => (
                     <Chip
                       key={position}
                       label={position}
@@ -157,14 +168,14 @@ export const BigTalentCard = ({ talent, setTalent, actionsAccess }) => {
             <DeleteAccountModal
               open={isDeleteModalOpen}
               onClose={handleCloseDeleteModal}
-              talentId={talent.id}
-              setTalent={setTalent}
+              personId={person.id}
+              setPerson={setPerson}
             />
             <EditProfileModal
               open={isEditModalOpen}
               onClose={handleCloseEditModal}
-              talent={talent}
-              setTalent={setTalent}
+              person={person}
+              setPerson={setPerson}
             />
             <KudosAmountModal open={isKudosAmountModalOpen} onClose={handleCloseKudosAmountModal} />
           </>

@@ -8,12 +8,13 @@ import { Form } from '../../../../shared/components/Form';
 import { signIn, signUp } from '../../../../shared/service/AuthorizationService';
 import { Alert, Button, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { PersonContext } from '../../../../shared/context/PersonContext';
+import { TypeField } from '../../../../shared/components/Fields/TypeField';
 
-export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
+export const AuthModal = ({ open, onClose, type, authorizePerson }) => {
   const [error, setError] = useState('');
   const [loadingProgress, setLoadingProgress] = useState(false);
-  const { talent } = useContext(TalentContext);
+  const { person } = useContext(PersonContext);
   const navigate = useNavigate();
 
   const getSubmitHandler = (action) => {
@@ -22,9 +23,9 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
         setError(() => null);
         setLoadingProgress(() => true);
         await action(values);
-        authorizeTalent();
+        authorizePerson();
         onClose();
-        navigate(`/profile/${talent.id}`);
+        navigate(`/profile/${person.id}`);
       } catch (error) {
         if (error.response.status === 401) {
           setError(() => 'Wrong email or password');
@@ -53,14 +54,17 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
       initialValues: {
         email: '',
         password: '',
+        type: 'talents',
       },
       validationSchema: yup.object({
         email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
         password: yup.string('Enter your password').required('Password is required'),
+        type: yup.string(),
       }),
       fieldsRenderers: {
         email: EmailField,
         password: PasswordField,
+        type: TypeField,
       },
     },
     signUp: {
@@ -72,21 +76,22 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
         full_name: '',
         email: '',
         password: '',
+        type: 'talents',
       },
       validationSchema: yup.object({
         full_name: yup
-          .string('Enter your full name')
+          .string()
           .min(3, 'Full name must be more than 3 characters')
           .max(64, 'Full name must be less than 64 characters')
           .matches(/^[A-Za-z\s'-]+$/, 'Full name must not contain symbols or numbers')
           .required('Full name is required'),
         email: yup
-          .string('Enter your email')
+          .string()
           .email('Enter a valid email')
           .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Enter a valid email')
           .required('Email is required'),
         password: yup
-          .string('Enter your password')
+          .string()
           .min(8, 'Password must be more than 8 characters')
           .max(128, 'Password must not be more than 128 characters')
           .matches(
@@ -94,11 +99,14 @@ export const AuthModal = ({ open, onClose, type, authorizeTalent }) => {
             'Password must contain at least one uppercase letter, one lowercase letter, one number, and no spaces',
           )
           .required('Password is required'),
+        type: yup
+          .string(),
       }),
       fieldsRenderers: {
         full_name: FullNameField,
         email: EmailField,
         password: PasswordField,
+        type: TypeField,
       },
     },
   };

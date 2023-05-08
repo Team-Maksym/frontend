@@ -1,10 +1,10 @@
 import { Button, Container, Typography, Box, Card, CardContent } from '@mui/material';
 import { LockPerson } from '@mui/icons-material';
 import { useContext } from 'react';
-import { TalentContext } from '../../context/TalentContext';
+import { PersonContext } from '../../context/PersonContext';
 
 export const UnauthorizedPage = () => {
-  const { openAuthModal } = useContext(TalentContext);
+  const { openAuthModal } = useContext(PersonContext);
 
   return (
     <Container

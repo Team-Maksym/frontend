@@ -41,8 +41,6 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       }
       label={kudos !== null ? kudos.kudos_on_proof : ''}
       sx={{
-        display: 'flex',
-        alignItems: 'center',
         bgcolor: 'neutral.whiteGrey',
         color: 'neutral.white',
         p: 0,
@@ -52,4 +50,3 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
     />
   );
 };
-

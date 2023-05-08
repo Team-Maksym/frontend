@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { Form } from '../../../../../../shared/components/Form';
-import { addTalentProof } from '../../../../../../shared/service/ProfileService/ProfileService';
-import { getCurrentTalentId } from '../../../../../../shared/service/AuthorizationService';
+import { addTalentProof } from '../../../../../../shared/service/TalentProfileService/TalentProfileService';
+import { getCurrentPersonId } from '../../../../../../shared/service/AuthorizationService';
 import { ProofTextField } from '../../../../../../shared/components/Fields/ProofTextField';
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
 import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
@@ -12,7 +12,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
 
   const onAddProofHandler = () => {
-    let talentId = getCurrentTalentId();
+    let talentId = getCurrentPersonId();
     return async (values) => {
       const newProof = {
         title: values.title,

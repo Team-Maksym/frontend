@@ -1,16 +1,16 @@
 import Avatar from '@mui/material/Avatar';
 import { CardActionArea, Typography, CardContent, Card } from '@mui/material';
 import { useContext } from 'react';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { PersonContext } from '../../../../shared/context/PersonContext';
 
 import { useNavigate } from 'react-router-dom';
 
 export const SmallTalentCard = ({ id, talentName, position, avatar }) => {
-  const { talent, openAuthModal } = useContext(TalentContext);
+  const { person, openAuthModal } = useContext(PersonContext);
   const navigate = useNavigate();
 
   const onOpenProfileHandler = () => {
-    if (talent) {
+    if (person) {
       navigate(`profile/${id}`);
     } else {
       openAuthModal('signIn');
