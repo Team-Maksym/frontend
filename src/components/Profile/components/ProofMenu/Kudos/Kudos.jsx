@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Chip, IconButton } from '@mui/material';
+import { Chip, IconButton, Popover, Alert } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudos } from '../../../../../shared/service/KudosService/KudosService';
 import { KudosGiveModal } from './components/KudosGiveModal';
@@ -8,6 +8,17 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   const [kudos, setKudos] = useState(null);
   const [clickedKudos, setClickedKudos] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openPop, setOpenPop] = useState(null);
+
+  const handeOpenModal = (e) => {
+    if (!isKudosBtnShowing) {
+      setOpenPop(true);
+      setTimeout(() => setOpenPop(false), 3000);
+    } else {
+      e.stopPropagation();
+      setOpenModal(true);
+    }
+  };
 
   useEffect(() => {
     getKudos(proofId).then((kudos) => {
@@ -15,7 +26,6 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
     });
     setClickedKudos(false);
   }, [proofId, clickedKudos]);
-
 
   const message = (kudos) => {
     if (kudos.kudos_on_proof && kudos.kudos_from_me) {
@@ -34,9 +44,8 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   return (
     <>
       <Chip
-        disabled={!isKudosBtnShowing}
         icon={
-          <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} x={{ p: 0 }}>
+          <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} sx={{ p: 0 }}>
             <Star sx={{ fontSize: 28, color: kudos?.is_kudosed ? 'secondary.main' : 'neutral.white' }} />
           </IconButton>
         }
@@ -46,18 +55,34 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
           color: 'neutral.white',
           p: 0,
         }}
-        clickable={false}
-        onClick={(e) => {
-          e.stopPropagation();
-          setOpenModal(true);
-        }}
+        clickable={!!isKudosBtnShowing}
+        onClick={handeOpenModal}
       />
-      <KudosGiveModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        setClickedKudos={setClickedKudos}
-        proofId={proofId}
-      />
+
+      {!isKudosBtnShowing && (
+        <Popover
+          id={'talantPopUp'}
+          open={openPop}
+          onClose={() => setOpenPop(false)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+        >
+          <Alert sx={{ fontSize: '16px' }} severity="warning">
+            Only sponsors can donate stars to proofs!
+          </Alert>
+        </Popover>
+      )}
+
+      {!!isKudosBtnShowing && (
+        <KudosGiveModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          setClickedKudos={setClickedKudos}
+          proofId={proofId}
+        />
+      )}
     </>
   );
 };

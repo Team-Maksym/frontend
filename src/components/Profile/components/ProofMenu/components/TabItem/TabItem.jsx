@@ -9,12 +9,16 @@ import { ProofItem } from '../../../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../../../shared/components/ProofDescription';
 import { Kudos } from '../../Kudos';
 import { EmptyProofs } from '../EmptyProofs/EmptyProofs';
+import { getCurrentPersonRole } from '../../../../../../shared/service/AuthorizationService/AuthorizationService';
 
 export const TabItem = ({ value, index, type }) => {
   const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
+  const personRole = getCurrentPersonRole();
+
+  console.log(personRole);
 
   return (
-    <TabPanel value={value} index={index} >
+    <TabPanel value={value} index={index}>
       {type?.length ? (
         type.map((item, i) => {
           return (
@@ -34,7 +38,7 @@ export const TabItem = ({ value, index, type }) => {
                       description={item.description}
                       children={actionsAccess && <ProofItemProfile val={value} id={item.id} status={drafted} />}
                     />
-                    <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
+                    <Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_TALENT' ? false : true} />
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />
