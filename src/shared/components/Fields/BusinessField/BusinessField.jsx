@@ -1,15 +1,15 @@
 import { TextField, IconButton, InputAdornment } from '@mui/material';
-import { Person } from '@mui/icons-material';
+import { Business } from '@mui/icons-material';
 
-export const FullNameField = (props) => {
+export const BusinessField = (props) => {
   return (
     <TextField
-      label="Your full name"
+      label="Your business"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
             <IconButton disabled>
-              <Person />
+              <Business />
             </IconButton>
           </InputAdornment>
         ),

@@ -97,12 +97,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
           />
         </Box>
         {increaseSuccess && loading && (
-          <Alert
-            variant="outlined"
-            icon={<Check fontSize="inherit" />}
-            severity="success"
-            sx={{ mt: 2 }}
-          >
+          <Alert variant="outlined" icon={<Check fontSize="inherit" />} severity="success" sx={{ mt: 2 }}>
             Operation completed successfully!
           </Alert>
         )}
@@ -115,4 +110,3 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
     </Dialog>
   );
 };
-
