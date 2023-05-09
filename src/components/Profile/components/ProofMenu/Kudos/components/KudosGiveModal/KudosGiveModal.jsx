@@ -14,29 +14,18 @@ import {
   Alert,
   Slider,
 } from '@mui/material';
-import { useState, useContext, useEffect } from 'react';
-import { PersonContext } from '../../../../../../../shared/context';
+import { useState } from 'react';
 import { postKudos } from '../../../../../../../shared/service/KudosService/KudosService';
-import { getOneSponsor } from '../../../../../../../shared/service/SponsorProfileService';
 
 export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId, kudosAmount }) => {
-  const { person, setPerson } = useContext(PersonContext);
   const [donateSuccess, setDonateSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [donateAmount, setDonateAmount] = useState(0);
-  // const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
   const [error, setError] = useState('');
-
-  // useEffect(() => {
-  //   getOneSponsor(person.id).then((user) => {
-  //     setKudosAmount(user.unused_kudos);
-  //     // setPerson({ ...person, unused_kudos:user.unused_kudos });
-  //   });
-  // }, [person]);
 
   const donateKudos = (e) => {
     postKudos(proofId, donateAmount)
-      .then((i) => {
+      .then(() => {
         setClickedKudos(true);
         setLoading(() => true);
         setTimeout(() => setLoading(() => false), 2000);
