@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext} from 'react';
 import { Chip, IconButton, Popover, Alert } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudosProtected, getKudosPublic } from '../../../../../shared/service/KudosService/KudosService';
 import { KudosGiveModal } from './components/KudosGiveModal';
+import { getOneSponsor } from '../../../../../shared/service/SponsorProfileService';
+import { PersonContext } from '../../../../../shared/context';
+
 
 export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
+  const { person, setPerson } = useContext(PersonContext);
   const [kudos, setKudos] = useState(null);
   const [clickedKudos, setClickedKudos] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
 
   const handeOpenModal = (e) => {
     if (!!isKudosBtnShowing) {
@@ -26,13 +31,17 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       getKudosProtected(proofId).then((kudos) => {
         setKudos(() => kudos);
       });
+      getOneSponsor(person.id).then((user) => {
+        setKudosAmount(user.unused_kudos);
+        setPerson({ ...person, unused_kudos:user.unused_kudos });
+      });
     } else {
       getKudosPublic(proofId).then((kudos) => {
         setKudos(() => kudos);
       });
     }
     setClickedKudos(false);
-  }, [proofId, clickedKudos]);
+  }, [proofId, clickedKudos, person.unused_kudos]);
 
   const message = (kudos) => {
     if (!!isKudosBtnShowing) {
@@ -97,6 +106,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
           setOpenModal={setOpenModal}
           setClickedKudos={setClickedKudos}
           proofId={proofId}
+          kudosAmount={kudosAmount}
         />
       )}
     </>

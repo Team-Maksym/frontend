@@ -19,23 +19,24 @@ import { PersonContext } from '../../../../../../../shared/context';
 import { postKudos } from '../../../../../../../shared/service/KudosService/KudosService';
 import { getOneSponsor } from '../../../../../../../shared/service/SponsorProfileService';
 
-export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId }) => {
-  const { person } = useContext(PersonContext);
+export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId, kudosAmount }) => {
+  const { person, setPerson } = useContext(PersonContext);
   const [donateSuccess, setDonateSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [donateAmount, setDonateAmount] = useState(0);
-  const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
+  // const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    getOneSponsor(person.id).then((person) => {
-      setKudosAmount(() => person.unused_kudos);
-    });
-  }, [person.id]);
+  // useEffect(() => {
+  //   getOneSponsor(person.id).then((user) => {
+  //     setKudosAmount(user.unused_kudos);
+  //     // setPerson({ ...person, unused_kudos:user.unused_kudos });
+  //   });
+  // }, [person]);
 
   const donateKudos = (e) => {
     postKudos(proofId, donateAmount)
-      .then(() => {
+      .then((i) => {
         setClickedKudos(true);
         setLoading(() => true);
         setTimeout(() => setLoading(() => false), 2000);
@@ -43,7 +44,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
       })
       .catch((error) => {
         setError(`You don't have enough stars`);
-        console.log(error)
+        console.log(error);
       });
   };
 
@@ -136,7 +137,6 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
           color="secondary"
           onClick={() => {
             donateKudos();
-            setKudosAmount((oldAmount) => oldAmount - +donateAmount);
           }}
         >
           Donate
