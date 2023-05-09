@@ -14,9 +14,7 @@ import { getCurrentPersonRole } from '../../../../../../shared/service/Authoriza
 export const TabItem = ({ value, index, type }) => {
   const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
   const personRole = getCurrentPersonRole();
-
-  console.log(personRole);
-
+  
   return (
     <TabPanel value={value} index={index}>
       {type?.length ? (
@@ -38,7 +36,7 @@ export const TabItem = ({ value, index, type }) => {
                       description={item.description}
                       children={actionsAccess && <ProofItemProfile val={value} id={item.id} status={drafted} />}
                     />
-                    <Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_TALENT' ? false : true} />
+                    <Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />
