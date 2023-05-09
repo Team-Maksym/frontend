@@ -92,7 +92,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
         <Box sx={{ ml: 0.3, mt: 3 }}>
           <Slider
             aria-label="Temperature"
-            value={donateAmount > kudosAmount - (kudosAmount % 10) ? kudosAmount - (kudosAmount % 10) : donateAmount}
+            value={donateAmount}
             onChange={(e) => setDonateAmount(e.target.value)}
             valueLabelDisplay="auto"
             step={
@@ -102,7 +102,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
             }
             marks
             min={0}
-            max={kudosAmount - (kudosAmount % 10)}
+            max={kudosAmount}
           />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.3 }}>
@@ -115,6 +115,9 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
             variant="standard"
             onChange={onValueChange}
             helperText={error}
+            onFocus={(e) => {
+              e.stopPropagation();
+            }}
           />
         </Box>
         {donateSuccess && loading && (
