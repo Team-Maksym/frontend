@@ -14,9 +14,10 @@ import {
   Alert,
   Slider,
 } from '@mui/material';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { PersonContext } from '../../../../../../../shared/context';
 import { postKudos } from '../../../../../../../shared/service/KudosService/KudosService';
+import { getOneSponsor } from '../../../../../../../shared/service/SponsorProfileService';
 
 export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId }) => {
   const { person } = useContext(PersonContext);
@@ -24,6 +25,13 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
   const [loading, setLoading] = useState(false);
   const [donateAmount, setDonateAmount] = useState(null);
   const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    getOneSponsor(person.id).then((person) => {
+      setKudosAmount(() => person.unused_kudos);
+    });
+  }, [person.id]);
 
   const donateKudos = (e) => {
     postKudos(proofId, donateAmount)
@@ -33,8 +41,18 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
         setTimeout(() => setLoading(() => false), 2000);
         setDonateSuccess(() => true);
       })
-      .catch((error) => console.log(error));
-	};
+      .catch((error) => setError(`You don't have enough stars`));
+  };
+
+  const onValueChange = (e) => {
+    if (e.target.value > 0 && e.target.value < kudosAmount) {
+      setDonateAmount(e.target.value);
+      setError(() => null);
+    } else {
+      setDonateAmount(e.target.value);
+      setError(() => 'Number cannot be more then your stars amount or negative');
+    }
+  };
 
   return (
     <Dialog
@@ -45,6 +63,9 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
       fullWidth
       PaperProps={{
         sx: { borderRadius: 2, bgcolor: 'neutral.white', py: 2, color: 'neutral.whiteGrey' },
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -71,15 +92,13 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
         <Box sx={{ ml: 0.3, mt: 3 }}>
           <Slider
             aria-label="Temperature"
-            defaultValue={30}
-            onChange={(e) => {
-              setDonateAmount(e.target.value);
-            }}
+            value={donateAmount > kudosAmount - (kudosAmount % 10) ? kudosAmount - (kudosAmount % 10) : donateAmount}
+            onChange={(e) => setDonateAmount(e.target.value)}
             valueLabelDisplay="auto"
             step={
-              ('' + kudosAmount)[0] > 5
-                ? +('10e' + (('' + kudosAmount).length - 3))
-                : +('10e' + (('' + kudosAmount).length - 2))
+              ('' + +kudosAmount)[0] > 5
+                ? +('10e' + (('' + kudosAmount).length - 2))
+                : +('10e' + (('' + kudosAmount).length - 3))
             }
             marks
             min={0}
@@ -89,15 +108,13 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.3 }}>
           <Star sx={{ color: 'action.active', mr: 1, my: 0.5, mt: 2 }} />
           <TextField
-            // error={!!error}
+            error={!!error}
             id="input-with-sx"
             label={!donateAmount && !(donateAmount > 0) && 'Enter amount of stars'}
             value={donateAmount}
             variant="standard"
-            onChange={(e) => {
-              setDonateAmount(e.target.value);
-            }}
-            // helperText={error && 'Incorrect value'}
+            onChange={onValueChange}
+            helperText={error}
           />
         </Box>
         {donateSuccess && loading && (
@@ -108,6 +125,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center', m: 1 }}>
         <Button
+          disabled={!!error}
           variant="contained"
           color="secondary"
           onClick={() => {

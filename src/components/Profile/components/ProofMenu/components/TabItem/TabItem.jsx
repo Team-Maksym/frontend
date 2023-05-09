@@ -14,7 +14,7 @@ export const TabItem = ({ value, index, type }) => {
   const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
 
   return (
-    <TabPanel value={value} index={index}>
+    <TabPanel value={value} index={index} >
       {type?.length ? (
         type.map((item, i) => {
           return (

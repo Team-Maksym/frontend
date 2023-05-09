@@ -20,14 +20,14 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   const message = (kudos) => {
     if (kudos.kudos_on_proof && kudos.kudos_from_me) {
       if (kudos.kudos_on_proof - kudos.kudos_from_me > 0) {
-        return `${kudos.kudos_from_me} your kudos and ${kudos.kudos_on_proof - kudos.kudos_from_me} others`;
+        return `${kudos.kudos_from_me} your stars and ${kudos.kudos_on_proof - kudos.kudos_from_me} others`;
       } else {
-        return `${kudos.kudos_from_me} your kudos only`;
+        return `${kudos.kudos_from_me} your stars only`;
       }
     } else if (kudos.kudos_on_proof && !kudos.kudos_from_me) {
-      return `${kudos.kudos_on_proof} others kudos`;
+      return `${kudos.kudos_on_proof} others stars`;
     } else {
-      return 'No one gave kudos to this proof yet';
+      return 'No one donated stars to this proof yet';
     }
   };
 
