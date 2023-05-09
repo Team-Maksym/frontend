@@ -23,7 +23,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
   const { person } = useContext(PersonContext);
   const [donateSuccess, setDonateSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [donateAmount, setDonateAmount] = useState(null);
+  const [donateAmount, setDonateAmount] = useState(0);
   const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
   const [error, setError] = useState('');
 
@@ -41,22 +41,25 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
         setTimeout(() => setLoading(() => false), 2000);
         setDonateSuccess(() => true);
       })
-      .catch((error) => setError(`You don't have enough stars`));
+      .catch((error) => {
+        setError(`You don't have enough stars`);
+        console.log(error)
+      });
   };
 
   const onValueChange = (e) => {
     if (e.target.value > 0 && e.target.value < kudosAmount) {
-      setDonateAmount(e.target.value);
+      setDonateAmount(+e.target.value);
       setError(() => null);
     } else {
-      setDonateAmount(e.target.value);
+      setDonateAmount(+e.target.value);
       setError(() => 'Number cannot be more then your stars amount or negative');
     }
   };
 
   return (
     <Dialog
-      open={openModal}
+      open={!!openModal}
       onClose={() => setOpenModal(false)}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="xs"
@@ -111,7 +114,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
             error={!!error}
             id="input-with-sx"
             label={!donateAmount && !(donateAmount > 0) && 'Enter amount of stars'}
-            value={donateAmount}
+            value={!!donateAmount ? donateAmount : ''}
             variant="standard"
             onChange={onValueChange}
             helperText={error}

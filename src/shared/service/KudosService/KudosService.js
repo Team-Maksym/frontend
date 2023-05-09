@@ -1,7 +1,11 @@
-import { protectedAxiosInstance } from '../api';
+import { protectedAxiosInstance, publicAxiosInstance} from '../api';
 
-export const getKudos = async (proofId) => {
+export const getKudosProtected = async (proofId) => {
   return await protectedAxiosInstance.get(`proofs/${proofId}/kudos`).then((response) => response.data);
+};
+
+export const getKudosPublic = async (proofId) => {
+  return await publicAxiosInstance.get(`proofs/${proofId}/kudos`).then((response) => response.data);
 };
 
 export const postKudos = async (proofId, kudos) => {
