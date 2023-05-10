@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Box, Typography, Accordion, AccordionSummary, Button, Stack } from '@mui/material';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -10,16 +10,17 @@ import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Kudos } from '../Profile/components/ProofMenu/Kudos';
-import { PersonContext } from '../../shared/context/PersonContext';
 import { PreLoader } from '../PreLoader';
+import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
+
 export const ProofList = () => {
+  const personRole = getCurrentPersonRole();
   const navigate = useNavigate();
   const location = useLocation();
   let query = new URLSearchParams(location.search);
   const [sort, setSort] = useState(query.get('sort') || true);
   const [proofs, setProofs] = useState([]);
   const [expanded, setExpanded] = useState(false);
-  const { person } = useContext(PersonContext);
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -54,7 +55,7 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
-              <Kudos proofId={item.id} isKudosBtnShowing={!!person} />
+              <Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />
             </Stack>
           </AccordionSummary>
           <ProofDescription description={item.description} />

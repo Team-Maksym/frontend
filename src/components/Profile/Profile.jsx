@@ -15,9 +15,13 @@ import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/
 import { BigSponsorCard } from './components/BigSponsorCard';
 import { ProofMenuSponsor } from './components/ProofMenu/components/ProofMenuSponsor/ProofMenuSponsor';
 
+import { getCurrentPersonStatus } from '../../shared/service/AuthorizationService/AuthorizationService';
+import { RestorePage } from './components/RestorePage';
+import { RestoreStatus } from '../RestoreStatus';
 export const Profile = ({ isPersonDataLoaded }) => {
   const { id } = useParams();
   const personRole = getCurrentPersonRole();
+  const personStatus = getCurrentPersonStatus();
   const { person: currentPerson, openAuthModal } = useContext(PersonContext);
   const [personProfile, setPersonProfile] = useState(null);
   const [error, setError] = useState(null);
@@ -83,17 +87,21 @@ export const Profile = ({ isPersonDataLoaded }) => {
           >
             {personProfile ? (
               <>
-                {id === currentPerson.id && personRole === 'ROLE_SPONSOR' ? (
+                {id === currentPerson.id && personRole === 'ROLE_SPONSOR' && personStatus === 'ACTIVE' ? (
                   <>
-                    <BigSponsorCard
-                      person={personProfile}
-                      setPerson={setPersonProfile}
-                      actionsAccess={personProfile.id === currentPerson.id}
-                    />
-                    <ProofMenuSponsor
-                      actionsAccess={personProfile.id === currentPerson.id}
-                      sponsorId={personProfile.id}
-                    />
+                  <BigSponsorCard
+                    person={personProfile}
+                    setPerson={setPersonProfile}
+                    actionsAccess={personProfile.id === currentPerson.id}
+                  />
+                  <ProofMenuSponsor
+                    actionsAccess={personProfile.id === currentPerson.id}
+                    sponsorId={personProfile.id}
+                  />
+                </>
+                ) : personStatus === 'DELETING' ? (
+                  <>
+                    <RestorePage person={personProfile} />
                   </>
                 ) : (
                   <>

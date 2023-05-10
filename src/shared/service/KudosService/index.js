@@ -1,2 +1,2 @@
-export { getKudos, postKudos } from './KudosService';
+export { getKudosProtected, getKudosPublic, postKudos } from './KudosService';
 

@@ -1,0 +1,1 @@
+export { DeleteSponsorModal } from './DeleteSponsorModal';

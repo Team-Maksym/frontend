@@ -84,16 +84,12 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
         .nullable(),
       positions: yup
         .string()
-        .test(
-          'valid-positions',
-          'Positions must contain only comma-separated positions',
-          (value) => {
-            if (!value) return true;
+        .test('valid-positions', 'Positions must contain only comma-separated positions', (value) => {
+          if (!value) return true;
 
-            const words = value.split(',').map((word) => word.trim());
-            return words.every((word) => /^[a-zA-Zа-яА-Я0-9\s]+$/.test(word));
-          },
-        )
+          const words = value.split(',').map((word) => word.trim());
+          return words.every((word) => /^[a-zA-Zа-яА-Я0-9\s]+$/.test(word));
+        })
         .nullable(),
     }),
     fieldsRenderers: {

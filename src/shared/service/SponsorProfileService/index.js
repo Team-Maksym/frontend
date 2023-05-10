@@ -1,2 +1,1 @@
-export { getOneSponsor, patchSponsor, getKudosses } from './SponsorProfileService';
-
+export { getOneSponsor, patchSponsor, deleteSponsor, getKudosses } from './SponsorProfileService';

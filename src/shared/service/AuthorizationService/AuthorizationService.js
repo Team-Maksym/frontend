@@ -11,6 +11,10 @@ export const getCurrentPersonRole = () => {
   return token && jwt_decode(token).scope;
 };
 
+export const getCurrentPersonStatus = () => {
+  const token = localStorage.getItem('token');
+  return token && jwt_decode(token).status;
+};
 export const signUp = async ({ type, ...person }) => {
   const response = await publicAxiosInstance.post(type, person);
   if (response.data.token) {
@@ -19,20 +23,36 @@ export const signUp = async ({ type, ...person }) => {
 };
 
 export const signIn = async ({ type, ...person }) => {
-  return await publicAxiosInstance
-    .post(
-      `${type}/login`,
-      {},
-      {
-        auth: {
-          username: person.email,
-          password: person.password,
-        },
+  const sponsorLoginPromise = publicAxiosInstance.post(
+    'sponsors/login',
+    {},
+    {
+      auth: {
+        username: person.email,
+        password: person.password,
       },
-    )
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-    });
+    },
+  );
+
+  const talentLoginPromise = publicAxiosInstance.post(
+    'talents/login',
+    {},
+    {
+      auth: {
+        username: person.email,
+        password: person.password,
+      },
+    },
+  );
+
+  try {
+    const [sponsorResponse, talentResponse] = await Promise.allSettled([sponsorLoginPromise, talentLoginPromise]);
+    const successfulResponse = sponsorResponse.status === 'fulfilled' ? sponsorResponse : talentResponse;
+
+    if (successfulResponse.value.data.token) {
+      localStorage.setItem('token', successfulResponse.value.data.token);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
