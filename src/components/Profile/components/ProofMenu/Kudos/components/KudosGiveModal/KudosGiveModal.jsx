@@ -14,24 +14,14 @@ import {
   Alert,
   Slider,
 } from '@mui/material';
-import { useState, useContext, useEffect } from 'react';
-import { PersonContext } from '../../../../../../../shared/context';
+import { useState } from 'react';
 import { postKudos } from '../../../../../../../shared/service/KudosService/KudosService';
-import { getOneSponsor } from '../../../../../../../shared/service/SponsorProfileService';
 
-export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId }) => {
-  const { person } = useContext(PersonContext);
+export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId, kudosAmount }) => {
   const [donateSuccess, setDonateSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [donateAmount, setDonateAmount] = useState(0);
-  const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    getOneSponsor(person.id).then((person) => {
-      setKudosAmount(() => person.unused_kudos);
-    });
-  }, [person.id]);
 
   const donateKudos = (e) => {
     postKudos(proofId, donateAmount)
@@ -43,7 +33,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
       })
       .catch((error) => {
         setError(`You don't have enough stars`);
-        console.log(error)
+        console.log(error);
       });
   };
 
@@ -136,7 +126,6 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
           color="secondary"
           onClick={() => {
             donateKudos();
-            setKudosAmount((oldAmount) => oldAmount - +donateAmount);
           }}
         >
           Donate
