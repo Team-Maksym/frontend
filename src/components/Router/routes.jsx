@@ -5,6 +5,7 @@ import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { useContext } from 'react';
 import { PersonContext } from '../../shared/context/PersonContext';
 import { ProofList } from '../ProofList';
+import { RestoreStatus } from '../RestoreStatus';
 
 export const Router = () => {
   const { isPersonDataLoaded } = useContext(PersonContext);
@@ -28,6 +29,10 @@ export const Router = () => {
               element: <ProofList />,
             },
           ],
+        },
+        {
+          path: 'recovery/',
+          element: <RestoreStatus />,
         },
       ],
     },

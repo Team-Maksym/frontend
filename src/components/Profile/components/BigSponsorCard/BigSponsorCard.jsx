@@ -20,7 +20,7 @@ import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditSponsorModal } from '../EditSponsorModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 import { KudosAmountModal } from '../KudosAmountModal';
-
+import { DeleteSponsorModal } from '../DeleteSponsorModal/DeleteSponsorModal';
 export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -106,7 +106,7 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
         </Box>
         {actionsAccess && (
           <>
-            <DeleteAccountModal
+            <DeleteSponsorModal
               open={isDeleteModalOpen}
               onClose={handleCloseDeleteModal}
               personId={person.id}
