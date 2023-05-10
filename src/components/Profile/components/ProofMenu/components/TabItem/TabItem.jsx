@@ -34,7 +34,10 @@ export const TabItem = ({ value, index, type }) => {
                   <Stack spacing={2} sx={{ display: 'block', width: '100%' }}>
                     <ProofItem
                       description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} id={item.id} status={drafted} />}
+                      children={
+                        actionsAccess &&
+                        personRole !== 'ROLE_SPONSOR' && <ProofItemProfile val={value} id={item.id} status={drafted} />
+                      }
                     />
                     <Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />
                   </Stack>
@@ -50,3 +53,4 @@ export const TabItem = ({ value, index, type }) => {
     </TabPanel>
   );
 };
+
