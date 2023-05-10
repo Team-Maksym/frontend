@@ -59,7 +59,8 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
     <>
       <Card
         sx={{
-          minWidth: 360,
+          minWidth: { xs: 290, lg: 360 },
+          maxWidth: { lg: 360 },
           textAlign: 'center',
           mt: 7,
           p: 2,

@@ -93,7 +93,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
             label="Enter amount of stars"
             variant="standard"
             onChange={onValueChange}
-            helperText={error && 'Incorrect value'}
+            helperText={error}
           />
         </Box>
         {increaseSuccess && loading && (
@@ -103,7 +103,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
         )}
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center', m: 1 }}>
-        <Button variant="contained" color="secondary" onClick={onIncreaseKudosAmount}>
+        <Button disabled={!!error} variant="contained" color="secondary" onClick={onIncreaseKudosAmount}>
           Change balance
         </Button>
       </DialogActions>
