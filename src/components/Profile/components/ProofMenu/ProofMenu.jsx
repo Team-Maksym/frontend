@@ -54,7 +54,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     setExpanded(false);
     setValue(newValue);
   };
-
   const getProofsByStatus = async (status, setStatus, value) => {
     await getOneTalentProofs(talentId, status)
       .then((proofs) => {

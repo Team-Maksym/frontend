@@ -1,11 +1,23 @@
-import { useEffect, useState, useContext} from 'react';
-import { Chip, IconButton, Popover, Alert } from '@mui/material';
+import { useEffect, useState, useContext } from 'react';
+import {
+  Chip,
+  IconButton,
+  Popover,
+  Alert,
+  Box,
+  Dialog,
+  DialogTitle,
+  Divider,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudosProtected, getKudosPublic } from '../../../../../shared/service/KudosService/KudosService';
 import { KudosGiveModal } from './components/KudosGiveModal';
 import { getOneSponsor } from '../../../../../shared/service/SponsorProfileService';
 import { PersonContext } from '../../../../../shared/context';
-
 
 export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   const { person, setPerson } = useContext(PersonContext);
@@ -14,7 +26,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
-
+  const [openKudosInfo, setOpenKudosInfo] = useState(false);
   const handeOpenModal = (e) => {
     if (!!isKudosBtnShowing) {
       e.stopPropagation();
@@ -22,7 +34,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
     } else {
       e.stopPropagation();
       setAnchorEl(document);
-      setTimeout(() => setAnchorEl(null), 5000);
+      // setTimeout(() => setAnchorEl(null), 5000);
     }
   };
 
@@ -33,7 +45,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       });
       getOneSponsor(person.id).then((user) => {
         setKudosAmount(user.unused_kudos);
-        setPerson({ ...person, unused_kudos:user.unused_kudos });
+        setPerson({ ...person, unused_kudos: user.unused_kudos });
       });
     } else {
       getKudosPublic(proofId).then((kudos) => {
@@ -84,20 +96,37 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       />
 
       {!isKudosBtnShowing && (
-        <Popover
-          id={'talantPopUp'}
-          open={!!anchorEl}
-          onClose={() => setAnchorEl(null)}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-        >
-          <Alert sx={{ fontSize: '16px' }} severity="warning">
-            Only sponsors can donate stars to proofs!
-          </Alert>
-        </Popover>
+        // <Popover
+        //   id={'talantPopUp'}
+        //   open={!!anchorEl}
+        //   onClose={() => setAnchorEl(null)}
+        //   anchorEl={anchorEl}
+        //   anchorOrigin={{
+        //     vertical: 'bottom',
+        //     horizontal: 'right',
+        //   }}
+        // >
+        //   <Alert sx={{ fontSize: '16px' }} severity="warning">
+        //     Only sponsors can donate stars to proofs!
+        //   </Alert>
+        // </Popover>
+        <Dialog open={!!anchorEl} onClick={() => setAnchorEl(null)}>
+          <DialogTitle variant="h5" sx={{ display: 'flex', alignItems: 'center', px: 1 }}>
+            Your has 00 kudos
+          </DialogTitle>
+          <Divider />
+          <DialogContent>
+            <DialogContentText sx={{ mb: 1 }}>
+              Are you sure you want to delete your proof? All of your data will be permanently removed.
+              <strong> This process cannot be undone!</strong>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={() => setAnchorEl(null)}>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
 
       {!!isKudosBtnShowing && (

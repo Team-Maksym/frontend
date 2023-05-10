@@ -25,7 +25,7 @@ export const signUp = async ({ type, ...person }) => {
 export const signIn = async ({ type, ...person }) => {
   return await publicAxiosInstance
     .post(
-      `${type}/login`,
+      `v1/${type}/login`,
       {},
       {
         auth: {
