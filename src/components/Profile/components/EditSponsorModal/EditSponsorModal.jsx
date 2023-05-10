@@ -11,7 +11,6 @@ export const EditSponsorModal = ({ open, onClose, person: sponsor, setPerson: se
   const onEditProfileHandler = (action) => {
     let sponsorId = getCurrentPersonId();
     return async (values) => {
-      console.log(sponsor);
       let sponsorNewProfile = {};
 
       sponsorNewProfile = {
@@ -20,7 +19,7 @@ export const EditSponsorModal = ({ open, onClose, person: sponsor, setPerson: se
         avatar: values.avatar,
         company: values.company,
       };
-      console.log(sponsorNewProfile);
+
       try {
         const response = await action(sponsorId, sponsorNewProfile);
         response.id = sponsorId;
