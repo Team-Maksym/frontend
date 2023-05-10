@@ -1,4 +1,4 @@
-import { publicAxiosInstance } from '../api';
+import { protectedAxiosInstance, publicAxiosInstance } from '../api';
 
 export const getAllProofs = async (page, size, sort) => {
   let data = [];

@@ -25,3 +25,8 @@ export const recoveryAccount = async (uuid) => {
     return response;
   });
 };
+
+export const getKudosses = async (sponsorId) => {
+  return await protectedAxiosInstance.get(`sponsors/${sponsorId}/kudos`).then((response) => response.data);
+};
+

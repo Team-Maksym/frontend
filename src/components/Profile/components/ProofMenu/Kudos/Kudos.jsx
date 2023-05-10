@@ -28,8 +28,9 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
   const [clickedKudos, setClickedKudos] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
+  const [kudosAmount, setKudosAmount] = useState(person?.unused_kudos);
   const [openKudosInfo, setOpenKudosInfo] = useState(false);
+
   const handeOpenModal = (e) => {
     if (!!isKudosBtnShowing) {
       e.stopPropagation();
@@ -57,7 +58,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
       });
     }
     setClickedKudos(false);
-  }, [proofId, clickedKudos, person.unused_kudos]);
+  }, [proofId, clickedKudos, person?.unused_kudos]);
 
   const message = (kudos) => {
     if (!!isKudosBtnShowing) {

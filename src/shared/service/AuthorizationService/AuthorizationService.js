@@ -23,20 +23,36 @@ export const signUp = async ({ type, ...person }) => {
 };
 
 export const signIn = async ({ type, ...person }) => {
-  return await publicAxiosInstance
-    .post(
-      `v1/${type}/login`,
-      {},
-      {
-        auth: {
-          username: person.email,
-          password: person.password,
-        },
+  const sponsorLoginPromise = publicAxiosInstance.post(
+    'v1/sponsors/login',
+    {},
+    {
+      auth: {
+        username: person.email,
+        password: person.password,
       },
-    )
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-    });
+    },
+  );
+
+  const talentLoginPromise = publicAxiosInstance.post(
+    'v1/talents/login',
+    {},
+    {
+      auth: {
+        username: person.email,
+        password: person.password,
+      },
+    },
+  );
+
+  try {
+    const [sponsorResponse, talentResponse] = await Promise.allSettled([sponsorLoginPromise, talentLoginPromise]);
+    const successfulResponse = sponsorResponse.status === 'fulfilled' ? sponsorResponse : talentResponse;
+
+    if (successfulResponse.value.data.token) {
+      localStorage.setItem('token', successfulResponse.value.data.token);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };

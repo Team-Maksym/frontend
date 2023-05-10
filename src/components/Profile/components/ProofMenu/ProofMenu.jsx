@@ -160,6 +160,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
             <TabItem value={value} index={2} type={hiddened}></TabItem>
           </>
         )}
+
         <NewProofModal open={newProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
         <EditProofModal openEditModal={openEditModal} proofInfo={proofInfo} />
         <DeleteProofModal openDeleteModal={openDeleteModal} proofId={proofId} />
@@ -167,3 +168,4 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     </ProofsOneTalentContext.Provider>
   );
 };
+
