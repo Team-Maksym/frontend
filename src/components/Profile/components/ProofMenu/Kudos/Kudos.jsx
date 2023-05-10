@@ -12,6 +12,9 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  Card,
+  Avatar,
+  Typography,
 } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudosProtected, getKudosPublic } from '../../../../../shared/service/KudosService/KudosService';
@@ -19,7 +22,7 @@ import { KudosGiveModal } from './components/KudosGiveModal';
 import { getOneSponsor } from '../../../../../shared/service/SponsorProfileService';
 import { PersonContext } from '../../../../../shared/context';
 
-export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
+export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
   const { person, setPerson } = useContext(PersonContext);
   const [kudos, setKudos] = useState(null);
   const [clickedKudos, setClickedKudos] = useState(false);
@@ -33,11 +36,12 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       setOpenModal(true);
     } else {
       e.stopPropagation();
+
       setAnchorEl(document);
-      // setTimeout(() => setAnchorEl(null), 5000);
+
+      setTimeout(() => setAnchorEl(null), 5000);
     }
   };
-
   useEffect(() => {
     if (!!isKudosBtnShowing) {
       getKudosProtected(proofId).then((kudos) => {
@@ -77,6 +81,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
     }
   };
 
+  const fake = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <>
       <Chip
@@ -95,30 +100,54 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
         onClick={handeOpenModal}
       />
 
-      {!isKudosBtnShowing && (
-        // <Popover
-        //   id={'talantPopUp'}
-        //   open={!!anchorEl}
-        //   onClose={() => setAnchorEl(null)}
-        //   anchorEl={anchorEl}
-        //   anchorOrigin={{
-        //     vertical: 'bottom',
-        //     horizontal: 'right',
-        //   }}
-        // >
-        //   <Alert sx={{ fontSize: '16px' }} severity="warning">
-        //     Only sponsors can donate stars to proofs!
-        //   </Alert>
-        // </Popover>
+      {info.length > 0 && (
         <Dialog open={!!anchorEl} onClick={() => setAnchorEl(null)}>
-          <DialogTitle variant="h5" sx={{ display: 'flex', alignItems: 'center', px: 1 }}>
-            Your has 00 kudos
+          <DialogTitle variant="h5" sx={{ textAlign: 'center', px: 1 }}>
+            This proof has kudos
           </DialogTitle>
           <Divider />
           <DialogContent>
-            <DialogContentText sx={{ mb: 1 }}>
-              Are you sure you want to delete your proof? All of your data will be permanently removed.
-              <strong> This process cannot be undone!</strong>
+            <DialogContentText
+              sx={{
+                mb: 1,
+                overflowY: 'auto',
+                maxHeight: '300px',
+                '&::-webkit-scrollbar': {
+                  width: '7px',
+                  backgroundColor: 'neutral.white',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'primary.main',
+                },
+              }}
+            >
+              {info.map((item) => {
+                return (
+                  <Card
+                    sx={{
+                      p: '10px',
+                      minWidth: '250px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      mt: '10px',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      {' '}
+                      <Avatar
+                        alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
+                        src={item.sponsor_avatar_url}
+                      ></Avatar>
+                      <Typography sx={{ ml: '15px' }}>{item.sponsor_name}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography>{item.count_kudos}</Typography>
+                      <Star sx={{ fontSize: 28, color: 'secondary.main' }} />
+                    </Box>
+                  </Card>
+                );
+              })}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -128,7 +157,22 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
           </DialogActions>
         </Dialog>
       )}
-
+      {!isKudosBtnShowing && info.length == 0 && (
+        <Popover
+          id={'talantPopUp'}
+          open={!!anchorEl}
+          onClose={() => setAnchorEl(null)}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <Alert sx={{ fontSize: '16px' }} severity="warning">
+            Only sponsors can donate stars to proofs!
+          </Alert>
+        </Popover>
+      )}
       {!!isKudosBtnShowing && (
         <KudosGiveModal
           openModal={openModal}
