@@ -13,7 +13,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
   const [clickedKudos, setClickedKudos] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [kudosAmount, setKudosAmount] = useState(person.unused_kudos);
+  const [kudosAmount, setKudosAmount] = useState(person?.unused_kudos);
 
   const handeOpenModal = (e) => {
     if (!!isKudosBtnShowing) {
@@ -41,7 +41,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       });
     }
     setClickedKudos(false);
-  }, [proofId, clickedKudos, person.unused_kudos]);
+  }, [proofId, clickedKudos, person?.unused_kudos]);
 
   const message = (kudos) => {
     if (!!isKudosBtnShowing) {
