@@ -54,17 +54,14 @@ export const AuthModal = ({ open, onClose, type, authorizePerson }) => {
       initialValues: {
         email: '',
         password: '',
-        type: 'talents',
       },
       validationSchema: yup.object({
         email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
         password: yup.string('Enter your password').required('Password is required'),
-        type: yup.string(),
       }),
       fieldsRenderers: {
         email: EmailField,
         password: PasswordField,
-        type: TypeField,
       },
     },
     signUp: {
@@ -99,8 +96,7 @@ export const AuthModal = ({ open, onClose, type, authorizePerson }) => {
             'Password must contain at least one uppercase letter, one lowercase letter, one number, and no spaces',
           )
           .required('Password is required'),
-        type: yup
-          .string(),
+        type: yup.string(),
       }),
       fieldsRenderers: {
         full_name: FullNameField,
