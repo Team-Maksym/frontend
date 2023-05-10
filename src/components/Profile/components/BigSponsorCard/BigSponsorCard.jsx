@@ -17,15 +17,14 @@ import {
 } from '@mui/material';
 import { Business, Delete, Edit, Wallet } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
-import { EditProfileModal } from '../EditModal';
+import { EditSponsorModal } from '../EditSponsorModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 import { KudosAmountModal } from '../KudosAmountModal';
-
+import { DeleteSponsorModal } from '../DeleteSponsorModal/DeleteSponsorModal';
 export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isKudosAmountModalOpen, setIsKudosAmountModalOpen] = useState(false);
-
   let localAvatar = AvatarValidation(person.avatar);
 
   const icons = {
@@ -108,33 +107,25 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
         </Box>
         {actionsAccess && (
           <>
-            {/*<CardActions disableSpacing sx={{ display: 'flex', justifyContent: 'space-between'}}>*/}
-            {/*  <Tooltip title="Delete" placement="top">*/}
-            {/*    <IconButton onClick={openDeleteModal}>*/}
-            {/*      <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />*/}
-            {/*    </IconButton>*/}
-            {/*  </Tooltip>*/}
-            {/*  <Tooltip title="Edit" placement="top">*/}
-            {/*    <IconButton onClick={openEditModal}>*/}
-            {/*      <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />*/}
-            {/*    </IconButton>*/}
-            {/*  </Tooltip>*/}
-            {/*</CardActions>*/}
-
-            {/*<DeleteAccountModal*/}
-            {/*  open={isDeleteModalOpen}*/}
-            {/*  onClose={handleCloseDeleteModal}*/}
-            {/*  personId={person.id}*/}
-            {/*  setPerson={setPerson}*/}
-            {/*/>*/}
-            {/*<EditProfileModal*/}
-            {/*  open={isEditModalOpen}*/}
-            {/*  onClose={handleCloseEditModal}*/}
-            {/*  person={person}*/}
-            {/*  setPerson={setPerson}*/}
-            {/*/>*/}
+            <DeleteSponsorModal
+              open={isDeleteModalOpen}
+              onClose={handleCloseDeleteModal}
+              personId={person.id}
+              setPerson={setPerson}
+            />
+            <EditSponsorModal
+              open={isEditModalOpen}
+              onClose={handleCloseEditModal}
+              person={person}
+              setPerson={setPerson}
+            />
             <KudosAmountModal open={isKudosAmountModalOpen} onClose={handleCloseKudosAmountModal} person={person} />
             <Box>
+              <Tooltip title="Delete" placement="top">
+                <IconButton onClick={openDeleteModal}>
+                  <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+                </IconButton>
+              </Tooltip>
               <Button
                 variant="elevated"
                 startIcon={<Wallet />}
@@ -148,6 +139,11 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
               >
                 Change balance
               </Button>
+              <Tooltip title="Edit" placement="top">
+                <IconButton onClick={openEditModal}>
+                  <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+                </IconButton>
+              </Tooltip>
             </Box>
           </>
         )}
@@ -155,4 +151,3 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
     </>
   );
 };
-
