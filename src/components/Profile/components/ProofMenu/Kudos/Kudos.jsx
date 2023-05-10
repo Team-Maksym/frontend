@@ -1,3 +1,190 @@
+// import { useEffect, useState, useContext } from 'react';
+// import {
+//   Chip,
+//   IconButton,
+//   Popover,
+//   Alert,
+//   Box,
+//   Dialog,
+//   DialogTitle,
+//   Divider,
+//   DialogContent,
+//   DialogContentText,
+//   DialogActions,
+//   Button,
+//   Card,
+//   Avatar,
+//   Typography,
+// } from '@mui/material';
+// import { Star } from '@mui/icons-material';
+// import { getKudosProtected, getKudosPublic } from '../../../../../shared/service/KudosService/KudosService';
+// import { KudosGiveModal } from './components/KudosGiveModal';
+// import { getOneSponsor } from '../../../../../shared/service/SponsorProfileService';
+// import { PersonContext } from '../../../../../shared/context';
+
+// export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
+//   const { person, setPerson } = useContext(PersonContext);
+//   const [kudos, setKudos] = useState(null);
+//   const [clickedKudos, setClickedKudos] = useState(false);
+//   const [openModal, setOpenModal] = useState(false);
+//   const [anchorEl, setAnchorEl] = useState(null);
+//   const [kudosAmount, setKudosAmount] = useState(person?.unused_kudos);
+//   const [openKudosInfo, setOpenKudosInfo] = useState(false);
+
+//   const handleOpenModal = (e) => {
+//     if (!!isKudosBtnShowing) {
+//       e.stopPropagation();
+//       setOpenModal(true);
+//     } else {
+//       e.stopPropagation();
+//       setAnchorEl(document);
+//       setTimeout(() => setAnchorEl(null), 5000);
+//     }
+//   };
+//   useEffect(() => {
+//     if (!!isKudosBtnShowing) {
+//       getKudosProtected(proofId).then((kudos) => {
+//         setKudos(() => kudos);
+//       });
+//       getOneSponsor(person.id).then((user) => {
+//         setKudosAmount(user.unused_kudos);
+//         setPerson({ ...person, unused_kudos: user.unused_kudos });
+//       });
+//     } else {
+//       getKudosPublic(proofId).then((kudos) => {
+//         setKudos(() => kudos);
+//       });
+//     }
+//     setClickedKudos(false);
+//   }, [proofId, clickedKudos, person?.unused_kudos]);
+
+//   const message = (kudos) => {
+//     if (!!isKudosBtnShowing) {
+//       if (kudos.kudos_on_proof && kudos.kudos_from_me) {
+//         if (kudos.kudos_on_proof - kudos.kudos_from_me > 0) {
+//           return `${kudos.kudos_from_me} your stars and ${kudos.kudos_on_proof - kudos.kudos_from_me} others`;
+//         } else {
+//           return `${kudos.kudos_from_me} your stars only`;
+//         }
+//       } else if (kudos.kudos_on_proof && !kudos.kudos_from_me) {
+//         return `${kudos.kudos_on_proof} others stars`;
+//       } else {
+//         return 'No one donated stars to this proof yet';
+//       }
+//     } else {
+//       if (kudos.kudos_on_proof) {
+//         return `${kudos.kudos_on_proof} stars`;
+//       } else {
+//         return 'No one donated stars to this proof yet';
+//       }
+//     }
+//   };
+
+//   const fake = [1, 2, 3, 4, 5, 6, 7, 8];
+//   return (
+//     <>
+//       <Chip
+//         icon={
+//           <IconButton aria-label={kudos !== null ? kudos.kudos_on_proof : ''} sx={{ p: 0 }}>
+//             <Star sx={{ fontSize: 28, color: kudos?.is_kudosed ? 'secondary.main' : 'neutral.white' }} />
+//           </IconButton>
+//         }
+//         label={kudos && message(kudos)}
+//         sx={{
+//           bgcolor: 'neutral.whiteGrey',
+//           color: 'neutral.white',
+//           p: 0,
+//         }}
+//         clickable={!!isKudosBtnShowing}
+//         onClick={handleOpenModal}
+//       />
+
+//       {info.length > 0 && (
+//         <Dialog open={!!anchorEl} onClick={() => setAnchorEl(null)}>
+//           <DialogTitle variant="h5" sx={{ textAlign: 'center', px: 1 }}>
+//             This proof has kudos
+//           </DialogTitle>
+//           <Divider />
+//           <DialogContent>
+//             <DialogContentText
+//               sx={{
+//                 mb: 1,
+//                 overflowY: 'auto',
+//                 maxHeight: '300px',
+//                 '&::-webkit-scrollbar': {
+//                   width: '7px',
+//                   backgroundColor: 'neutral.white',
+//                 },
+//                 '&::-webkit-scrollbar-thumb': {
+//                   backgroundColor: 'primary.main',
+//                 },
+//               }}
+//             >
+//               {info.map((item) => {
+//                 return (
+//                   <Card
+//                     sx={{
+//                       p: '10px',
+//                       minWidth: '250px',
+//                       display: 'flex',
+//                       justifyContent: 'space-between',
+//                       alignItems: 'center',
+//                       mt: '10px',
+//                     }}
+//                   >
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                       {' '}
+//                       <Avatar
+//                         alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
+//                         src={item.sponsor_avatar_url}
+//                       ></Avatar>
+//                       <Typography sx={{ ml: '15px' }}>{item.sponsor_name}</Typography>
+//                     </Box>
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                       <Typography>{item.count_kudos}</Typography>
+//                       <Star sx={{ fontSize: 28, color: 'secondary.main' }} />
+//                     </Box>
+//                   </Card>
+//                 );
+//               })}
+//             </DialogContentText>
+//           </DialogContent>
+//           <DialogActions>
+//             <Button variant="outlined" onClick={() => setAnchorEl(null)}>
+//               Close
+//             </Button>
+//           </DialogActions>
+//         </Dialog>
+//       )}
+//       {!isKudosBtnShowing && info.length == 0 && (
+//         <Popover
+//           id={'talantPopUp'}
+//           open={!!anchorEl}
+//           onClose={() => setAnchorEl(null)}
+//           anchorEl={anchorEl}
+//           anchorOrigin={{
+//             vertical: 'bottom',
+//             horizontal: 'right',
+//           }}
+//         >
+//           <Alert sx={{ fontSize: '16px' }} severity="warning">
+//             Only sponsors can donate stars to proofs!
+//           </Alert>
+//         </Popover>
+//       )}
+//       {!!isKudosBtnShowing && (
+//         <KudosGiveModal
+//           openModal={openModal}
+//           setOpenModal={setOpenModal}
+//           setClickedKudos={setClickedKudos}
+//           proofId={proofId}
+//           kudosAmount={kudosAmount}
+//         />
+//       )}
+//     </>
+//   );
+// };
+
 import { useEffect, useState, useContext } from 'react';
 import {
   Chip,
@@ -37,12 +224,12 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
       setOpenModal(true);
     } else {
       e.stopPropagation();
-
       setAnchorEl(document);
-
       setTimeout(() => setAnchorEl(null), 5000);
+      setOpenKudosInfo(!openKudosInfo);
     }
   };
+
   useEffect(() => {
     if (!!isKudosBtnShowing) {
       getKudosProtected(proofId).then((kudos) => {
@@ -82,7 +269,6 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
     }
   };
 
-  const fake = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <>
       <Chip
@@ -100,9 +286,8 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
         clickable={!!isKudosBtnShowing}
         onClick={handeOpenModal}
       />
-
-      {info.length > 0 && (
-        <Dialog open={!!anchorEl} onClick={() => setAnchorEl(null)}>
+      {info.length > 0 && openKudosInfo && (
+        <Dialog open={!!anchorEl} onClick={() => setOpenKudosInfo(!openKudosInfo)}>
           <DialogTitle variant="h5" sx={{ textAlign: 'center', px: 1 }}>
             This proof has kudos
           </DialogTitle>
@@ -152,13 +337,13 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="outlined" onClick={() => setAnchorEl(null)}>
+            <Button variant="outlined" onClick={() => setOpenKudosInfo(!openKudosInfo)}>
               Close
             </Button>
           </DialogActions>
         </Dialog>
       )}
-      {!isKudosBtnShowing && info.length == 0 && (
+      {!isKudosBtnShowing && (
         <Popover
           id={'talantPopUp'}
           open={!!anchorEl}
@@ -174,6 +359,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
           </Alert>
         </Popover>
       )}
+
       {!!isKudosBtnShowing && (
         <KudosGiveModal
           openModal={openModal}
