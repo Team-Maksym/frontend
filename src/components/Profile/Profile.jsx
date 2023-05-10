@@ -13,6 +13,7 @@ import { ProofMenu } from './components/ProofMenu';
 import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/UnauthorizedPage';
 import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 import { BigSponsorCard } from './components/BigSponsorCard';
+import { ProofMenuSponsor } from './components/ProofMenu/components/ProofMenuSponsor/ProofMenuSponsor';
 
 export const Profile = ({ isPersonDataLoaded }) => {
   const { id } = useParams();
@@ -83,11 +84,17 @@ export const Profile = ({ isPersonDataLoaded }) => {
             {personProfile ? (
               <>
                 {id === currentPerson.id && personRole === 'ROLE_SPONSOR' ? (
-                  <BigSponsorCard
-                    person={personProfile}
-                    setPerson={setPersonProfile}
-                    actionsAccess={personProfile.id === currentPerson.id}
-                  />
+                  <>
+                    <BigSponsorCard
+                      person={personProfile}
+                      setPerson={setPersonProfile}
+                      actionsAccess={personProfile.id === currentPerson.id}
+                    />
+                    <ProofMenuSponsor
+                      actionsAccess={personProfile.id === currentPerson.id}
+                      sponsorId={personProfile.id}
+                    />
+                  </>
                 ) : (
                   <>
                     <BigTalentCard
@@ -110,3 +117,4 @@ export const Profile = ({ isPersonDataLoaded }) => {
     </>
   );
 };
+

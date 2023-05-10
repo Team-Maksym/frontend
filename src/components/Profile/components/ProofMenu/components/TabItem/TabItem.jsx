@@ -11,7 +11,7 @@ import { Kudos } from '../../Kudos';
 import { EmptyProofs } from '../EmptyProofs/EmptyProofs';
 
 export const TabItem = ({ value, index, type }) => {
-  const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
+  const { drafted, expanded, handleChangeAcordion, actionsAccess, personRole } = useContext(ProofsOneTalentContext);
 
   return (
     <TabPanel value={value} index={index}>
@@ -32,7 +32,10 @@ export const TabItem = ({ value, index, type }) => {
                   <Stack spacing={2} sx={{ display: 'block', width: '100%' }}>
                     <ProofItem
                       description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} id={item.id} status={drafted} />}
+                      children={
+                        actionsAccess &&
+                        personRole !== 'ROLE_SPONSOR' && <ProofItemProfile val={value} id={item.id} status={drafted} />
+                      }
                     />
                     <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
                   </Stack>
@@ -48,3 +51,4 @@ export const TabItem = ({ value, index, type }) => {
     </TabPanel>
   );
 };
+

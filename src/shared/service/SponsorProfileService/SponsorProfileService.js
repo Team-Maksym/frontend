@@ -8,3 +8,7 @@ export const patchSponsor = async (sponsorId, sponsor) => {
   return await protectedAxiosInstance.patch(`sponsors/${sponsorId}`, sponsor).then((response) => response.data);
 };
 
+export const getKudosses = async (sponsorId) => {
+  return await protectedAxiosInstance.get(`sponsors/${sponsorId}/kudos`).then((response) => response.data);
+};
+
