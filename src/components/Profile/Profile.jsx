@@ -16,7 +16,6 @@ import { BigSponsorCard } from './components/BigSponsorCard';
 import { ProofMenuSponsor } from './components/ProofMenu/components/ProofMenuSponsor/ProofMenuSponsor';
 import { getCurrentPersonStatus } from '../../shared/service/AuthorizationService/AuthorizationService';
 import { RestorePage } from './components/RestorePage';
-import { RestoreStatus } from '../RestoreStatus';
 export const Profile = ({ isPersonDataLoaded }) => {
   const { id } = useParams();
   const personRole = getCurrentPersonRole();
@@ -88,16 +87,16 @@ export const Profile = ({ isPersonDataLoaded }) => {
               <>
                 {id === currentPerson.id && personRole === 'ROLE_SPONSOR' && personStatus === 'ACTIVE' ? (
                   <>
-                  <BigSponsorCard
-                    person={personProfile}
-                    setPerson={setPersonProfile}
-                    actionsAccess={personProfile.id === currentPerson.id}
-                  />
-                  <ProofMenuSponsor
-                    actionsAccess={personProfile.id === currentPerson.id}
-                    sponsorId={personProfile.id}
-                  />
-                </>
+                    <BigSponsorCard
+                      person={personProfile}
+                      setPerson={setPersonProfile}
+                      actionsAccess={personProfile.id === currentPerson.id}
+                    />
+                    <ProofMenuSponsor
+                      actionsAccess={personProfile.id === currentPerson.id}
+                      sponsorId={personProfile.id}
+                    />
+                  </>
                 ) : personStatus === 'DELETING' ? (
                   <>
                     <RestorePage person={personProfile} />
@@ -124,4 +123,3 @@ export const Profile = ({ isPersonDataLoaded }) => {
     </>
   );
 };
-
