@@ -1,8 +1,11 @@
-import { useContext } from 'react';
 import { Button, Container, Typography } from '@mui/material';
-import { PersonContext } from '../../shared/context/PersonContext';
+import { recoveryAccount } from '../../shared/service/SponsorProfileService';
 export const RestoreStatus = () => {
-  const { signOut } = useContext(PersonContext);
+  const recoverAccountHandler = () => {
+    const currentUrl = window.location.href;
+    let uuid = currentUrl.substring(currentUrl.match('uuid=').index + 5);
+    recoveryAccount(uuid);
+  };
   return (
     <Container
       sx={{
@@ -16,7 +19,7 @@ export const RestoreStatus = () => {
       }}
     >
       <Typography variant="h2" sx={{ textAlign: 'center', color: 'neutral.white' }}>
-        To continue futher work on our site you need to log out and authorise.
+        To continue futher work on our site you need to recover account.
       </Typography>
       <Button
         variant="contained"
@@ -29,9 +32,9 @@ export const RestoreStatus = () => {
             bgcolor: 'primary.main',
           },
         }}
-        onClick={signOut}
+        onClick={() => recoverAccountHandler()}
       >
-        Log out
+        Recover account
       </Button>
     </Container>
   );

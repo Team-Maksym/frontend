@@ -24,7 +24,7 @@ export const signUp = async ({ type, ...person }) => {
 
 export const signIn = async ({ type, ...person }) => {
   const sponsorLoginPromise = publicAxiosInstance.post(
-    'sponsors/login',
+    'v1/sponsors/login',
     {},
     {
       auth: {
@@ -35,7 +35,7 @@ export const signIn = async ({ type, ...person }) => {
   );
 
   const talentLoginPromise = publicAxiosInstance.post(
-    'talents/login',
+    'v1/talents/login',
     {},
     {
       auth: {
