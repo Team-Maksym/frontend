@@ -17,7 +17,7 @@ import { getOneSponsor, patchSponsor } from '../../../../shared/service/SponsorP
 
 export const KudosAmountModal = ({ open, onClose, person }) => {
   const [kudosAmount, setKudosAmount] = useState(null);
-  const [newKudosAmount, setNewKudosAmount] = useState(null);
+  const [newKudosAmount, setNewKudosAmount] = useState('');
   const [error, setError] = useState('');
   const [increaseSuccess, setIncreaseSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,18 +29,6 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
   }, [person.id]);
 
   const onIncreaseKudosAmount = () => {
-    if (+kudosAmount + +newKudosAmount >= 1e5) {
-      console.log('kudosAmount', kudosAmount);
-      console.log('newKudosAmount', newKudosAmount);
-      console.log('1e5', 1e5);
-      console.log('kudosAmount + newKudosAmount', +kudosAmount + +newKudosAmount);
-      setError(() => 'Amount of kudosses cannot be more than 100000');
-      return;
-    }
-    if (!newKudosAmount) {
-      setError(() => 'Input cannot be empty');
-      return;
-    }
     person.unused_kudos = +newKudosAmount;
     patchSponsor(person.id, person).then(
       (person) => {
@@ -48,7 +36,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
         setLoading(() => true);
         setTimeout(() => setLoading(() => false), 2000);
         setIncreaseSuccess(() => true);
-        setNewKudosAmount(() => null);
+        setNewKudosAmount(() => '');
       },
       (error) => {
         console.log('error');
@@ -57,12 +45,15 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
   };
 
   const onValueChange = (e) => {
-    if (e.target.value > 0) {
-      setNewKudosAmount(e.target.value);
-      setError(() => '');
-    } else {
-      setNewKudosAmount(e.target.value);
+    setNewKudosAmount(e.target.value);
+    if (!e.target.value) {
+      setError(() => 'Input cannot be empty');
+    } else if (e.target.value <= 0) {
       setError(() => 'Number cannot be 0 or negative');
+    } else if (+kudosAmount + +newKudosAmount >= 1e5) {
+      setError(() => 'Amount of kudosses cannot be more than 100000');
+    } else {
+      setError(() => '');
     }
   };
 
@@ -105,6 +96,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
             id="input-with-sx"
             label="Enter amount of stars"
             variant="standard"
+            value={newKudosAmount}
             onChange={onValueChange}
             helperText={error}
           />
