@@ -1,19 +1,35 @@
-import { useEffect, useState, useContext} from 'react';
-import { Chip, IconButton, Popover, Alert } from '@mui/material';
+import { useEffect, useState, useContext } from 'react';
+import {
+  Chip,
+  IconButton,
+  Popover,
+  Alert,
+  Box,
+  Dialog,
+  DialogTitle,
+  Divider,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Card,
+  Avatar,
+  Typography,
+} from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudosProtected, getKudosPublic } from '../../../../../shared/service/KudosService/KudosService';
 import { KudosGiveModal } from './components/KudosGiveModal';
 import { getOneSponsor } from '../../../../../shared/service/SponsorProfileService';
 import { PersonContext } from '../../../../../shared/context';
 
-
-export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
+export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
   const { person, setPerson } = useContext(PersonContext);
   const [kudos, setKudos] = useState(null);
   const [clickedKudos, setClickedKudos] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [kudosAmount, setKudosAmount] = useState(person?.unused_kudos);
+  const [openKudosInfo, setOpenKudosInfo] = useState(false);
 
   const handeOpenModal = (e) => {
     if (!!isKudosBtnShowing) {
@@ -21,7 +37,11 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       setOpenModal(true);
     } else {
       e.stopPropagation();
-      setAnchorEl(document);
+      if (info && info.length > 0) {
+        setOpenKudosInfo(!openKudosInfo);
+      } else {
+        setAnchorEl(document);
+      }
       setTimeout(() => setAnchorEl(null), 5000);
     }
   };
@@ -33,7 +53,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
       });
       getOneSponsor(person.id).then((user) => {
         setKudosAmount(user.unused_kudos);
-        setPerson({ ...person, unused_kudos:user.unused_kudos });
+        setPerson({ ...person, unused_kudos: user.unused_kudos });
       });
     } else {
       getKudosPublic(proofId).then((kudos) => {
@@ -108,6 +128,63 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true }) => {
           proofId={proofId}
           kudosAmount={kudosAmount}
         />
+      )}
+      {openKudosInfo && (
+        <Dialog open={openKudosInfo} onClick={() => setOpenKudosInfo(!openKudosInfo)}>
+          <DialogTitle variant="h5" sx={{ textAlign: 'center', px: 1 }}>
+            This proof has kudos
+          </DialogTitle>
+          <Divider />
+          <DialogContent>
+            <DialogContentText
+              sx={{
+                mb: 1,
+                overflowY: 'auto',
+                maxHeight: '300px',
+                '&::-webkit-scrollbar': {
+                  width: '7px',
+                  backgroundColor: 'neutral.white',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'primary.main',
+                },
+              }}
+            >
+              {info.map((item) => {
+                return (
+                  <Card
+                    sx={{
+                      p: '10px',
+                      minWidth: '250px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      mt: '10px',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      {' '}
+                      <Avatar
+                        alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
+                        src={item.sponsor_avatar_url}
+                      ></Avatar>
+                      <Typography sx={{ ml: '15px' }}>{item.sponsor_name}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography>{item.count_kudos}</Typography>
+                      <Star sx={{ fontSize: 28, color: 'secondary.main' }} />
+                    </Box>
+                  </Card>
+                );
+              })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={() => setOpenKudosInfo(!openKudosInfo)}>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
     </>
   );

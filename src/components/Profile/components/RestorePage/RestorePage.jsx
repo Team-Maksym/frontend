@@ -1,6 +1,10 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-export const RestorePage = () => {
+import { Box, Button, Typography } from '@mui/material';
+import { recoverySendEmail } from '../../../../shared/service/SponsorProfileService';
+export const RestorePage = ({ person }) => {
+  const recoverySendEmailHandler = (id) => {
+    recoverySendEmail(id);
+  };
   return (
     <Box sx={{ mt: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
       <Typography variant="h2" sx={{ textAlign: 'center', color: 'neutral.white' }}>
@@ -23,6 +27,21 @@ export const RestorePage = () => {
           Starlight Team
         </Box>
       </Typography>
+      <Button
+        variant="contained"
+        sx={{
+          bgcolor: '#d32f2f',
+          color: 'neutral.white',
+          mt: 5,
+          fontSize: '20px',
+          ':hover': {
+            bgcolor: 'primary.main',
+          },
+        }}
+        onClick={() => recoverySendEmailHandler(person.id)}
+      >
+        Send message
+      </Button>
     </Box>
   );
 };
