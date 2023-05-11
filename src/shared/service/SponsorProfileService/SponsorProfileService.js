@@ -22,9 +22,15 @@ export const recoverySendEmail = async (sponsorId) => {
 };
 
 export const recoveryAccount = async (uuid) => {
-  return await publicAxiosInstance.post(`v1/sponsors/recovery-account?uuid=${uuid}`).then((response) => {
-    return response;
-  });
+  return await publicAxiosInstance
+    .get(`v1/sponsors/recovery-account`, {
+      params: {
+        uuid: uuid,
+      },
+    })
+    .then((response) => {
+      return response;
+    });
 };
 
 export const getKudosses = async (sponsorId) => {

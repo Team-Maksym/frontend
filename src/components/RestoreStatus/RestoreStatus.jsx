@@ -8,7 +8,6 @@ export const RestoreStatus = () => {
     console.log(uuid);
     recoveryAccount(uuid);
   };
-  console.log(PersonContext);
   return (
     <Container
       sx={{
