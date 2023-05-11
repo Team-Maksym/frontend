@@ -14,7 +14,6 @@ import { UnauthorizedPage } from '../../shared/components/UnauthorizedPage/Unaut
 import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 import { BigSponsorCard } from './components/BigSponsorCard';
 import { ProofMenuSponsor } from './components/ProofMenu/components/ProofMenuSponsor/ProofMenuSponsor';
-
 import { getCurrentPersonStatus } from '../../shared/service/AuthorizationService/AuthorizationService';
 import { RestorePage } from './components/RestorePage';
 import { RestoreStatus } from '../RestoreStatus';

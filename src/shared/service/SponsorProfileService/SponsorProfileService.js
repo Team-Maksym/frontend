@@ -27,6 +27,6 @@ export const recoveryAccount = async (uuid) => {
 };
 
 export const getKudosses = async (sponsorId) => {
-  return await protectedAxiosInstance.get(`sponsors/${sponsorId}/kudos`).then((response) => response.data);
+  return await protectedAxiosInstance.get(`v1/sponsors/${sponsorId}/kudos`).then((response) => response.data);
 };
 

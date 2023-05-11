@@ -19,5 +19,5 @@ export const getAllProofs = async (page, size, sort) => {
 };
 
 export const getProofById = async (id) => {
-  return await publicAxiosInstance.get(`v1/proofs/${id}`).then((response) => response.data);
+  return await protectedAxiosInstance.get(`v1/proofs/${id}`).then((response) => response.data);
 };
