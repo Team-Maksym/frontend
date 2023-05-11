@@ -29,6 +29,18 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
   }, [person.id]);
 
   const onIncreaseKudosAmount = () => {
+    if (+kudosAmount + +newKudosAmount >= 1e5) {
+      console.log('kudosAmount', kudosAmount);
+      console.log('newKudosAmount', newKudosAmount);
+      console.log('1e5', 1e5);
+      console.log('kudosAmount + newKudosAmount', +kudosAmount + +newKudosAmount);
+      setError(() => 'Amount of kudosses cannot be more than 100000');
+      return;
+    }
+    if (!newKudosAmount) {
+      setError(() => 'Input cannot be empty');
+      return;
+    }
     person.unused_kudos = +newKudosAmount;
     patchSponsor(person.id, person).then(
       (person) => {
@@ -36,6 +48,7 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
         setLoading(() => true);
         setTimeout(() => setLoading(() => false), 2000);
         setIncreaseSuccess(() => true);
+        setNewKudosAmount(() => null);
       },
       (error) => {
         console.log('error');
@@ -110,3 +123,4 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
     </Dialog>
   );
 };
+
