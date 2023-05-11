@@ -1,4 +1,5 @@
 import { protectedAxiosInstance } from '../api';
+import { publicAxiosInstance } from '../api';
 
 export const getOneSponsor = async (sponsorId) => {
   return await protectedAxiosInstance.get(`v1/sponsors/${sponsorId}`).then((response) => response.data);
@@ -21,7 +22,7 @@ export const recoverySendEmail = async (sponsorId) => {
 };
 
 export const recoveryAccount = async (uuid) => {
-  return await protectedAxiosInstance.post(`v1/sponsors/recovery-account`, uuid).then((response) => {
+  return await publicAxiosInstance.post(`v1/sponsors/recovery-account?uuid=${uuid}`).then((response) => {
     return response;
   });
 };
@@ -29,4 +30,3 @@ export const recoveryAccount = async (uuid) => {
 export const getKudosses = async (sponsorId) => {
   return await protectedAxiosInstance.get(`sponsors/${sponsorId}/kudos`).then((response) => response.data);
 };
-

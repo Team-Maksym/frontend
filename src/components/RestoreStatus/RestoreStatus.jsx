@@ -1,11 +1,14 @@
 import { Button, Container, Typography } from '@mui/material';
 import { recoveryAccount } from '../../shared/service/SponsorProfileService';
+import { PersonContext } from '../../shared/context';
 export const RestoreStatus = () => {
   const recoverAccountHandler = () => {
     const currentUrl = window.location.href;
     let uuid = currentUrl.substring(currentUrl.match('uuid=').index + 5);
+    console.log(uuid);
     recoveryAccount(uuid);
   };
+  console.log(PersonContext);
   return (
     <Container
       sx={{
@@ -19,7 +22,7 @@ export const RestoreStatus = () => {
       }}
     >
       <Typography variant="h2" sx={{ textAlign: 'center', color: 'neutral.white' }}>
-        To continue futher work on our site you need to recover account.
+        To continue futher work on our site you need to press recover account button and log in.
       </Typography>
       <Button
         variant="contained"
