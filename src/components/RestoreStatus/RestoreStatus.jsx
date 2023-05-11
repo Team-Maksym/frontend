@@ -5,7 +5,6 @@ export const RestoreStatus = () => {
   const recoverAccountHandler = () => {
     const currentUrl = window.location.href;
     let uuid = currentUrl.substring(currentUrl.match('uuid=').index + 5);
-    console.log(uuid);
     recoveryAccount(uuid);
   };
   return (
