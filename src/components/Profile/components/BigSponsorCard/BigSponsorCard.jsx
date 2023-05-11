@@ -121,29 +121,33 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
             />
             <KudosAmountModal open={isKudosAmountModalOpen} onClose={handleCloseKudosAmountModal} person={person} />
             <Box>
-              <Tooltip title="Delete" placement="top">
-                <IconButton onClick={openDeleteModal}>
-                  <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-                </IconButton>
-              </Tooltip>
-              <Button
-                variant="elevated"
-                startIcon={<Wallet />}
-                sx={{
-                  bgcolor: 'secondary.main',
-                  ':hover': {
-                    bgcolor: 'secondary.dark',
-                  },
-                }}
-                onClick={openKudosAmountModal}
-              >
-                Change balance
-              </Button>
-              <Tooltip title="Edit" placement="top">
-                <IconButton onClick={openEditModal}>
-                  <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
-                </IconButton>
-              </Tooltip>
+              <Box>
+                <Button
+                  variant="elevated"
+                  startIcon={<Wallet />}
+                  sx={{
+                    bgcolor: 'secondary.main',
+                    ':hover': {
+                      bgcolor: 'secondary.dark',
+                    },
+                  }}
+                  onClick={openKudosAmountModal}
+                >
+                  Change balance
+                </Button>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Tooltip title="Delete" placement="top">
+                  <IconButton onClick={openDeleteModal}>
+                    <Delete sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Edit" placement="top">
+                  <IconButton onClick={openEditModal}>
+                    <Edit sx={{ color: 'secondary.main', justifyContent: 'space-between' }} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
           </>
         )}
@@ -151,3 +155,4 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
     </>
   );
 };
+

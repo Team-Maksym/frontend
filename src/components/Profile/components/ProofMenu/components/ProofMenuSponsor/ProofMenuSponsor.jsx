@@ -50,7 +50,7 @@ export const ProofMenuSponsor = ({ actionsAccess, sponsorId }) => {
         expanded,
         handleChangeAcordion,
         actionsAccess,
-        personRole: 'ROLE_SPONSOR'
+        personRole: 'ROLE_SPONSOR',
       }}
     >
       <Box
@@ -69,13 +69,7 @@ export const ProofMenuSponsor = ({ actionsAccess, sponsorId }) => {
       >
         <Box sx={{ pl: '10px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
           <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
-            {actionsAccess && (
-              <Tab
-                label="Praised"
-                sx={{ color: 'neutral.white' }}
-                value={0}
-              />
-            )}
+            {actionsAccess && <Tab label="Praised" sx={{ color: 'neutral.white' }} value={0} />}
           </Tabs>
         </Box>
 
