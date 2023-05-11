@@ -37,7 +37,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
       setOpenModal(true);
     } else {
       e.stopPropagation();
-      if (info.length > 0) {
+      if (info && info.length > 0) {
         setOpenKudosInfo(!openKudosInfo);
       } else {
         setAnchorEl(document);

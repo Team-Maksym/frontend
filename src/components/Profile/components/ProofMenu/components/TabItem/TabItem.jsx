@@ -57,4 +57,3 @@ export const TabItem = ({ value, index, type }) => {
     </TabPanel>
   );
 };
-
