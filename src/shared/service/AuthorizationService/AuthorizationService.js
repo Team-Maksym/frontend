@@ -11,6 +11,10 @@ export const getCurrentPersonRole = () => {
   return token && jwt_decode(token).scope;
 };
 
+export const getCurrentPersonStatus = () => {
+  const token = localStorage.getItem('token');
+  return token && jwt_decode(token).status;
+};
 export const signUp = async ({ type, ...person }) => {
   const response = await publicAxiosInstance.post(type, person);
   if (response.data.token) {
