@@ -16,7 +16,7 @@ export const getCurrentPersonStatus = () => {
   return token && jwt_decode(token).status;
 };
 export const signUp = async ({ type, ...person }) => {
-  const response = await publicAxiosInstance.post(type, person);
+  const response = await publicAxiosInstance.post(`v1/${type}`, person);
   if (response.data.token) {
     localStorage.setItem('token', response.data.token);
   }
@@ -45,12 +45,12 @@ export const signIn = async ({ type, ...person }) => {
     },
   );
 
-    const [sponsorResponse, talentResponse] = await Promise.allSettled([sponsorLoginPromise, talentLoginPromise]);
-    const successfulResponse = sponsorResponse.status === 'fulfilled' ? sponsorResponse : talentResponse;
-    if (sponsorResponse.status === 'rejected' && talentResponse.status === 'rejected') {
-      throw sponsorResponse.reason.response;
-    }
-    if (successfulResponse.value.data.token) {
-      localStorage.setItem('token', successfulResponse.value.data.token);
-    }
+  const [sponsorResponse, talentResponse] = await Promise.allSettled([sponsorLoginPromise, talentLoginPromise]);
+  const successfulResponse = sponsorResponse.status === 'fulfilled' ? sponsorResponse : talentResponse;
+  if (sponsorResponse.status === 'rejected' && talentResponse.status === 'rejected') {
+    throw sponsorResponse.reason.response;
+  }
+  if (successfulResponse.value.data.token) {
+    localStorage.setItem('token', successfulResponse.value.data.token);
+  }
 };
