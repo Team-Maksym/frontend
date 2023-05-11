@@ -27,9 +27,9 @@ export const AuthModal = ({ open, onClose, type, authorizePerson }) => {
         onClose();
         navigate(`/profile/${person.id}`);
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.request.status === 401) {
           setError(() => 'Wrong email or password');
-        } else if (error.response.status === 409) {
+        } else if (error.request.status === 409) {
           setError(() => 'An account is already registered with your email');
         } else {
           setError(() => 'Oops, something is wrong');

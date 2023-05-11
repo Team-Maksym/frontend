@@ -45,14 +45,12 @@ export const signIn = async ({ type, ...person }) => {
     },
   );
 
-  try {
     const [sponsorResponse, talentResponse] = await Promise.allSettled([sponsorLoginPromise, talentLoginPromise]);
     const successfulResponse = sponsorResponse.status === 'fulfilled' ? sponsorResponse : talentResponse;
-
+    if (sponsorResponse.status === 'rejected' && talentResponse.status === 'rejected') {
+      throw sponsorResponse.reason.response;
+    }
     if (successfulResponse.value.data.token) {
       localStorage.setItem('token', successfulResponse.value.data.token);
     }
-  } catch (error) {
-    console.error(error);
-  }
 };
