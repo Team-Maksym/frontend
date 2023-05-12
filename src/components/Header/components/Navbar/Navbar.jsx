@@ -5,6 +5,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { PersonContext } from '../../../../shared/context/PersonContext';
 import { UnauthorizedNavbar } from '../UnauthorizedNavbar';
 import { DrawerComp } from '../DrawerComp';
+import { DigitDisplay } from './DigitDisplay';
 export const Navbar = () => {
   const [value, setValue] = useState('one');
   const { openAuthModal, person, signOut } = useContext(PersonContext);
@@ -24,7 +25,7 @@ export const Navbar = () => {
         setValue('one');
       }
     }
-  });
+  },[person]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -34,6 +35,13 @@ export const Navbar = () => {
     <>
       {person ? (
         <>
+          {person.unused_kudos ? (
+            <>
+              <DigitDisplay value={person.unused_kudos} />
+            </>
+          ) : (
+            <></>
+          )}
           <Tabs
             sx={{ display: { xs: 'none', md: 'flex' } }}
             value={value}
