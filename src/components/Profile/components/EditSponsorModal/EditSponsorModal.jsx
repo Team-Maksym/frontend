@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import * as yup from 'yup';
 import { Form } from '../../../../shared/components/Form';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';

@@ -8,15 +8,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  CardActions,
   IconButton,
   Tooltip,
-  Chip,
   Box,
   Button,
 } from '@mui/material';
 import { Business, Delete, Edit, Wallet } from '@mui/icons-material';
-import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditSponsorModal } from '../EditSponsorModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 import { KudosAmountModal } from '../KudosAmountModal';
