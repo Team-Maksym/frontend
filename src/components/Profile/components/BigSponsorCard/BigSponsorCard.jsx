@@ -21,6 +21,8 @@ import { EditSponsorModal } from '../EditSponsorModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 import { KudosAmountModal } from '../KudosAmountModal';
 import { DeleteSponsorModal } from '../DeleteSponsorModal/DeleteSponsorModal';
+import StarIcon from '@mui/icons-material/Star';
+
 export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -73,37 +75,60 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
         }}
       >
         <Box>
-          <Avatar
-            alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
-            src={localAvatar || `${localAvatar}`}
-            sx={{
-              bgcolor: 'secondary.main',
-              width: '150px',
-              height: '150px',
-              m: '15px auto',
-              fontSize: '50px',
-            }}
-          />
-          <CardContent>
-            <Typography variant="h5" component="div">
-              {person.full_name}
-            </Typography>
-            <List>
-              {Object.keys(icons).map((item) => (
-                <ListItem disablePadding sx={{ m: '7px auto' }} key={item}>
-                  <ListItemIcon
-                    sx={{
-                      justifyContent: 'center',
-                      color: 'neutral.white',
-                    }}
-                  >
-                    {icons[item]}
-                  </ListItemIcon>
-                  <ListItemText primary={person[item] || '-'} />
-                </ListItem>
-              ))}
-            </List>
-          </CardContent>
+          <Box>
+            <Avatar
+              alt={person.full_name.trim().charAt(0).toUpperCase() + person.full_name.trim().slice(1)}
+              src={localAvatar || `${localAvatar}`}
+              sx={{
+                bgcolor: 'secondary.main',
+                width: '150px',
+                height: '150px',
+                m: '15px auto',
+                fontSize: '50px',
+              }}
+            />
+            <CardContent>
+              <Typography variant="h5" component="div">
+                {person.full_name}
+              </Typography>
+              <List>
+                {Object.keys(icons).map((item) => (
+                  <ListItem disablePadding sx={{ m: '7px auto' }} key={item}>
+                    <ListItemIcon
+                      sx={{
+                        justifyContent: 'center',
+                        color: 'neutral.white',
+                      }}
+                    >
+                      {icons[item]}
+                    </ListItemIcon>
+                    <ListItemText primary={person[item] || '-'} />
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Box>
+        </Box>
+        <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center', mb:'20px' }}>
+            <StarIcon sx={{ width: '1.8em', height: '1.7em', color: 'secondary.main' }} />
+            <Typography fontSize="1.8em">{person.unused_kudos}</Typography>
+          </Box>
+          <Box>
+            <Button
+              variant="elevated"
+              startIcon={<Wallet />}
+              sx={{
+                bgcolor: 'secondary.main',
+                ':hover': {
+                  bgcolor: 'secondary.dark',
+                },
+              }}
+              onClick={openKudosAmountModal}
+            >
+              Change balance
+            </Button>
+          </Box>
         </Box>
         {actionsAccess && (
           <>
@@ -121,21 +146,6 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
             />
             <KudosAmountModal open={isKudosAmountModalOpen} onClose={handleCloseKudosAmountModal} person={person} />
             <Box>
-              <Box>
-                <Button
-                  variant="elevated"
-                  startIcon={<Wallet />}
-                  sx={{
-                    bgcolor: 'secondary.main',
-                    ':hover': {
-                      bgcolor: 'secondary.dark',
-                    },
-                  }}
-                  onClick={openKudosAmountModal}
-                >
-                  Change balance
-                </Button>
-              </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Tooltip title="Delete" placement="top">
                   <IconButton onClick={openDeleteModal}>
@@ -155,4 +165,3 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
     </>
   );
 };
-
