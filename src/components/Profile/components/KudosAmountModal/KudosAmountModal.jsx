@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from 'react';
 import { getOneSponsor, patchSponsor } from '../../../../shared/service/SponsorProfileService';
 
-export const KudosAmountModal = ({ open, onClose, person }) => {
+export const KudosAmountModal = ({ open, onClose, person, setPerson }) => {
   const [kudosAmount, setKudosAmount] = useState(null);
   const [newKudosAmount, setNewKudosAmount] = useState(null);
   const [error, setError] = useState('');
@@ -23,10 +23,13 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getOneSponsor(person.id).then((person) => {
-      setKudosAmount(() => person.unused_kudos);
+    getOneSponsor(person.id).then((user) => {
+      setKudosAmount(() => user.unused_kudos);
+      // setPerson(person);
+      setPerson((person) => ({ ...person, unused_kudos: user.unused_kudos }));
+      console.log(person);
     });
-  }, [person.id]);
+  }, [person.id, newKudosAmount]);
 
   const onIncreaseKudosAmount = () => {
     if (+kudosAmount + +newKudosAmount >= 1e5) {
@@ -123,4 +126,3 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
     </Dialog>
   );
 };
-

@@ -107,7 +107,7 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
           </Box>
         </Box>
         <Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center', mb:'20px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: '20px' }}>
             <StarIcon sx={{ width: '1.8em', height: '1.7em', color: 'secondary.main' }} />
             <Typography fontSize="1.8em">{person.unused_kudos}</Typography>
           </Box>
@@ -141,7 +141,12 @@ export const BigSponsorCard = ({ person, setPerson, actionsAccess }) => {
               person={person}
               setPerson={setPerson}
             />
-            <KudosAmountModal open={isKudosAmountModalOpen} onClose={handleCloseKudosAmountModal} person={person} />
+            <KudosAmountModal
+              open={isKudosAmountModalOpen}
+              onClose={handleCloseKudosAmountModal}
+              person={person}
+              setPerson={setPerson}
+            />
             <Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Tooltip title="Delete" placement="top">
