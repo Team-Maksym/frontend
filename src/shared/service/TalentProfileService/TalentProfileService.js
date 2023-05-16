@@ -23,7 +23,7 @@ export const getOneTalent = async (talentId) => {
 
 export const getOneTalentProofs = async (talentId, proofStatus) => {
   return await protectedAxiosInstance
-    .get(`v2/talents/${talentId}/proofs?page=0&size=2147483647&sort=true&status=${proofStatus}`)
+    .get(`v1/talents/${talentId}/proofs?page=0&size=2147483647&sort=true&status=${proofStatus}`)
     .then((response) => response.data);
 };
 
