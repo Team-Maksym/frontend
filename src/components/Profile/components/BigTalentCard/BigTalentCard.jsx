@@ -13,13 +13,11 @@ import {
   Tooltip,
   Chip,
   Box,
-  Button,
 } from '@mui/material';
 import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
-import { KudosAmountModal } from '../KudosAmountModal';
 
 export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

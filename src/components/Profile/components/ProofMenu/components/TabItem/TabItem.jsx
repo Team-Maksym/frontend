@@ -7,7 +7,7 @@ import { ProofItemProfile } from '../ProofItemProfile';
 import { TabPanel } from '../TabPanel';
 import { ProofItem } from '../../../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../../../shared/components/ProofDescription';
-import { Kudos } from '../../Kudos';
+// import { Kudos } from '../../Kudos';
 import { EmptyProofs } from '../EmptyProofs/EmptyProofs';
 import { getCurrentPersonRole } from '../../../../../../shared/service/AuthorizationService/AuthorizationService';
 
@@ -39,11 +39,11 @@ export const TabItem = ({ value, index, type }) => {
                         personRole !== 'ROLE_SPONSOR' && <ProofItemProfile val={value} id={item.id} status={drafted} />
                       }
                     />
-                    <Kudos
-                      proofId={item.id}
-                      info={item.sponsor_on_proof_short_info_list}
-                      isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}
-                    />
+                    {/*<Kudos*/}
+                    {/*  proofId={item.id}*/}
+                    {/*  info={item.sponsor_on_proof_short_info_list}*/}
+                    {/*  isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}*/}
+                    {/*/>*/}
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />
