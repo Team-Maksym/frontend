@@ -12,7 +12,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { PreLoader } from '../PreLoader';
 import { SkillAutocomplete } from './components/SkillAutocomplete';
-import { TagCloudCustom } from "./components/TagCloudCustom";
 // import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {

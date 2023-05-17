@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useNavigate } from 'react-router-dom';
+import TagCloud from 'TagCloud'
 
 export const TagCloudCustom = () => {
   const sphereRef = useRef(null);
