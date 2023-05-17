@@ -7,13 +7,48 @@ import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
 import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
+import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import { getOneProofSkill } from '../../../../../../shared/service/SkillService';
+import { postOneProofSkill } from '../../../../../../shared/service/SkillService';
 
 export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
-
   const navigate = useNavigate();
+  const [searchDisplay, setSearchDisplay] = useState('none');
+  const [proofSkills, setProofSkills] = useState([]);
+
+  const handleAddSkill = (newSkill) => {
+    setSearchDisplay('none');
+    setProofSkills((prev) => [...prev, newSkill]);
+  };
+
+  useEffect(() => {
+    if (proofInfo?.id) {
+      getOneProofSkill(proofInfo.id)
+        .then((data) => {
+          setProofSkills(data.skills);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [proofInfo.id]);
+
+  const currentSkills = () => {
+    if (!!proofSkills && proofSkills.length > 0) {
+      console.log(proofSkills);
+      return proofSkills.map((item, i) => {
+        return <Chip key={i} label={item.skill} variant="outlined" onDelete={handleDelete} />;
+      });
+    }
+  };
+
   const onEditProofHandler = () => {
     let talentId = getCurrentPersonId();
     return async (values) => {
@@ -28,6 +63,10 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       } else {
         try {
           await editTalentProof(talentId, proofInfo.id, newProof);
+          if (!!proofSkills && proofSkills.length > 0) {
+            const serviceProofsForPost = { skills: proofSkills };
+            postOneProofSkill(talentId, proofInfo.id, serviceProofsForPost);
+          }
           setUpdated(true);
           navigate(`/profile/${talentId}?status=draft`);
         } catch (error) {
@@ -64,6 +103,10 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
     },
   };
 
+  const handleDelete = () => {
+    console.info('You clicked the delete icon.');
+  };
+
   return (
     <Dialog
       open={openEditModal}
@@ -78,6 +121,17 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       <DialogTitle id="contained-Dialog-title-vcenter">{editProof.title}</DialogTitle>
       <DialogContent>
         <Form {...editProof}>
+          <Box sx={{ width: '100%', mt: '15px' }}>
+            <Stack display="flex" flexDirection="row" flexWrap="wrap" spacing={1} mb="15px">
+              {currentSkills()}
+              <IconButton aria-label="addSkill" onClick={() => setSearchDisplay('block')}>
+                <AddIcon />
+              </IconButton>
+            </Stack>
+            <Box display={searchDisplay}>
+              <SkillAutocomplete handleAddSkill={handleAddSkill} />
+            </Box>
+          </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button
               variant="outlined"

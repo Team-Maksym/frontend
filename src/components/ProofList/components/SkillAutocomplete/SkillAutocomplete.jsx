@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const SkillAutocomplete = () => {
+export const SkillAutocomplete = ({ handleAddSkill }) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
@@ -28,6 +28,7 @@ export const SkillAutocomplete = () => {
 
   const handleFilterChange = (event) => {
     setFilter(() => event.target.value);
+    console.log(event.target.value);
     let searchParams = new URLSearchParams(location.search);
     searchParams.set('filter', filter);
     console.log(`${location.pathname}?${searchParams.toString()}`);
@@ -41,14 +42,16 @@ export const SkillAutocomplete = () => {
       options={data}
       size="small"
       getOptionLabel={(option) => option}
-      sx={{ width: 300, mr: '16px' }}
+      onChange={(event, newValue) => handleAddSkill(newValue)}
+      // sx={{ width: 300, mr: '16px' }}
+      sx={{ width: '100%' }}
       renderInput={(params) => (
         <Paper>
           <TextField
             {...params}
-            // sx={{ color: 'neutral.white', bgcolor: 'neutral.whiteGrey' }}
+            sx={{ bgcolor: 'neutral.white' }}
             label="Filter"
-            variant="filled"
+            // variant="filled"
             value={filter}
             onChange={handleFilterChange}
           />
