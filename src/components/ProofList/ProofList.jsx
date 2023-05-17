@@ -11,6 +11,8 @@ import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { PreLoader } from '../PreLoader';
+import { SkillAutocomplete } from './components/SkillAutocomplete';
+import { TagCloudCustom } from "./components/TagCloudCustom";
 // import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {
@@ -68,6 +70,7 @@ export const ProofList = () => {
     <Wrapper>
       <Box sx={{ mt: '56px', p: '0 10px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
+          <SkillAutocomplete/>
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
