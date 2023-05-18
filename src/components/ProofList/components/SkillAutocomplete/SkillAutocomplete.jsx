@@ -5,19 +5,20 @@ import Paper from '@mui/material/Paper';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const SkillAutocomplete = () => {
+export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, setSkill }) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
   const skip = 0;
   const limit = 1000;
-  const [filter, setFilter] = useState(query.get('filter') || '');
+  const [filter, setFilter] = useState('');
   // const [skill, setSkill] = useState(query.get('skill') || '');
   const [data, setData] = useState([]);
 
   useEffect(() => {
     getAllSkills(skip, limit, filter)
       .then((response) => {
+        setAllSkills && setAllSkills(response.data);
         const skills = response.data.map((item) => item.skill);
         setData(skills);
       })
@@ -25,54 +26,58 @@ export const SkillAutocomplete = () => {
         console.log(error);
         navigate('/404', { replace: true });
       });
-  }, [filter]);
+  }, [filter, skill]);
 
-  const handleFilterChange = (event) => {
-    setFilter(() => event.target.value);
+  const handleSkillChange = (event, newValue) => {
+    setSkill(() => newValue);
     let searchParams = new URLSearchParams(location.search);
-    searchParams.set('filter', filter);
+    searchParams.set('skill', newValue);
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
+  const handleFilterChange = (event, newValue) => {
+    setFilter(() => event.target.value);
+    // let searchParams = new URLSearchParams(location.search);
+    // searchParams.set('filter', filter);
+    // navigate(`${location.pathname}?${searchParams.toString()}`);
+  };
 
-  // const handleClearFilter = (event, value) => {
-  //   console.log(event, value);
-  // setFilter(() => '');
-  // let searchParams = new URLSearchParams(location.search);
-  // searchParams.set('filter', filter);
-  // navigate(`${location.pathname}?${searchParams.toString()}`);
-  // };
-
-  // const handleSelectOption = (event, value) => {
-  //   console.log(value)
-  //   setSkill(() => value);
-  //   let searchParams = new URLSearchParams(location.search);
-  //   searchParams.set('skill', skill);
-  //   navigate(`${location.pathname}?${searchParams.toString()}`);
-  // };
+  const onChangeFunction = (event, newValue) => {
+    if (handleAddSkill) {
+      handleAddSkill(newValue);
+    } else {
+      handleSkillChange(event, newValue);
+    }
+  };
 
   return (
-    <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={data}
-      size="small"
-      getOptionLabel={(option) => option}
-      sx={{ width: 300, mr: '16px' }}
-      // onClear={handleFilterChange}
-      // onChange={handleSelectOption}
-      renderInput={(params) => (
-        <Paper>
-          <TextField
-            {...params}
-            // sx={{ color: 'neutral.white', bgcolor: 'neutral.whiteGrey' }}
-            label="Filter"
-            variant="filled"
-            value={filter}
-            onChange={handleFilterChange}
-            // onInputChange={handleClearFilter}
-          />
-        </Paper>
-      )}
-    />
+    <>
+      <Autocomplete
+        // multiple
+        id="tags-outlined"
+        options={data}
+        size="small"
+        getOptionLabel={(option) => option}
+        value={skill}
+        onChange={onChangeFunction}
+        onClose={(event, reason) => {
+          if (reason === 'clear') {
+            setFilter(() => '');
+          }
+        }}
+        sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}` }}
+        filterSelectedOptions
+        renderInput={(params) => (
+          <Paper>
+            <TextField
+              {...params}
+              label="Filter"
+              variant="filled"
+              placeholder="Favorites"
+              onChange={handleFilterChange}
+            />
+          </Paper>
+        )}
+      />
+    </>
   );
 };

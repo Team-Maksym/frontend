@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { PreLoader } from '../PreLoader';
 import { SkillAutocomplete } from './components/SkillAutocomplete';
+import { Chip } from '@mui/material';
 // import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {
@@ -22,6 +23,7 @@ export const ProofList = () => {
   const [sort, setSort] = useState(query.get('sort') || true);
   const [proofs, setProofs] = useState([]);
   const [expanded, setExpanded] = useState(false);
+  const [skill, setSkill] = useState(query.get('skill') || '');
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -34,7 +36,11 @@ export const ProofList = () => {
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
-  const items = proofs.map((item, i) => {
+  const filteredObjects = skill
+    ? proofs.filter((item) => item.skill_with_category_list.some((skillObj) => skillObj.skill === skill))
+    : proofs;
+
+  const items = filteredObjects.map((item, i) => {
     return (
       <Box key={item.id} sx={{ bgcolor: 'neutral.whiteGrey' }}>
         <Typography variant="h5" sx={{ p: '10px', color: 'neutral.white' }}>
@@ -56,6 +62,16 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
+              <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
+                {item.skill_with_category_list.map((item, i) => (
+                  <Chip
+                    key={i}
+                    label={item.skill}
+                    variant="outlined"
+                    sx={{ m: '5px', bgcolor: 'secondary.main', borderColor: 'secondary.main', color: 'neutral.white' }}
+                  />
+                ))}
+              </Stack>
               {/*<Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />*/}
             </Stack>
           </AccordionSummary>
@@ -69,13 +85,14 @@ export const ProofList = () => {
     <Wrapper>
       <Box sx={{ mt: '56px', p: '0 10px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
-          <SkillAutocomplete/>
+          <SkillAutocomplete width={'300px'} skill={skill} setSkill={setSkill} />
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
         </Box>
-        {items.length === 0 ? <PreLoader /> : items}
-        <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
+        {items.length === 0 ? <>Nothing was found</> : items}
+        {skill ? <></> : <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />}
+        {/*<PaginationCustom size={1} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />*/}
       </Box>
     </Wrapper>
   );

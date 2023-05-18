@@ -1,4 +1,4 @@
-import { publicAxiosInstance } from '../api';
+import { publicAxiosInstance, protectedAxiosInstance } from '../api';
 
 export const getAllSkills = async (skip, limit, filter) => {
   let data = [];
@@ -16,4 +16,14 @@ export const getAllSkills = async (skip, limit, filter) => {
     });
 
   return data;
+};
+
+export const getOneProofSkill = async (proofId) => {
+  return await protectedAxiosInstance.get(`v1/proofs/${proofId}/skills`).then((response) => response.data);
+};
+
+export const postOneProofSkill = async (talentId, proofId, skills) => {
+  return await protectedAxiosInstance
+    .post(`v1/talents/${talentId}/proofs/${proofId}/skills`, skills)
+    .then((response) => response.data);
 };
