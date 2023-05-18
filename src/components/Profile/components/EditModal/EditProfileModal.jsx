@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as yup from 'yup';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
 import { Form } from '../../../../shared/components/Form';
@@ -8,9 +9,15 @@ import { ExperienceField } from '../../../../shared/components/Fields/Experience
 import { patchTalentProfile } from '../../../../shared/service/TalentProfileService';
 import { getCurrentPersonId } from '../../../../shared/service/AuthorizationService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
-import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
-
+import { Button, Dialog, DialogContent, DialogTitle, Box, IconButton, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
 export const EditProfileModal = ({ open, onClose, person: talent, setPerson: setTalent }) => {
+  const [allSkills, setAllSkills] = useState([]);
+  const [skillListShow, setSkillListShow] = useState(false);
+  const [profileSkill, setProfileSkill] = useState('');
   const onEditProfileHandler = (action) => {
     let talentId = getCurrentPersonId();
     return async (values) => {
@@ -101,7 +108,13 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
       birthday: BirthdayField,
     },
   };
-
+  const addProfileSkill = (newSkill) => {
+    setSkillListShow(!skillListShow);
+    setProfileSkill(newSkill);
+  };
+  const deleteSkillListShow = () => {
+    setProfileSkill('');
+  };
   return (
     <Dialog
       open={open}
@@ -116,6 +129,39 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
       <DialogTitle id="contained-Dialog-title-vcenter">{editForm.title}</DialogTitle>
       <DialogContent>
         <Form {...editForm}>
+          <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%', mt: '10px', display: 'flex' }}>
+              {profileSkill && (
+                <>
+                  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography>Change your skill</Typography>
+                    <Box>
+                      <IconButton aria-label="addSkill" onClick={() => setSkillListShow(!skillListShow)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton aria-label="removeSkill" onClick={() => deleteSkillListShow()}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                </>
+              )}
+              {!profileSkill && (
+                <>
+                  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography>Choose your skill</Typography>
+                    <IconButton aria-label="addSkill" onClick={() => setSkillListShow(!skillListShow)}>
+                      <AddIcon />
+                    </IconButton>
+                  </Box>
+                </>
+              )}
+            </Box>
+            <Typography>{profileSkill}</Typography>
+            {skillListShow && (
+              <SkillAutocomplete handleAddSkill={addProfileSkill} setAllSkills={setAllSkills}></SkillAutocomplete>
+            )}
+          </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button variant="outlined" onClick={onClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
               Cancel
