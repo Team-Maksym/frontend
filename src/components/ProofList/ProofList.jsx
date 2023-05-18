@@ -59,10 +59,14 @@ export const ProofList = () => {
               <ProofItem description={item.description} />
               <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
                 {item.skill_with_category_list.map((item, i) => (
-                  <Chip key={i} label={item.skill} variant="outlined" sx={{ m: '5px' }} />
+                  <Chip
+                    key={i}
+                    label={item.skill}
+                    variant="outlined"
+                    sx={{ m: '5px', bgcolor: 'secondary.main', borderColor: 'secondary.main', color: 'neutral.white' }}
+                  />
                 ))}
               </Stack>
-
               {/*<Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />*/}
             </Stack>
           </AccordionSummary>
@@ -76,7 +80,7 @@ export const ProofList = () => {
     <Wrapper>
       <Box sx={{ mt: '56px', p: '0 10px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
-          <SkillAutocomplete />
+          <SkillAutocomplete width={'300px'} />
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>

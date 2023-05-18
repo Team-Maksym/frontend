@@ -47,9 +47,21 @@ export const TabItem = ({ value, index, type }) => {
                     {/*  info={item.sponsor_on_proof_short_info_list}*/}
                     {/*  isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}*/}
                     {/*/>*/}
-                    {item.skill_with_category_list.map((item, i) => (
-                      <Chip key={i} label={item.skill} variant="outlined" sx={{ m: '5px' }} />
-                    ))}
+                    <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
+                      {item.skill_with_category_list.map((item, i) => (
+                        <Chip
+                          key={i}
+                          label={item.skill}
+                          variant="outlined"
+                          sx={{
+                            m: '5px',
+                            bgcolor: 'secondary.main',
+                            borderColor: 'secondary.main',
+                            color: 'neutral.white'
+                          }}
+                        />
+                      ))}
+                    </Stack>
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />

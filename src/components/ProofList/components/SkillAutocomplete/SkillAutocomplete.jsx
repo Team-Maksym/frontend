@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const SkillAutocomplete = ({ handleAddSkill, setAllSkills}) => {
+export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills }) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
@@ -45,7 +45,7 @@ export const SkillAutocomplete = ({ handleAddSkill, setAllSkills}) => {
       getOptionLabel={(option) => option}
       onChange={(event, newValue) => handleAddSkill && handleAddSkill(newValue)}
       // sx={{ width: 300, mr: '16px' }}
-      sx={{ width: '100%' }}
+      sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}` }}
       renderInput={(params) => (
         <Paper>
           <TextField
