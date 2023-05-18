@@ -18,7 +18,15 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
     getAllSkills(skip, limit, filter)
       .then((response) => {
         setAllSkills && setAllSkills(response.data);
-        const skills = response.data.map((item) => item.skill);
+        const skills = response.data.sort((a, b) => {
+          if (a.category < b.category) {
+            return -1;
+          }
+          if (a.category > b.category) {
+            return 1;
+          }
+          return 0;
+        });
         setData(skills);
       })
       .catch(function (error) {
@@ -38,11 +46,14 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
     setFilter(() => event.target.value);
   };
 
-  const onChangeFunction = (event, newValue) => {
+  const onChangeFunction = (event, newValue, reason) => {
     if (handleAddSkill) {
       handleAddSkill(newValue);
     } else {
       handleSkillChange(event, newValue);
+    }
+    if (reason === 'clear') {
+      setFilter(() => '');
     }
   };
 
@@ -52,15 +63,11 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
         disablePortal
         id="combo-box-demo"
         options={data}
+        groupBy={(option) => option.category}
         size="small"
-        getOptionLabel={(option) => option}
+        getOptionLabel={(option) => option.skill}
         value={skill}
         onChange={onChangeFunction}
-        onClose={(event, reason) => {
-          if (reason === 'clear') {
-            setFilter(() => '');
-          }
-        }}
         sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}` }}
         filterSelectedOptions
         renderInput={(params) => (
@@ -68,9 +75,9 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
             <TextField
               {...params}
               sx={!!handleAddSkill && { bgcolor: 'neutral.white' }}
-              label="Filter"
+              label="Skills"
               variant={!!handleAddSkill ? 'outlined' : 'filled'}
-              placeholder="Favorites"
+              placeholder={`${data[Math.floor(Math.random() * data.length)].skill}`}
               onChange={handleFilterChange}
             />
           </Paper>

@@ -81,7 +81,7 @@ export const ProofList = () => {
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
         </Box>
-        {items.length === 0 ? <>Nothing was found</> : items}
+        {items.length === 0 ? <>Nothing found</> : items}
         {skill !== null ? (
           <PaginationCustom size={1000} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
         ) : (
