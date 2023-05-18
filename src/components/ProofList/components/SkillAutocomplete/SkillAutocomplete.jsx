@@ -12,7 +12,6 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
   const skip = 0;
   const limit = 1000;
   const [filter, setFilter] = useState('');
-  // const [skill, setSkill] = useState(query.get('skill') || '');
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -34,11 +33,9 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
     searchParams.set('skill', newValue);
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
-  const handleFilterChange = (event, newValue) => {
+
+  const handleFilterChange = (event) => {
     setFilter(() => event.target.value);
-    // let searchParams = new URLSearchParams(location.search);
-    // searchParams.set('filter', filter);
-    // navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
   const onChangeFunction = (event, newValue) => {
@@ -52,8 +49,8 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
   return (
     <>
       <Autocomplete
-        // multiple
-        id="tags-outlined"
+        disablePortal
+        id="combo-box-demo"
         options={data}
         size="small"
         getOptionLabel={(option) => option}
@@ -70,8 +67,9 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
           <Paper>
             <TextField
               {...params}
+              sx={!!handleAddSkill && { bgcolor: 'neutral.white' }}
               label="Filter"
-              variant="filled"
+              variant={!!handleAddSkill ? 'outlined' : 'filled'}
               placeholder="Favorites"
               onChange={handleFilterChange}
             />

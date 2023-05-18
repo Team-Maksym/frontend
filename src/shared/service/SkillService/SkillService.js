@@ -27,3 +27,9 @@ export const postOneProofSkill = async (talentId, proofId, skills) => {
     .post(`v1/talents/${talentId}/proofs/${proofId}/skills`, skills)
     .then((response) => response.data);
 };
+
+export const deleteSkill = async (talentId, proofId, skillId) => {
+  return await protectedAxiosInstance
+    .delete(`v1/talents/${talentId}/proofs/${proofId}/skills/${skillId}`)
+    .then((response) => response.data);
+};
