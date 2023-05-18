@@ -23,7 +23,8 @@ export const ProofList = () => {
   const [sort, setSort] = useState(query.get('sort') || true);
   const [proofs, setProofs] = useState([]);
   const [expanded, setExpanded] = useState(false);
-  const [skill, setSkill] = useState(query.get('skill') || '');
+  const [skill, setSkill] = useState(query.get('skill') || null);
+  console.log(skill ? '<></> ' : ' PaginationCustom', skill);
 
   const handleChangeAccordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -91,7 +92,11 @@ export const ProofList = () => {
           </Button>
         </Box>
         {items.length === 0 ? <>Nothing was found</> : items}
-        {skill ? <></> : <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />}
+        {skill !== null ? (
+          <PaginationCustom size={1000} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
+        ) : (
+          <PaginationCustom size={8} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
+        )}
         {/*<PaginationCustom size={1} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />*/}
       </Box>
     </Wrapper>
