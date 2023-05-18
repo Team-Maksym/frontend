@@ -12,6 +12,7 @@ export const SkillAutocomplete = () => {
   const skip = 0;
   const limit = 1000;
   const [filter, setFilter] = useState(query.get('filter') || '');
+  // const [skill, setSkill] = useState(query.get('skill') || '');
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -30,9 +31,24 @@ export const SkillAutocomplete = () => {
     setFilter(() => event.target.value);
     let searchParams = new URLSearchParams(location.search);
     searchParams.set('filter', filter);
-    console.log(`${location.pathname}?${searchParams.toString()}`);
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
+
+  // const handleClearFilter = (event, value) => {
+  //   console.log(event, value);
+  // setFilter(() => '');
+  // let searchParams = new URLSearchParams(location.search);
+  // searchParams.set('filter', filter);
+  // navigate(`${location.pathname}?${searchParams.toString()}`);
+  // };
+
+  // const handleSelectOption = (event, value) => {
+  //   console.log(value)
+  //   setSkill(() => value);
+  //   let searchParams = new URLSearchParams(location.search);
+  //   searchParams.set('skill', skill);
+  //   navigate(`${location.pathname}?${searchParams.toString()}`);
+  // };
 
   return (
     <Autocomplete
@@ -42,6 +58,8 @@ export const SkillAutocomplete = () => {
       size="small"
       getOptionLabel={(option) => option}
       sx={{ width: 300, mr: '16px' }}
+      // onClear={handleFilterChange}
+      // onChange={handleSelectOption}
       renderInput={(params) => (
         <Paper>
           <TextField
@@ -51,6 +69,7 @@ export const SkillAutocomplete = () => {
             variant="filled"
             value={filter}
             onChange={handleFilterChange}
+            // onInputChange={handleClearFilter}
           />
         </Paper>
       )}
