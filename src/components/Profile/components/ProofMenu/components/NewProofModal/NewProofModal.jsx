@@ -57,12 +57,14 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
       } else {
         try {
           await addTalentProof(talentId, newProof);
+          //waiting for Katya`s method
           setUpdated(true);
           navigate(`/profile/${talentId}?status=draft`);
         } catch (error) {
           console.error(error);
         }
         onClose();
+        setNewSkills([]);
       }
     };
   };
@@ -96,7 +98,10 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+        setNewSkills([]);
+      }}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="sm"
       fullWidth
@@ -119,7 +124,14 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
             </Box>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-            <Button variant="outlined" onClick={onClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                onClose();
+                setNewSkills([]);
+              }}
+              sx={{ mt: 4, px: 8, borderRadius: '6px' }}
+            >
               Cancel
             </Button>
             <Button
