@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { PreLoader } from '../PreLoader';
 import { SkillAutocomplete } from './components/SkillAutocomplete';
+import { Chip } from '@mui/material';
 // import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {
@@ -56,6 +57,12 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
+              <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
+                {item.skill_with_category_list.map((item, i) => (
+                  <Chip key={i} label={item.skill} variant="outlined" sx={{ m: '5px' }} />
+                ))}
+              </Stack>
+
               {/*<Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />*/}
             </Stack>
           </AccordionSummary>
@@ -69,7 +76,7 @@ export const ProofList = () => {
     <Wrapper>
       <Box sx={{ mt: '56px', p: '0 10px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
-          <SkillAutocomplete/>
+          <SkillAutocomplete />
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>

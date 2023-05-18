@@ -4,7 +4,7 @@ export const getAllProofs = async (page, size, sort) => {
   let data = [];
 
   await publicAxiosInstance
-    .get('/v1/proofs', {
+    .get('/v2/proofs', {
       params: {
         page: page,
         size: size,

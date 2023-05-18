@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const SkillAutocomplete = ({ handleAddSkill }) => {
+export const SkillAutocomplete = ({ handleAddSkill, setAllSkills}) => {
   const location = useLocation();
   const navigate = useNavigate();
   let query = new URLSearchParams(location.search);
@@ -17,6 +17,7 @@ export const SkillAutocomplete = ({ handleAddSkill }) => {
   useEffect(() => {
     getAllSkills(skip, limit, filter)
       .then((response) => {
+        setAllSkills && setAllSkills(response.data);
         const skills = response.data.map((item) => item.skill);
         setData(skills);
       })
@@ -42,7 +43,7 @@ export const SkillAutocomplete = ({ handleAddSkill }) => {
       options={data}
       size="small"
       getOptionLabel={(option) => option}
-      onChange={(event, newValue) => handleAddSkill(newValue)}
+      onChange={(event, newValue) => handleAddSkill && handleAddSkill(newValue)}
       // sx={{ width: 300, mr: '16px' }}
       sx={{ width: '100%' }}
       renderInput={(params) => (

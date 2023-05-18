@@ -10,6 +10,7 @@ import { ProofDescription } from '../../../../../../shared/components/ProofDescr
 // import { Kudos } from '../../Kudos';
 import { EmptyProofs } from '../EmptyProofs/EmptyProofs';
 import { getCurrentPersonRole } from '../../../../../../shared/service/AuthorizationService/AuthorizationService';
+import { Chip } from '@mui/material';
 
 export const TabItem = ({ value, index, type }) => {
   const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
@@ -19,6 +20,8 @@ export const TabItem = ({ value, index, type }) => {
     <TabPanel value={value} index={index}>
       {type?.length ? (
         type.map((item, i) => {
+          console.log(item.skill_with_category_list);
+
           return (
             <Box key={i}>
               <Typography variant="h5" sx={{ my: '10px', color: 'neutral.white' }}>
@@ -44,6 +47,9 @@ export const TabItem = ({ value, index, type }) => {
                     {/*  info={item.sponsor_on_proof_short_info_list}*/}
                     {/*  isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}*/}
                     {/*/>*/}
+                    {item.skill_with_category_list.map((item, i) => (
+                      <Chip key={i} label={item.skill} variant="outlined" sx={{ m: '5px' }} />
+                    ))}
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />
