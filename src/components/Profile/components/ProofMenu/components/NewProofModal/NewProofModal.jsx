@@ -4,12 +4,45 @@ import { addTalentProof } from '../../../../../../shared/service/TalentProfileSe
 import { getCurrentPersonId } from '../../../../../../shared/service/AuthorizationService';
 import { ProofTextField } from '../../../../../../shared/components/Fields/ProofTextField';
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
-import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Box, Chip, Stack, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField'; 
+import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
+import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
+import { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import { getOneProofSkill, postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
 
 export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
+  const [newSkills, setNewSkills] = useState([]);
+  const [searchDisplay, setSearchDisplay] = useState('none');
+
+  const handleAddSkill = (newSkill) => {
+    setSearchDisplay('none');
+    if (!newSkills.includes(newSkill)) {
+      setNewSkills((prev) => [...prev, newSkill]);
+    }
+  };
+
+  const newRenderSkills = () => {
+    if (!!newSkills && newSkills.length > 0) {
+      return newSkills.map((item, i) => {
+        return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
+      });
+    }
+  };
+
+  const handleDelete = (skillValue) => {
+    if (typeof skillValue !== 'number') {
+      newSkills.map((item, i) => {
+        const newSkillClone = [...newSkills];
+        if (item === skillValue) {
+          newSkillClone.splice(i, 1);
+          setNewSkills(newSkillClone);
+        }
+      });
+    }
+  };
 
   const onAddProofHandler = () => {
     let talentId = getCurrentPersonId();
@@ -74,6 +107,17 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
       <DialogTitle id="contained-Dialog-title-vcenter">{addProof.title}</DialogTitle>
       <DialogContent>
         <Form {...addProof}>
+          <Box sx={{ width: '100%', mt: '15px' }}>
+            <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
+              {newRenderSkills()}
+              <IconButton aria-label="addSkill" onClick={() => setSearchDisplay('block')}>
+                <AddIcon />
+              </IconButton>
+            </Stack>
+            <Box display={searchDisplay}>
+              <SkillAutocomplete handleAddSkill={handleAddSkill} />
+            </Box>
+          </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button variant="outlined" onClick={onClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
               Cancel

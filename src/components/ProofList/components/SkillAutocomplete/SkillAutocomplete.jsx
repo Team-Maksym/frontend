@@ -29,13 +29,12 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills }) => {
 
   const handleFilterChange = (event) => {
     setFilter(() => event.target.value);
-    console.log(event.target.value);
     let searchParams = new URLSearchParams(location.search);
     searchParams.set('filter', filter);
     console.log(`${location.pathname}?${searchParams.toString()}`);
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
-
+  
   return (
     <Autocomplete
       disablePortal
@@ -44,16 +43,14 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills }) => {
       size="small"
       getOptionLabel={(option) => option}
       onChange={(event, newValue) => handleAddSkill && handleAddSkill(newValue)}
-      // sx={{ width: 300, mr: '16px' }}
-      sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}` }}
+      sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}`}}
       renderInput={(params) => (
         <Paper>
           <TextField
             {...params}
-            sx={{ bgcolor: 'neutral.white' }}
+            sx={!!handleAddSkill && { bgcolor: 'neutral.white' }}
             label="Filter"
-            // variant="filled"
-            value={filter}
+            variant={!!handleAddSkill ? 'outlined' : 'filled'}
             onChange={handleFilterChange}
           />
         </Paper>

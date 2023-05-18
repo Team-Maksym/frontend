@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { PreLoader } from '../PreLoader';
 import { SkillAutocomplete } from './components/SkillAutocomplete';
-import { Chip } from '@mui/material';
+import { SkillList } from '../Profile/components/ProofMenu/components/SkillList/SkillList';
 // import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {
@@ -57,16 +57,7 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
-              <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
-                {item.skill_with_category_list.map((item, i) => (
-                  <Chip
-                    key={i}
-                    label={item.skill}
-                    variant="outlined"
-                    sx={{ m: '5px', bgcolor: 'secondary.main', borderColor: 'secondary.main', color: 'neutral.white' }}
-                  />
-                ))}
-              </Stack>
+              <SkillList proofItem={item.skill_with_category_list}/>
               {/*<Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />*/}
             </Stack>
           </AccordionSummary>

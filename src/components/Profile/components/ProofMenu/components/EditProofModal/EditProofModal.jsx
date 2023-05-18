@@ -11,15 +11,17 @@ import { useContext, useState, useEffect } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
 import AddIcon from '@mui/icons-material/Add';
-import { getOneProofSkill, postOneProofSkill } from '../../../../../../shared/service/SkillService';
+import { getOneProofSkill, postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
 
 export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
   const navigate = useNavigate();
   const [searchDisplay, setSearchDisplay] = useState('none');
   const [newSkills, setNewSkills] = useState([]);
+  const [startSkills, setStartSkills] = useState([]);
   const [proofSkills, setProofSkills] = useState([]);
   const [allSkills, setAllSkills] = useState([]);
+  const [deleteSkillsId, setDeleteSkillsId] = useState([]);
 
   const handleAddSkill = (newSkill) => {
     setSearchDisplay('none');
@@ -43,6 +45,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
     getOneProofSkill(proofInfo.id)
       .then((data) => {
         setProofSkills(data.skills);
+        setStartSkills(data.skills);
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +55,15 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const currentSkills = () => {
     if (!!proofSkills && proofSkills.length > 0) {
       return proofSkills.map((item, i) => {
-        return <Chip key={i} label={item.skill} variant="outlined" onDelete={handleDelete} sx={{ m: '5px' }} />;
+        return (
+          <Chip
+            key={i}
+            label={item.skill}
+            variant="outlined"
+            onDelete={() => handleDelete(item.skill_id)}
+            sx={{ m: '5px' }}
+          />
+        );
       });
     }
   };
@@ -60,7 +71,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const newRenderSkills = () => {
     if (!!newSkills && newSkills.length > 0) {
       return newSkills.map((item, i) => {
-        return <Chip key={i} label={item} variant="outlined" onDelete={handleDelete} sx={{ m: '5px' }} />;
+        return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
       });
     }
   };
@@ -86,6 +97,12 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
             });
             await getForSetSkills();
             setNewSkills([]);
+          }
+          if (!!deleteSkillsId && deleteSkillsId.length > 0) {
+            await deleteSkillsId.forEach((item) => {
+              deleteSkill(talentId, proofInfo.id, item);
+            });
+            setDeleteSkillsId([]);
           }
           setUpdated(true);
           navigate(`/profile/${talentId}?status=draft`);
@@ -123,16 +140,36 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
     },
   };
 
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+  const handleDelete = (skillValue) => {
+    if (typeof skillValue !== 'number') {
+      setDeleteSkillsId((prev) => [...prev]);
+      newSkills.map((item, i) => {
+        const newSkillClone = [...newSkills];
+        if (item === skillValue) {
+          newSkillClone.splice(i, 1);
+          setNewSkills(newSkillClone);
+        }
+      });
+    } else {
+      setDeleteSkillsId((prev) => [...prev, skillValue]);
+      proofSkills.map((item, i) => {
+        const newSkillClone = [...proofSkills];
+        if (item.skill_id === skillValue) {
+          newSkillClone.splice(i, 1);
+          setProofSkills(newSkillClone);
+        }
+      });
+    }
   };
 
   return (
     <Dialog
       open={openEditModal}
-      onClose={() => {
+      onClose={(e) => {
+        e.stopPropagation();
         setOpenEditModal(false);
         setNewSkills([]);
+        setProofSkills(startSkills);
       }}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="sm"
@@ -162,6 +199,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
               onClick={() => {
                 setOpenEditModal(false);
                 setNewSkills([]);
+                setProofSkills(startSkills);
               }}
               sx={{ mt: 4, px: 8, borderRadius: '6px' }}
             >
