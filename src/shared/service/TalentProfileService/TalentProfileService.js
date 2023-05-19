@@ -23,7 +23,7 @@ export const getOneTalent = async (talentId) => {
 
 export const getOneTalentProofs = async (talentId, proofStatus) => {
   return await protectedAxiosInstance
-    .get(`v1/talents/${talentId}/proofs?page=0&size=2147483647&sort=true&status=${proofStatus}`)
+    .get(`v2/talents/${talentId}/proofs?page=0&size=2147483647&sort=true&status=${proofStatus}`)
     .then((response) => response.data);
 };
 
@@ -38,7 +38,7 @@ export const patchTalentProfile = async (talentNewProfile, talentId) => {
 };
 
 export const addTalentProof = async (talentId, newProof) => {
-  return await protectedAxiosInstance.post(`v1/talents/${talentId}/proofs`, newProof).then((response) => response.data);
+  return await protectedAxiosInstance.post(`v2/talents/${talentId}/proofs`, newProof).then((response) => response.data);
 };
 
 export const editTalentProof = async (talentId, proofId, newProof) => {

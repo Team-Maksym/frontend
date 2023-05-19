@@ -1,0 +1,1 @@
+export { getAllSkills, getOneProofSkill, postOneProofSkill, deleteSkill } from './SkillService';

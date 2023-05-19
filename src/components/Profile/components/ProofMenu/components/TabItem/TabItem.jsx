@@ -10,6 +10,7 @@ import { ProofDescription } from '../../../../../../shared/components/ProofDescr
 // import { Kudos } from '../../Kudos';
 import { EmptyProofs } from '../EmptyProofs/EmptyProofs';
 import { getCurrentPersonRole } from '../../../../../../shared/service/AuthorizationService/AuthorizationService';
+import { SkillList } from '../SkillList/SkillList';
 
 export const TabItem = ({ value, index, type }) => {
   const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
@@ -44,6 +45,7 @@ export const TabItem = ({ value, index, type }) => {
                     {/*  info={item.sponsor_on_proof_short_info_list}*/}
                     {/*  isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}*/}
                     {/*/>*/}
+                    <SkillList proofItem={item.skill_with_category_list} />
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />
