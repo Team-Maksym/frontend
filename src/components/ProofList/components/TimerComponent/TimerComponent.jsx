@@ -30,7 +30,7 @@ export const TimerComponent = () => {
           }}
         >
           <Typography variant="h5" sx={{ color: 'neutral.white', textAlign: 'center', mt: 3 }}>
-            Nothing found
+            Nothing was found
           </Typography>
         </Box>
       )}
