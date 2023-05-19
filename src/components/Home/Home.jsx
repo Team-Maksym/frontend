@@ -4,10 +4,11 @@ import { TalentList } from './components/TalentList';
 import { Banner } from '../Wrapper/components/Banner';
 import { Box } from '@mui/material';
 import { PersonContext } from '../../shared/context/PersonContext';
+import { TagCloudCustom } from '../ProofList/components/TagCloudCustom/TagCloudCustom';
 
 export const Home = () => {
   const { person } = useContext(PersonContext);
-  
+
   return (
     <>
       {person ? (
@@ -17,7 +18,10 @@ export const Home = () => {
           }}
         />
       ) : (
-        <Banner />
+          <Box width="100%" height="100vh" sx={{ overflow: 'hidden', position:'relative' }}>
+          <Banner />
+          <TagCloudCustom />
+        </Box>
       )}
       <Wrapper>
         <TalentList />

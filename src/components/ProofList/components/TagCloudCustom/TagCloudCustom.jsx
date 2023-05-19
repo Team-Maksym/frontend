@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useNavigate } from 'react-router-dom';
 import TagCloud from 'TagCloud'
+import { Box, display } from '@mui/system';
 
 export const TagCloudCustom = () => {
   const sphereRef = useRef(null);
@@ -19,7 +20,7 @@ export const TagCloudCustom = () => {
             sphereRef.current,
             response.data.map((item) => item.skill),
             {
-              radius: 200,
+              radius: 1000,
               maxSpeed: 'fast',
               initSpeed: 'fast',
               direction: 135,
@@ -39,12 +40,12 @@ export const TagCloudCustom = () => {
   };
 
   return (
-    <>
+    <Box sx={{ transform: 'translate(-11%, -25%)' }}>
       <style>
         {`
         .tagcloud {
           font-family: 'Poppins', sans-serif;
-          font-size: 20px;
+          font-size: 26px;
           margin: auto;
           width: 50%;
           color: #f5f0e8;
@@ -55,8 +56,8 @@ export const TagCloudCustom = () => {
         }
         `}
       </style>
-      <input type="text" value={filter} onChange={handleFilterChange} />
-      <span className="tagcloud sphere" ref={sphereRef}></span>
-    </>
+      {/* <input type="text" value={filter} onChange={handleFilterChange} /> */}
+      <span className="tagcloud sphere" ref={sphereRef} />
+    </Box>
   );
 };
