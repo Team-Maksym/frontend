@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, setSkill }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  let query = new URLSearchParams(location.search);
   const skip = 0;
   const limit = 1000;
   const [filter, setFilter] = useState('');
@@ -36,9 +35,9 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
   }, [filter, skill]);
 
   const handleSkillChange = (event, newValue) => {
-    setSkill(() => newValue);
+    setSkill(() => newValue ? newValue.skill : '');
     let searchParams = new URLSearchParams(location.search);
-    searchParams.set('skill', newValue);
+    searchParams.set('skill', newValue ? newValue.skill : '');
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
@@ -65,7 +64,7 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
         options={data}
         groupBy={(option) => option.category}
         size="small"
-        getOptionLabel={(option) => option.skill}
+        getOptionLabel={(option) => option.skill ?? option}
         value={skill}
         onChange={onChangeFunction}
         sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}` }}
@@ -77,7 +76,7 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
               sx={!!handleAddSkill && { bgcolor: 'neutral.white' }}
               label="Skills"
               variant={!!handleAddSkill ? 'outlined' : 'filled'}
-              placeholder={`${data[Math.floor(Math.random() * data.length)].skill}`}
+              placeholder="Any skill"
               onChange={handleFilterChange}
             />
           </Paper>
