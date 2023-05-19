@@ -9,12 +9,12 @@ import { PaginationCustom } from '../Home/components/TalentList/components/Pagin
 import { getAllProofs } from '../../shared/service/ProofService';
 import { format } from 'date-fns';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Kudos } from '../Profile/components/ProofMenu/Kudos';
+// import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { PreLoader } from '../PreLoader';
-import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
+// import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {
-  const personRole = getCurrentPersonRole();
+  // const personRole = getCurrentPersonRole();
   const navigate = useNavigate();
   const location = useLocation();
   let query = new URLSearchParams(location.search);
@@ -55,7 +55,7 @@ export const ProofList = () => {
           >
             <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
               <ProofItem description={item.description} />
-              <Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />
+              {/*<Kudos proofId={item.id} isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false} />*/}
             </Stack>
           </AccordionSummary>
           <ProofDescription description={item.description} />
