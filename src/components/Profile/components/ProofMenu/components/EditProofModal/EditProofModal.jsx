@@ -3,7 +3,7 @@ import { Form } from '../../../../../../shared/components/Form';
 import { getCurrentPersonId } from '../../../../../../shared/service/AuthorizationService';
 import { ProofTextField } from '../../../../../../shared/components/Fields/ProofTextField';
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
-import { Button, Dialog, DialogContent, DialogTitle, Box, Chip, Stack, IconButton } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Box, Chip, Stack, IconButton, Typography} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
 import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
@@ -65,6 +65,12 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
           />
         );
       });
+    } else {
+      return (
+        <Box display="flex" alignItems="center">
+          <Typography sx={{ color: 'neutral.whiteGrey', opacity: '0.8' }}> There are no skills yet. </Typography>
+        </Box>
+      );
     }
   };
 
@@ -73,7 +79,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       return newSkills.map((item, i) => {
         return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
       });
-    }
+    } 
   };
 
   const onEditProofHandler = () => {
@@ -182,11 +188,12 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       <DialogContent>
         <Form {...editProof}>
           <Box sx={{ width: '100%', mt: '15px' }}>
-            <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
+            <Stack display="flex" flexDirection="row" alignItems="center" flexWrap="wrap" mb="15px">
               {currentSkills()}
               {newRenderSkills()}
               <IconButton aria-label="addSkill" onClick={() => setSearchDisplay('block')}>
                 <AddIcon />
+                {/* <AddCircleOutlinedIcon sx={{ fontSize: 30 }} /> */}
               </IconButton>
             </Stack>
             <Box display={searchDisplay}>

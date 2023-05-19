@@ -4,13 +4,12 @@ import { addTalentProof } from '../../../../../../shared/service/TalentProfileSe
 import { getCurrentPersonId } from '../../../../../../shared/service/AuthorizationService';
 import { ProofTextField } from '../../../../../../shared/components/Fields/ProofTextField';
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
-import { Button, Dialog, DialogContent, DialogTitle, Box, Chip, Stack, IconButton } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Box, Chip, Stack, IconButton, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
 import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import FeedbackIcon from '@mui/icons-material/Feedback';
 
 export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
@@ -31,8 +30,8 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
       });
     } else {
       return (
-        <Box>
-          <FeedbackIcon />
+        <Box display="flex" alignItems="center">
+          <Typography  sx={{ color:'neutral.whiteGrey', opacity:'0.8'}}> There are no skills yet.  </Typography>
         </Box>
       );
     }
@@ -122,6 +121,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
             <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
               {newRenderSkills()}
               <IconButton aria-label="addSkill" onClick={() => setSearchDisplay('block')}>
+                {/* <AddCircleOutlinedIcon sx={{ fontSize: 30}} /> */}
                 <AddIcon />
               </IconButton>
             </Stack>
