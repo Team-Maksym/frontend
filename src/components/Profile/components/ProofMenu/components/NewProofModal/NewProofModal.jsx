@@ -10,7 +10,7 @@ import { ProofTitleField } from '../../../../../../shared/components/Fields/Proo
 import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { getOneProofSkill, postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 
 export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
@@ -29,6 +29,12 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
       return newSkills.map((item, i) => {
         return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
       });
+    } else {
+      return (
+        <Box>
+          <FeedbackIcon />
+        </Box>
+      );
     }
   };
 
@@ -51,13 +57,13 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
         title: values.title,
         description: values.desc,
         link: values.link,
+        skills: newSkills,
       };
       if (Object.keys(newProof).length === 0) {
         onClose();
       } else {
         try {
           await addTalentProof(talentId, newProof);
-          //waiting for Katya`s method
           setUpdated(true);
           navigate(`/profile/${talentId}?status=draft`);
         } catch (error) {

@@ -97,7 +97,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
             });
             await getForSetSkills();
             setNewSkills([]);
-          }
+          } 
           if (!!deleteSkillsId && deleteSkillsId.length > 0) {
             await deleteSkillsId.forEach((item) => {
               deleteSkill(talentId, proofInfo.id, item);

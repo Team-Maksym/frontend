@@ -48,7 +48,7 @@ export const SkillList = ({ proofItem }) => {
       case 'boardGame':
         return <SportsScoreIcon color="neutral" />;
       default:
-        return <LocalDiningIcon />;
+        return <WorkIcon />;
     }
   };
 
