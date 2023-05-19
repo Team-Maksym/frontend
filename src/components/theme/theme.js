@@ -8,7 +8,7 @@ export const theme = createTheme({
       main: '#ff5722',
     },
     neutral: {
-      white: ' #f5f0e8',
+      white: '#f5f0e8',
       // lightGrey: '#393e46',
       whiteGrey: '#393e46',
       // grey: '#6B6C6F',

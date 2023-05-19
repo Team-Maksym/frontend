@@ -1,0 +1,1 @@
+export { TagCloudCustom } from './TagCloudCustom';
