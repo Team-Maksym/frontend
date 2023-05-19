@@ -15,6 +15,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
   const [newSkills, setNewSkills] = useState([]);
   const [searchDisplay, setSearchDisplay] = useState('none');
+  const [skill, setSkill] = useState('')
 
   const handleAddSkill = (newSkill) => {
     setSearchDisplay('none');
@@ -126,7 +127,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
               </IconButton>
             </Stack>
             <Box display={searchDisplay}>
-              <SkillAutocomplete handleAddSkill={handleAddSkill} />
+              <SkillAutocomplete handleAddSkill={handleAddSkill} skill={skill} setSkill={setSkill} />
             </Box>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>

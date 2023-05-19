@@ -22,6 +22,8 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const [proofSkills, setProofSkills] = useState([]);
   const [allSkills, setAllSkills] = useState([]);
   const [deleteSkillsId, setDeleteSkillsId] = useState([]);
+  const [skill, setSkill] = useState('');
+
 
   const handleAddSkill = (newSkill) => {
     console.log(newSkill)
@@ -198,7 +200,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
               </IconButton>
             </Stack>
             <Box display={searchDisplay}>
-              <SkillAutocomplete handleAddSkill={handleAddSkill} setAllSkills={setAllSkills} />
+              <SkillAutocomplete handleAddSkill={handleAddSkill} setAllSkills={setAllSkills} skill={skill} setSkill={setSkill} />
             </Box>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
