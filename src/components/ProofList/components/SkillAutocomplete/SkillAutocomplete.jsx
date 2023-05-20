@@ -41,23 +41,6 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
     setData(skills);
   }, [usedSkills?.length]);
 
-  const dataValidator = (data) => {
-    if (!!usedSkills && usedSkills.length > 0) {
-      const skillNames = usedSkills.map((usedSkill) => {
-        return !!usedSkill.skill ? usedSkill.skill : usedSkill;
-      });
-
-      const skills = data.filter((item) => {
-        if (!skillNames.includes(item.skill)) {
-        }
-        return !skillNames.includes(item.skill);
-      });
-      return skills;
-    } else {
-      return data;
-    }
-  };
-
   const handleSkillChange = (event, newValue) => {
     setSkill(() => (newValue ? newValue.skill : ''));
     let searchParams = new URLSearchParams(location.search);
@@ -77,6 +60,23 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
     }
     if (reason === 'clear') {
       setFilter(() => '');
+    }
+  };
+
+  const dataValidator = (data) => {
+    if (!!usedSkills && usedSkills.length > 0) {
+      const skillNames = usedSkills.map((usedSkill) => {
+        return !!usedSkill.skill ? usedSkill.skill : usedSkill;
+      });
+
+      const skills = data.filter((item) => {
+        if (!skillNames.includes(item.skill)) {
+        }
+        return !skillNames.includes(item.skill);
+      });
+      return skills;
+    } else {
+      return data;
     }
   };
 
