@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, setSkill }) => {
+export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSkills, skill, setSkill }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const skip = 0;
@@ -17,7 +17,7 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
     getAllSkills(skip, limit, filter)
       .then((response) => {
         setAllSkills && setAllSkills(response.data);
-        const skills = response.data.sort((a, b) => {
+        let skills = response.data.sort((a, b) => {
           if (a.category < b.category) {
             return -1;
           }
@@ -26,6 +26,8 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
           }
           return 0;
         });
+
+        skills = dataValidator(skills);
         setData(skills);
       })
       .catch(function (error) {
@@ -34,8 +36,30 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
       });
   }, [filter, skill]);
 
+  useEffect(() => {
+    const skills = dataValidator(data);
+    setData(skills);
+  }, [usedSkills?.length]);
+
+  const dataValidator = (data) => {
+    if (!!usedSkills && usedSkills.length > 0) {
+      const skillNames = usedSkills.map((usedSkill) => {
+        return !!usedSkill.skill ? usedSkill.skill : usedSkill;
+      });
+
+      const skills = data.filter((item) => {
+        if (!skillNames.includes(item.skill)) {
+        }
+        return !skillNames.includes(item.skill);
+      });
+      return skills;
+    } else {
+      return data;
+    }
+  };
+
   const handleSkillChange = (event, newValue) => {
-    setSkill(() => newValue ? newValue.skill : '');
+    setSkill(() => (newValue ? newValue.skill : ''));
     let searchParams = new URLSearchParams(location.search);
     searchParams.set('skill', newValue ? newValue.skill : '');
     navigate(`${location.pathname}?${searchParams.toString()}`);
@@ -47,7 +71,7 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
 
   const onChangeFunction = (event, newValue, reason) => {
     if (handleAddSkill) {
-      handleAddSkill(newValue.skill);
+      handleAddSkill(newValue?.skill);
     } else {
       handleSkillChange(event, newValue);
     }
@@ -85,60 +109,3 @@ export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills, skill, 
     </>
   );
 };
-
-
-
-
-// export const SkillAutocomplete = ({ width, handleAddSkill, setAllSkills }) => {
-//   const location = useLocation();
-//   const navigate = useNavigate();
-//   let query = new URLSearchParams(location.search);
-//   const skip = 0;
-//   const limit = 1000;
-//   const [filter, setFilter] = useState(query.get('filter') || '');
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     getAllSkills(skip, limit, filter)
-//       .then((response) => {
-//         setAllSkills && setAllSkills(response.data);
-//         const skills = response.data.map((item) => item.skill);
-//         setData(skills);
-//       })
-//       .catch(function (error) {
-//         console.log(error);
-//         navigate('/404', { replace: true });
-//       });
-//   }, [filter]);
-
-//   const handleFilterChange = (event) => {
-//     setFilter(() => event.target.value);
-//     let searchParams = new URLSearchParams(location.search);
-//     searchParams.set('filter', filter);
-//     console.log(`${location.pathname}?${searchParams.toString()}`);
-//     navigate(`${location.pathname}?${searchParams.toString()}`);
-//   };
-
-//   return (
-//     <Autocomplete
-//       disablePortal
-//       id="combo-box-demo"
-//       options={data}
-//       size="small"
-//       getOptionLabel={(option) => option}
-//       onChange={(event, newValue) => handleAddSkill && handleAddSkill(newValue)}
-//       sx={{ width: `${!!width ? width : '100%'}`, mr: `${!!width ? '16px' : null}` }}
-//       renderInput={(params) => (
-//         <Paper>
-//           <TextField
-//             {...params}
-//             sx={!!handleAddSkill && { bgcolor: 'neutral.white' }}
-//             label="Filter"
-//             variant={!!handleAddSkill ? 'outlined' : 'filled'}
-//             onChange={handleFilterChange}
-//           />
-//         </Paper>
-//       )}
-//     />
-//   );
-// };

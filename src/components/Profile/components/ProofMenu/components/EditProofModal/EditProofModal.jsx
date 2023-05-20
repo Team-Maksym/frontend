@@ -26,7 +26,6 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
 
 
   const handleAddSkill = (newSkill) => {
-    console.log(newSkill)
     setSearchDisplay('none');
     allSkills.forEach((item) => {
       if (item.skill === newSkill) {
@@ -200,7 +199,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
               </IconButton>
             </Stack>
             <Box display={searchDisplay}>
-              <SkillAutocomplete handleAddSkill={handleAddSkill} setAllSkills={setAllSkills} skill={skill} setSkill={setSkill} />
+              <SkillAutocomplete handleAddSkill={handleAddSkill} setAllSkills={setAllSkills} usedSkills={[...proofSkills, ...newSkills]} skill={skill} setSkill={setSkill} />
             </Box>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
