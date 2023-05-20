@@ -1,6 +1,5 @@
 import { Button, Container, Typography } from '@mui/material';
 import { recoveryAccount } from '../../shared/service/SponsorProfileService';
-import { PersonContext } from '../../shared/context';
 export const RestoreStatus = () => {
   const recoverAccountHandler = () => {
     const currentUrl = window.location.href;
