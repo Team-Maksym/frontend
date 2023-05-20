@@ -15,7 +15,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const navigate = useNavigate();
   const [newSkills, setNewSkills] = useState([]);
   const [searchDisplay, setSearchDisplay] = useState('none');
-  const [skill, setSkill] = useState('')
+  const [skill, setSkill] = useState('');
 
   const handleAddSkill = (newSkill) => {
     setSearchDisplay('none');
@@ -32,7 +32,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
     } else {
       return (
         <Box display="flex" alignItems="center">
-          <Typography  sx={{ color:'neutral.whiteGrey', opacity:'0.8'}}> There are no skills yet.  </Typography>
+          <Typography sx={{ color: 'neutral.whiteGrey', opacity: '0.8' }}> There are no skills yet. </Typography>
         </Box>
       );
     }
@@ -40,7 +40,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
 
   const handleDelete = (skillValue) => {
     if (typeof skillValue !== 'number') {
-      newSkills.map((item, i) => {
+      newSkills.forEach((item, i) => {
         const newSkillClone = [...newSkills];
         if (item === skillValue) {
           newSkillClone.splice(i, 1);
@@ -104,7 +104,8 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
   return (
     <Dialog
       open={open}
-      onClose={() => {
+      onClose={(e) => {
+        e.stopPropagation();
         onClose();
         setNewSkills([]);
       }}
@@ -133,7 +134,9 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button
               variant="outlined"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
+
                 onClose();
                 setNewSkills([]);
               }}
