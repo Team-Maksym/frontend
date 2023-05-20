@@ -10,13 +10,13 @@ import { PreLoader } from './PreLoader';
 import { AuthProvider } from './Authorization/components/AuthProvider';
 
 export const App = () => {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // }, []);
 
   return (
     <BrowserRouter>
@@ -24,15 +24,15 @@ export const App = () => {
         <AuthProvider>
           <Box sx={{ backgroundColor: 'neutral.whiteGrey' }}>
             <CssBaseline />
-            {loading ? (
+            {/* {loading ? (
               <PreLoader />
-            ) : (
+            ) : ( */}
               <>
                 <Header />
                 <Router />
                 <Footer />
               </>
-            )}
+            {/* )} */}
           </Box>
         </AuthProvider>
       </ThemeProvider>
