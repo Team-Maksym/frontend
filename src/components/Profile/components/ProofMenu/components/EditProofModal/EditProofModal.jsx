@@ -221,7 +221,8 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button
               variant="outlined"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 setOpenEditModal(false);
                 setNewSkills([]);
                 setProofSkills(startSkills);
