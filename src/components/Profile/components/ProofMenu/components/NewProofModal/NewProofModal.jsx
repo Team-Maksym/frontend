@@ -40,7 +40,7 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
 
   const handleDelete = (skillValue) => {
     if (typeof skillValue !== 'number') {
-      newSkills.map((item, i) => {
+      newSkills.forEach((item, i) => {
         const newSkillClone = [...newSkills];
         if (item === skillValue) {
           newSkillClone.splice(i, 1);

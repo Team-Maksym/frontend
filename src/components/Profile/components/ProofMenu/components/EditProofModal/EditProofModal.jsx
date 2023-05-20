@@ -11,7 +11,7 @@ import { useContext, useState, useEffect } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
 import AddIcon from '@mui/icons-material/Add';
-import { getOneProofSkill, postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
+import {postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
 
 export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
@@ -32,11 +32,10 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
         if (!newSkills.includes(newSkill) && !proofSkillsNames.includes(newSkill)) {
           setNewSkills((prev) => [...prev, item.skill]);
           if (deleteSkillsId.includes(item.skill_id)) {
-            deleteSkillsId.map((delItem, i) => {
+            deleteSkillsId.forEach((delItem, i) => {
               const newDelClone = [...deleteSkillsId];
               if (delItem === item.skill_id) {
                 newDelClone.splice(i, 1);
-                console.log(newDelClone);
                 setDeleteSkillsId(newDelClone);
               }
             });
@@ -47,20 +46,14 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   };
 
   useEffect(() => {
-    if (proofInfo?.id) {
-      getForSetSkills();
+    if (proofInfo?.skill_with_category_list) {
+      resetSkills();
     }
-  }, [proofInfo.id]);
+  }, [proofInfo.skill_with_category_list]);
 
-  const getForSetSkills = () => {
-    getOneProofSkill(proofInfo.id)
-      .then((data) => {
-        setProofSkills(data.skills);
-        setStartSkills(data.skills);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const resetSkills = () => {
+    setProofSkills(proofInfo.skill_with_category_list);
+    setStartSkills(proofInfo.skill_with_category_list);
   };
 
   const currentSkills = () => {
@@ -114,7 +107,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
             await postOneProofSkill(talentId, proofInfo.id, serviceProofsForPost).catch((error) => {
               console.log(error);
             });
-            await getForSetSkills();
+            resetSkills();
             setNewSkills([]);
           }
           if (!!deleteSkillsId && deleteSkillsId.length > 0) {
@@ -161,8 +154,8 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
 
   const handleDelete = (skillValue) => {
     if (typeof skillValue !== 'number') {
-      setDeleteSkillsId((prev) => [...prev]);
-      newSkills.map((item, i) => {
+      setDeleteSkillsId((prev) => [...new Set([...prev, skillValue])]);
+      newSkills.forEach((item, i) => {
         const newSkillClone = [...newSkills];
         if (item === skillValue) {
           newSkillClone.splice(i, 1);
@@ -171,7 +164,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       });
     } else {
       setDeleteSkillsId((prev) => [...new Set([...prev, skillValue])]);
-      proofSkills.map((item, i) => {
+      proofSkills.forEach((item, i) => {
         const newSkillClone = [...proofSkills];
         if (item.skill_id === skillValue) {
           newSkillClone.splice(i, 1);
