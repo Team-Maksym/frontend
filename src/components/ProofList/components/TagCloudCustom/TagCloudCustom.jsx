@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useNavigate } from 'react-router-dom';
-import TagCloud from 'TagCloud'
-import { Box, display } from '@mui/system';
+import { styled } from '@mui/material/styles';
+import TagCloud from 'TagCloud';
 
 export const TagCloudCustom = () => {
   const sphereRef = useRef(null);
@@ -39,24 +39,25 @@ export const TagCloudCustom = () => {
     setFilter(event.target.value);
   };
 
-  return (
-    <Box sx={{ transform: 'translate(-11%, -25%)' }}>
-      <style>
-        {`
-        .tagcloud {
-          font-family: 'Poppins', sans-serif;
-          font-size: 26px;
-          margin: auto;
-          width: 50%;
-          color: #f5f0e8;
-        }
+  const Box = styled('div')(({ theme }) => ({
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    '.tagcloud': {
+      fontFamily: ` 'Poppins', sans-serif`,
+      fontSize: '26px',
+      margin: 'auto',
+      width: '50%',
+      color: '#f5f0e8',
+    },
+    '.tagcloud--item:hover': {
+      color: '#ff5722',
+    },
+  }));
 
-        .tagcloud--item:hover {
-          color: #ff5722;
-        }
-        `}
-      </style>
-      {/* <input type="text" value={filter} onChange={handleFilterChange} /> */}
+  return (
+    <Box>
       <span className="tagcloud sphere" ref={sphereRef} />
     </Box>
   );

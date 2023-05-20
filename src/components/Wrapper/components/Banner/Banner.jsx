@@ -21,7 +21,7 @@ export const Banner = () => {
       maxWidth="100vw"
       component="main"
       sx={{
-        position: 'absolute',
+        // position: 'absolute',
         zIndex: '2',
         height: '100vh',
         // background: 'url(static/bg.png) no-repeat center',

@@ -18,9 +18,9 @@ export const Home = () => {
           }}
         />
       ) : (
-          <Box width="100%" height="100vh" sx={{ overflow: 'hidden', position:'relative' }}>
-          <Banner />
+        <Box width="100%" sx={{ overflow: 'hidden', position: 'relative' }}>
           <TagCloudCustom />
+          <Banner />
         </Box>
       )}
       <Wrapper>
