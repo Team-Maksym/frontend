@@ -1,1 +1,2 @@
-export { ProofList } from './ProofList';
+import { ProofList } from './ProofList';
+export default ProofList

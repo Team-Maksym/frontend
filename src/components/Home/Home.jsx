@@ -4,7 +4,9 @@ import { TalentList } from './components/TalentList';
 import { Banner } from '../Wrapper/components/Banner';
 import { Box } from '@mui/material';
 import { PersonContext } from '../../shared/context/PersonContext';
-import { TagCloudCustom } from '../ProofList/components/TagCloudCustom/TagCloudCustom';
+import React, { Suspense } from 'react';
+import { PreLoader } from '../PreLoader';
+const TagCloudCustom = React.lazy(() => import('../ProofList/components/TagCloudCustom'));
 
 export const Home = () => {
   const { person } = useContext(PersonContext);
@@ -19,7 +21,9 @@ export const Home = () => {
         />
       ) : (
         <Box width="100%" sx={{ overflow: 'hidden', position: 'relative' }}>
-          <TagCloudCustom />
+          <Suspense fallback={<PreLoader />}>
+            <TagCloudCustom />
+          </Suspense>
           <Banner />
         </Box>
       )}

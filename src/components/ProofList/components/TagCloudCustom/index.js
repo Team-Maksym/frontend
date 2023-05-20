@@ -1,1 +1,2 @@
-export { TagCloudCustom } from './TagCloudCustom';
+import { TagCloudCustom } from "./TagCloudCustom";
+export default TagCloudCustom;
