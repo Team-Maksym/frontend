@@ -3,8 +3,12 @@ import { getAllSkills } from '../../../../shared/service/SkillService';
 import { styled } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import TagCloud from 'TagCloud';
+import { useContext } from 'react';
+import { PersonContext } from '../../../../shared/context';
 
 export const TagCloudCustom = () => {
+  const { open } = useContext(PersonContext);
+
   const sphereRef = useRef(null);
   const skip = 0;
   const limit = 1000;
@@ -30,7 +34,7 @@ export const TagCloudCustom = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [location]);
+  }, [location, open]);
 
   const Box = styled('div')(({ theme }) => ({
     position: 'absolute',
