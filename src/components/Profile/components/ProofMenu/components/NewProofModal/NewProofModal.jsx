@@ -27,7 +27,9 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
   const newRenderSkills = () => {
     if (!!newSkills && newSkills.length > 0) {
       return newSkills.map((item, i) => {
-        return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
+        if (!!item) {
+          return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
+        }
       });
     } else {
       return (
