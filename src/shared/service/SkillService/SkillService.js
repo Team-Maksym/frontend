@@ -1,5 +1,6 @@
 import { publicAxiosInstance, protectedAxiosInstance } from '../api';
 
+
 export const getAllSkills = async (skip, limit, filter) => {
   let data = [];
 
