@@ -11,7 +11,7 @@ import { useContext, useState, useEffect } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
 import AddIcon from '@mui/icons-material/Add';
-import {postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
+import { postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
 
 export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
@@ -23,7 +23,6 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const [allSkills, setAllSkills] = useState([]);
   const [deleteSkillsId, setDeleteSkillsId] = useState([]);
   const [skill, setSkill] = useState('');
-
 
   const handleAddSkill = (newSkill) => {
     setSearchDisplay('none');
@@ -84,7 +83,9 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const newRenderSkills = () => {
     if (!!newSkills && newSkills.length > 0) {
       return newSkills.map((item, i) => {
-        return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
+        if (!!item) {
+          return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
+        }
       });
     }
   };
