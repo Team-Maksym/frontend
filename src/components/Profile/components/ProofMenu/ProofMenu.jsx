@@ -67,8 +67,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
       });
   };
 
-  console.log(drafted);
-
   useEffect(() => {
     const url = query.get('status');
 

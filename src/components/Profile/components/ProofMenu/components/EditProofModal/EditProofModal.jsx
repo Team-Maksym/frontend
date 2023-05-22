@@ -11,7 +11,7 @@ import { useContext, useState, useEffect } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
 import AddIcon from '@mui/icons-material/Add';
-import { postOneProofSkill, deleteSkill } from '../../../../../../shared/service/SkillService';
+import { postOneProofSkill, deleteSkills } from '../../../../../../shared/service/SkillService';
 
 export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
@@ -113,9 +113,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
             setNewSkills([]);
           }
           if (!!deleteSkillsId && deleteSkillsId.length > 0) {
-            await deleteSkillsId.forEach((item) => {
-              deleteSkill(talentId, proofInfo.id, item);
-            });
+            await deleteSkills(talentId, proofInfo.id, deleteSkillsId);
             setDeleteSkillsId([]);
           }
           setUpdated(true);
@@ -127,6 +125,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       }
     };
   };
+
 
   const editProof = {
     id: 'add-modal',

@@ -1,6 +1,5 @@
 import { publicAxiosInstance, protectedAxiosInstance } from '../api';
 
-
 export const getAllSkills = async (skip, limit, filter) => {
   let data = [];
 
@@ -29,8 +28,8 @@ export const postOneProofSkill = async (talentId, proofId, skills) => {
     .then((response) => response.data);
 };
 
-export const deleteSkill = async (talentId, proofId, skillId) => {
+export const deleteSkills = async (talentId, proofId, skillsId) => {
   return await protectedAxiosInstance
-    .delete(`v1/talents/${talentId}/proofs/${proofId}/skills/${skillId}`)
+    .delete(`v1/talents/${talentId}/proofs/${proofId}/skills`, { data: { skillsId: skillsId } })
     .then((response) => response.data);
 };

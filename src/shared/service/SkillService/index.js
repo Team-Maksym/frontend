@@ -1,1 +1,1 @@
-export { getAllSkills, getOneProofSkill, postOneProofSkill, deleteSkill } from './SkillService';
+export { getAllSkills, getOneProofSkill, postOneProofSkill, deleteSkills } from './SkillService';
