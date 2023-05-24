@@ -126,7 +126,6 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
     };
   };
 
-
   const editProof = {
     id: 'add-modal',
     submitBtnName: 'Accept',

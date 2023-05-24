@@ -12,7 +12,8 @@ import { getOneTalentProofs } from '../../../../shared/service/TalentProfileServ
 import { ProofsOneTalentContext } from '../../../../shared/context';
 import { TabItem } from './components/TabItem';
 import { CommitSharp } from '@mui/icons-material';
-
+import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
+import { getSkillProof } from '../../../../shared/service/TalentProfileService/TalentProfileService';
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
@@ -34,7 +35,8 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
   const [value, setValue] = useState(0);
-
+  const [skill, setSkill] = useState(query.get('skill') || null);
+  const [allSkills, setAllSkills] = useState([]);
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -66,7 +68,28 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
         navigate('/404', { replace: true });
       });
   };
-
+  const getProofBySkill = async (status, setStatus, skillid) => {
+    await getSkillProof(talentId, status, skillid)
+      .then((proofs) => {
+        setStatus(proofs.data);
+        //setValue(value);
+      })
+      .catch(function (error) {
+        console.log(error);
+        navigate('/404', { replace: true });
+      });
+  };
+  const getSkilledProof = (newSkill) => {
+    console.log(newSkill);
+    const url = query.get('status');
+    if (url === 'draft') {
+      getProofBySkill('DRAFT', setDrafted, newSkill.skill_id);
+    } else if (url === 'hidden') {
+      getProofBySkill('HIDDEN', setHiddened, newSkill.skill_id);
+    } else {
+      getProofBySkill('PUBLISHED', setPublished, newSkill.skill_id);
+    }
+  };
   useEffect(() => {
     const url = query.get('status');
 
@@ -152,6 +175,14 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
               </Fab>
             )}
           </Tabs>
+          <Box sx={{ position: 'absolute', top: '0', right: '75px', borderRadius: '5px' }}>
+            <SkillAutocomplete
+              width={'300px'}
+              proofBySkill={getSkilledProof}
+              setAllSkills={setAllSkills}
+              skill={skill}
+            />
+          </Box>
         </Box>
 
         <TabItem value={value} index={0} type={published}></TabItem>
@@ -169,4 +200,3 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     </ProofsOneTalentContext.Provider>
   );
 };
-

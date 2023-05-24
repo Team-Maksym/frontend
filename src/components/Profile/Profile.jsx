@@ -16,6 +16,7 @@ import { BigSponsorCard } from './components/BigSponsorCard';
 import { ProofMenuSponsor } from './components/ProofMenu/components/ProofMenuSponsor/ProofMenuSponsor';
 import { getCurrentPersonStatus } from '../../shared/service/AuthorizationService/AuthorizationService';
 import { RestorePage } from './components/RestorePage';
+import { getOneTalentSkill } from '../../shared/service/TalentProfileService/TalentProfileService';
 export const Profile = ({ isPersonDataLoaded }) => {
   const { id } = useParams();
   const personRole = getCurrentPersonRole();
@@ -23,7 +24,7 @@ export const Profile = ({ isPersonDataLoaded }) => {
   const { person: currentPerson, openAuthModal } = useContext(PersonContext);
   const [personProfile, setPersonProfile] = useState(null);
   const [error, setError] = useState(null);
-
+  const [skill, setSkill] = useState(null);
   useEffect(() => {
     if (currentPerson) {
       if (personRole === 'ROLE_SPONSOR') {
@@ -50,7 +51,9 @@ export const Profile = ({ isPersonDataLoaded }) => {
         getOneTalent(id)
           .then((person) => {
             person.id = id;
+
             setPersonProfile(() => person);
+            getOneTalentSkill(id).then((data) => setSkill(() => data));
           })
           .catch((error) => {
             setError(() => error);
@@ -107,6 +110,8 @@ export const Profile = ({ isPersonDataLoaded }) => {
                       person={personProfile}
                       setPerson={setPersonProfile}
                       actionsAccess={personProfile.id === currentPerson.id}
+                      skill={skill}
+                      setSkill={setSkill}
                     />
                     <ProofMenu actionsAccess={personProfile.id === currentPerson.id} talentId={personProfile.id} />
                   </>

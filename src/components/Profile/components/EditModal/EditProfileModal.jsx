@@ -8,13 +8,14 @@ import { EducationField } from '../../../../shared/components/Fields/EducationFi
 import { ExperienceField } from '../../../../shared/components/Fields/ExperienceField';
 import { patchTalentProfile } from '../../../../shared/service/TalentProfileService';
 import { getCurrentPersonId } from '../../../../shared/service/AuthorizationService';
+import { postOneTalentSkill } from '../../../../shared/service/TalentProfileService/TalentProfileService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
 import { Button, Dialog, DialogContent, DialogTitle, Box, IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
-export const EditProfileModal = ({ open, onClose, person: talent, setPerson: setTalent }) => {
+export const EditProfileModal = ({ open, onClose, person: talent, setPerson: setTalent, skill, setSkill }) => {
   const [allSkills, setAllSkills] = useState([]);
   const [skillListShow, setSkillListShow] = useState(false);
   const [profileSkill, setProfileSkill] = useState('');
@@ -35,6 +36,9 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
           const response = await action(talentNewProfile, talentId);
           response.id = talentId;
           setTalent(response);
+
+          const resp = await postOneTalentSkill(talentId, { skills: [profileSkill] });
+          setSkill(profileSkill);
         } catch (error) {
           console.error(error);
         }
@@ -131,7 +135,7 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
         <Form {...editForm}>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', mt: '10px', display: 'flex' }}>
-              {profileSkill && (
+              {skill && (
                 <>
                   <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography>Change your skill</Typography>
@@ -146,7 +150,7 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
                   </Box>
                 </>
               )}
-              {!profileSkill && (
+              {!skill && (
                 <>
                   <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography>Choose your skill</Typography>
@@ -157,7 +161,16 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
                 </>
               )}
             </Box>
-            <Typography>{profileSkill}</Typography>
+            {skill && (
+              <Typography>
+                {skill.skill[skill.skill.length - 1].skill
+                  ? skill.skill[skill.skill.length - 1].skill
+                  : skill.skill[skill.skill.length - 1].skill != profileSkill
+                  ? profileSkill
+                  : '-'}
+              </Typography>
+            )}
+
             {skillListShow && (
               <SkillAutocomplete handleAddSkill={addProfileSkill} setAllSkills={setAllSkills}></SkillAutocomplete>
             )}
