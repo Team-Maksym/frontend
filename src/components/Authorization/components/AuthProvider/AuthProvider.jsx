@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <PersonContext.Provider
-      value={{ person: person, setPerson: setPerson, signOut, openAuthModal, isPersonDataLoaded: isPersonDataLoaded, setIsPersonDataLoaded: setIsPersonDataLoaded }}
+      value={{ person: person, setPerson: setPerson, signOut,open, openAuthModal, isPersonDataLoaded: isPersonDataLoaded, setIsPersonDataLoaded: setIsPersonDataLoaded }}
     >
       <AuthModal open={open} onClose={handleClose} type={type} authorizePerson={authorizePerson} />
       {children}

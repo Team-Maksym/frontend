@@ -11,6 +11,7 @@ import { EditProofModal } from './components/EditProofModal/EditProofModal';
 import { getOneTalentProofs } from '../../../../shared/service/TalentProfileService';
 import { ProofsOneTalentContext } from '../../../../shared/context';
 import { TabItem } from './components/TabItem';
+import { CommitSharp } from '@mui/icons-material';
 
 TabPanel.propTypes = {
   children: PropTypes.node,

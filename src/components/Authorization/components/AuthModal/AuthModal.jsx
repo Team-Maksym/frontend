@@ -9,7 +9,6 @@ import { signIn, signUp } from '../../../../shared/service/AuthorizationService'
 import { Alert, Button, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { PersonContext } from '../../../../shared/context/PersonContext';
-// import { TypeField } from '../../../../shared/components/Fields/TypeField';
 
 export const AuthModal = ({ open, onClose, type, authorizePerson }) => {
   const [error, setError] = useState('');
