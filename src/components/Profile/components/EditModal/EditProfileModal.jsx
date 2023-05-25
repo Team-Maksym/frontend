@@ -28,7 +28,7 @@ export const EditProfileModal = ({
   const [allSkills, setAllSkills] = useState([]);
   const [skillListShow, setSkillListShow] = useState(false);
   const [profileSkill, setProfileSkill] = useState('');
-  const [skillText, setSkillText] = useState(null);
+  // const [skillText, setSkillText] = useState(null);
   const onEditProfileHandler = (action) => {
     let talentId = getCurrentPersonId();
     return async (values) => {
@@ -47,6 +47,7 @@ export const EditProfileModal = ({
           response.id = talentId;
           setTalent(response);
           const resp = await postOneTalentSkill(talentId, { skills: [profileSkill] });
+          setProfileSkill(null);
           setUpdatedSkill(!updatedSkill);
         } catch (error) {
           console.error(error);
@@ -131,11 +132,14 @@ export const EditProfileModal = ({
     skill.skill.forEach((el, i) => {
       i == skill.skill.legnth - 1 ? (st += `${el.skill}`) : (st += `${el.skill}, `);
     });
-
+  const handleModalClose = () => {
+    setProfileSkill('');
+    onClose();
+  };
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleModalClose}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="sm"
       fullWidth
@@ -184,7 +188,7 @@ export const EditProfileModal = ({
             )}
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-            <Button variant="outlined" onClick={onClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
+            <Button variant="outlined" onClick={handleModalClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
               Cancel
             </Button>
             <Button

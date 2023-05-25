@@ -46,6 +46,7 @@ export const TabItem = ({ value, index, type }) => {
                     {/*  isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}*/}
                     {/*/>*/}
                     <SkillList proofItem={item.skill_with_category_list} />
+                    {console.log(item.skill_with_category_list)}
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />
