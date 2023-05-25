@@ -87,7 +87,6 @@ export const Profile = ({ isPersonDataLoaded }) => {
               display: 'flex',
               flexDirection: { xs: 'column', lg: 'row' },
               minHeight: '90vh',
-              maxHeight: { lg: '90vh' },
             }}
           >
             {personProfile ? (
