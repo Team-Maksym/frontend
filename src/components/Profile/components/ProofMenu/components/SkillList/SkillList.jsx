@@ -64,8 +64,8 @@ export const SkillList = ({ proofItem }) => {
             mb: '10px',
             mr: '15px',
             p: '4px',
-            bgcolor: 'secondary.main',
-            borderColor: 'secondary.main',
+            bgcolor: 'neutral.whiteGrey',
+            borderColor: 'neutral.whiteGrey',
             color: 'neutral.white',
           }}
         />
