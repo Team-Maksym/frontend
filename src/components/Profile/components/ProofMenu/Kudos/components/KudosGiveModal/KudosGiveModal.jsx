@@ -17,33 +17,49 @@ import {
 import { useState } from 'react';
 import { postKudos } from '../../../../../../../shared/service/KudosService/KudosService';
 
-export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId, kudosAmount }) => {
+export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proofId, kudosAmount, kudosFromMe }) => {
   const [donateSuccess, setDonateSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [donateAmount, setDonateAmount] = useState(0);
+  const [donateAmount, setDonateAmount] = useState('');
   const [error, setError] = useState('');
 
   const donateKudos = (e) => {
-    postKudos(proofId, donateAmount)
+    postKudos(proofId, +donateAmount)
       .then(() => {
         setClickedKudos(true);
         setLoading(() => true);
         setTimeout(() => setLoading(() => false), 2000);
         setDonateSuccess(() => true);
       })
-      .catch((error) => {
-        setError(`You don't have enough stars`);
-        console.log(error);
-      });
+      // .catch((error) => {
+      //   setError(`You don't have enough stars`);
+      //   console.log(error);
+      // });
   };
 
+
+
+  console.log("kudosFromMe", kudosFromMe);
+  console.log("Math.abs(+donateAmount)", Math.abs(+donateAmount));
+
   const onValueChange = (e) => {
-    if (e.target.value > 0 && e.target.value < kudosAmount) {
-      setDonateAmount(+e.target.value);
-      setError(() => null);
+    console.log("typeof +e.target.value", typeof e.target.value);
+    setDonateAmount(e.target.value);
+    // if (e.target.value < kudosAmount) {
+    //   setError(() => null);
+    // } else {
+    //   setDonateAmount(+e.target.value);
+    //   setError(() => 'Number cannot be more then your stars amount');
+    // }
+
+ 
+
+    if (!e.target.value) {
+      setError(() => `Input cannot be empty`);
+    } else if (Math.abs(+donateAmount) > kudosFromMe) {
+      setError(() => `Amount of kudosses cannot be more than ${kudosAmount}`);
     } else {
-      setDonateAmount(+e.target.value);
-      setError(() => 'Number cannot be more then your stars amount or negative');
+      setError(() => '');
     }
   };
 
@@ -85,7 +101,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
         <Box sx={{ ml: 0.3, mt: 3 }}>
           <Slider
             aria-label="Temperature"
-            value={donateAmount}
+            value={+donateAmount}
             onChange={(e) => setDonateAmount(e.target.value)}
             valueLabelDisplay="auto"
             step={
@@ -94,7 +110,7 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
                 : +('10e' + (('' + kudosAmount).length - 3))
             }
             marks
-            min={0}
+            min={-kudosAmount}
             max={kudosAmount}
           />
         </Box>
@@ -103,8 +119,10 @@ export const KudosGiveModal = ({ openModal, setOpenModal, setClickedKudos, proof
           <TextField
             error={!!error}
             id="input-with-sx"
-            label={!donateAmount && !(donateAmount > 0) && 'Enter amount of stars'}
-            value={!!donateAmount ? donateAmount : ''}
+            // label={!donateAmount && !(donateAmount > 0) && 'Enter amount of stars'}
+            label={'Enter amount of stars'}
+            // value={!!donateAmount ? donateAmount : ''}
+            value={donateAmount}
             variant="standard"
             onChange={onValueChange}
             helperText={error}

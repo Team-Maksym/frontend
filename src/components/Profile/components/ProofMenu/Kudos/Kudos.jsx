@@ -29,6 +29,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
   const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [kudosAmount, setKudosAmount] = useState(person?.unused_kudos);
+  const [ownKudosses, setOwnKudosses] = useState(null);
   const [openKudosInfo, setOpenKudosInfo] = useState(false);
 
   const handeOpenModal = (e) => {
@@ -50,6 +51,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
     if (!!isKudosBtnShowing) {
       getKudosProtected(proofId).then((kudos) => {
         setKudos(() => kudos);
+        setOwnKudosses(() => kudos.kudos_from_me);
       });
       getOneSponsor(person.id).then((user) => {
         setKudosAmount(user.unused_kudos);
@@ -58,6 +60,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
     } else {
       getKudosPublic(proofId).then((kudos) => {
         setKudos(() => kudos);
+        setOwnKudosses(() => kudos.kudos_from_me);
       });
     }
     setClickedKudos(false);
@@ -127,6 +130,7 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
           setClickedKudos={setClickedKudos}
           proofId={proofId}
           kudosAmount={kudosAmount}
+          kudosFromMe={ownKudosses}
         />
       )}
       {openKudosInfo && (
@@ -189,3 +193,4 @@ export const Kudos = ({ proofId, isKudosBtnShowing = true, info }) => {
     </>
   );
 };
+
