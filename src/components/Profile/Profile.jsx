@@ -25,6 +25,7 @@ export const Profile = ({ isPersonDataLoaded }) => {
   const [personProfile, setPersonProfile] = useState(null);
   const [error, setError] = useState(null);
   const [skill, setSkill] = useState(null);
+  const [updatedSkill, setUpdatedSkill] = useState(true);
   useEffect(() => {
     if (currentPerson) {
       if (personRole === 'ROLE_SPONSOR') {
@@ -73,7 +74,10 @@ export const Profile = ({ isPersonDataLoaded }) => {
   if (error) {
     return <ErrorPage />;
   }
-
+  if (!updatedSkill) {
+    getOneTalentSkill(id).then((data) => setSkill(() => data));
+    setUpdatedSkill(!updatedSkill);
+  }
   return (
     <>
       {currentPerson ? (
@@ -112,6 +116,8 @@ export const Profile = ({ isPersonDataLoaded }) => {
                       actionsAccess={personProfile.id === currentPerson.id}
                       skill={skill}
                       setSkill={setSkill}
+                      updatedSkill={updatedSkill}
+                      setUpdatedSkill={setUpdatedSkill}
                     />
                     <ProofMenu actionsAccess={personProfile.id === currentPerson.id} talentId={personProfile.id} />
                   </>

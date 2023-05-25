@@ -15,10 +15,20 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
-export const EditProfileModal = ({ open, onClose, person: talent, setPerson: setTalent, skill, setSkill }) => {
+export const EditProfileModal = ({
+  open,
+  onClose,
+  person: talent,
+  setPerson: setTalent,
+  skill,
+  setSkill,
+  updatedSkill,
+  setUpdatedSkill,
+}) => {
   const [allSkills, setAllSkills] = useState([]);
   const [skillListShow, setSkillListShow] = useState(false);
   const [profileSkill, setProfileSkill] = useState('');
+  const [skillText, setSkillText] = useState(null);
   const onEditProfileHandler = (action) => {
     let talentId = getCurrentPersonId();
     return async (values) => {
@@ -36,9 +46,8 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
           const response = await action(talentNewProfile, talentId);
           response.id = talentId;
           setTalent(response);
-
           const resp = await postOneTalentSkill(talentId, { skills: [profileSkill] });
-          setSkill(profileSkill);
+          setUpdatedSkill(!updatedSkill);
         } catch (error) {
           console.error(error);
         }
@@ -115,10 +124,14 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
   const addProfileSkill = (newSkill) => {
     setSkillListShow(!skillListShow);
     setProfileSkill(newSkill);
+    st += `, ${newSkill}`;
   };
-  const deleteSkillListShow = () => {
-    setProfileSkill('');
-  };
+  let st = '';
+  skill &&
+    skill.skill.forEach((el, i) => {
+      i == skill.skill.legnth - 1 ? (st += `${el.skill}`) : (st += `${el.skill}, `);
+    });
+
   return (
     <Dialog
       open={open}
@@ -138,13 +151,10 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
               {skill && (
                 <>
                   <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Change your skill</Typography>
+                    <Typography>Add one skill</Typography>
                     <Box>
                       <IconButton aria-label="addSkill" onClick={() => setSkillListShow(!skillListShow)}>
                         <EditIcon />
-                      </IconButton>
-                      <IconButton aria-label="removeSkill" onClick={() => deleteSkillListShow()}>
-                        <DeleteIcon />
                       </IconButton>
                     </Box>
                   </Box>
@@ -163,11 +173,9 @@ export const EditProfileModal = ({ open, onClose, person: talent, setPerson: set
             </Box>
             {skill && (
               <Typography>
-                {skill.skill[skill.skill.length - 1].skill
-                  ? skill.skill[skill.skill.length - 1].skill
-                  : skill.skill[skill.skill.length - 1].skill != profileSkill
-                  ? profileSkill
-                  : '-'}
+                {profileSkill
+                  ? st.substring(0, st.length - 2) + `, ${profileSkill}`
+                  : st.substring(0, st.length - 2) || '-'}
               </Typography>
             )}
 
