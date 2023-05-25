@@ -134,7 +134,7 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess, skill, setSkil
               </ListItem>
             </List>
             {skill && (
-              <Box display={'flex'} alignItems={'flex-start'} ml={'20px'} flexWrap={'wrap'}>
+              <Box display={'flex'} alignItems={'flex-start'} ml={'10px'} flexWrap={'wrap'}>
                 <SkillList proofItem={skill.skill} />
               </Box>
             )}
