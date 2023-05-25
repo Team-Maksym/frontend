@@ -44,7 +44,7 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
   const handleSkillChange = (event, newValue) => {
     setSkill(() => (newValue ? newValue.skill : ''));
     let searchParams = new URLSearchParams(location.search);
-    searchParams.set('skill', newValue ? newValue.skill : '');
+    newValue ? searchParams.set('skill', newValue.skill) : searchParams.delete('skill');
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
@@ -109,3 +109,4 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
     </>
   );
 };
+
