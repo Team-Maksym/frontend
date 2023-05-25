@@ -7,6 +7,7 @@ import { PreLoaderUser } from './components/PreLoadUser';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 import { useLocation } from 'react-router-dom';
 import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
+import { EmptyPage } from '../../../../shared/components/EmptyPage/EmptyPage';
 
 export const TalentList = () => {
   const [talents, setTalents] = useState([]);
@@ -15,7 +16,7 @@ export const TalentList = () => {
   let query = new URLSearchParams(location.search);
   const [skill, setSkill] = useState(query.get('skill') || null);
 
-  const items = talents?.map((item, index) => {
+  const items = talents.map((item, index) => {
     let localAvatar = AvatarValidation(item.avatar);
 
     return (
@@ -35,9 +36,17 @@ export const TalentList = () => {
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3, mr: -2 }}>
         <SkillAutocomplete width={'300px'} skill={skill} setSkill={setSkill} />
       </Box>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 3, md: 5 }} sx={{ alignItems: 'stretch' }}>
-        {!loading ? items : <PreLoaderUser />}
-      </Grid>
+
+      {loading ? (
+        <PreLoaderUser />
+      ) : !items.length ? (
+        <EmptyPage />
+      ) : (
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 3, md: 5 }} sx={{ alignItems: 'stretch' }}>
+          {items}
+        </Grid>
+      )}
+
       <PaginationCustom
         size={10}
         filter={skill}
