@@ -1,14 +1,17 @@
 import { protectedAxiosInstance } from '../api';
 import { publicAxiosInstance } from '../api';
 
-export const getAllTalents = async (page, size) => {
+export const getAllTalents = async (page, size, sort, filter) => {
   let data = [];
 
+  console.log("filter", filter);
+
   await publicAxiosInstance
-    .get('v1/talents', {
+    .get('v2/talents', {
       params: {
-        page: page,
-        size: size,
+        skip: page,
+        limit: size,
+        filter: filter,
       },
     })
     .then((response) => {
@@ -52,3 +55,4 @@ export const deleteProof = async (talentId, proofId) => {
     .delete(`v1/talents/${talentId}/proofs/${proofId}`)
     .then((response) => response.data);
 };
+
