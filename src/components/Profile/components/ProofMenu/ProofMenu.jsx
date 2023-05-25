@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Tabs, Tab, Fab } from '@mui/material';
+import { Box, Tabs, Tab, Fab, Button, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TabPanel } from './components/TabPanel';
 import { NewProofModal } from './components/NewProofModal';
@@ -80,7 +80,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
       });
   };
   const getSkilledProof = (newSkill) => {
-    console.log(newSkill);
     const url = query.get('status');
     if (url === 'draft') {
       getProofBySkill('DRAFT', setDrafted, newSkill.skill_id);
@@ -103,7 +102,16 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
 
     setUpdated(false);
   }, [updated, location.search, talentId]);
-
+  const resetSearchFunc = () => {
+    const url = query.get('status');
+    if (url === 'draft' && actionsAccess) {
+      getProofsByStatus('DRAFT', setDrafted, 1);
+    } else if (url === 'hidden' && actionsAccess) {
+      getProofsByStatus('HIDDEN', setHiddened, 2);
+    } else {
+      getProofsByStatus('PUBLISHED', setPublished, 0);
+    }
+  };
   return (
     <ProofsOneTalentContext.Provider
       value={{
@@ -175,13 +183,17 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
               </Fab>
             )}
           </Tabs>
-          <Box sx={{ position: 'absolute', top: '0', right: '75px', borderRadius: '5px' }}>
+          <Box sx={{ display: 'flex', position: 'absolute', top: '0', right: '75px', borderRadius: '5px' }}>
             <SkillAutocomplete
               width={'300px'}
               proofBySkill={getSkilledProof}
               setAllSkills={setAllSkills}
               skill={skill}
+              setSkill={setSkill}
             />
+            <Button variant="contained" sx={{ bgcolor: 'secondary.main' }} onClick={resetSearchFunc}>
+              Reset
+            </Button>
           </Box>
         </Box>
 
