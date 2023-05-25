@@ -14,17 +14,16 @@ import {
   Chip,
   Box,
 } from '@mui/material';
-import { Email, Cake, School, WorkHistory, Delete, Edit } from '@mui/icons-material';
+import { Email, Cake, School, WorkHistory, Delete, Edit, Engineering } from '@mui/icons-material';
 import { DeleteAccountModal } from '../DeleteAccountModal';
 import { EditProfileModal } from '../EditModal';
 import { AvatarValidation } from '../../../../shared/components/AvatarValidation';
 
-export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
+export const BigTalentCard = ({ person, setPerson, actionsAccess, skill, setSkill, setUpdatedSkill, updatedSkill }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   let localAvatar = AvatarValidation(person.avatar);
-
   const icons = {
     email: <Email />,
     birthday: <Cake />,
@@ -133,6 +132,26 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
                 </Box>
               </ListItem>
             </List>
+            {skill && (
+              <Box display={'flex'} alignItems={'flex-start'} ml={'20px'} flexWrap={'wrap'}>
+                {skill.skill.map((el) => {
+                  return (
+                    <Box
+                      sx={{
+                        p: '4px',
+                        bgcolor: 'secondary.main',
+                        borderColor: 'secondary.main',
+                        color: 'neutral.white',
+                        borderRadius: '10px',
+                        m: '2px',
+                      }}
+                    >
+                      <Typography>{el.skill || '-'}</Typography>
+                    </Box>
+                  );
+                })}
+              </Box>
+            )}
           </CardContent>
         </Box>
         {actionsAccess && (
@@ -161,6 +180,10 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
               onClose={handleCloseEditModal}
               person={person}
               setPerson={setPerson}
+              skill={skill}
+              setSkill={setSkill}
+              updatedSkill={updatedSkill}
+              setUpdatedSkill={setUpdatedSkill}
             />
           </>
         )}
@@ -168,4 +191,3 @@ export const BigTalentCard = ({ person, setPerson, actionsAccess }) => {
     </>
   );
 };
-

@@ -5,7 +5,15 @@ import Paper from '@mui/material/Paper';
 import { getAllSkills } from '../../../../shared/service/SkillService';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSkills, skill, setSkill }) => {
+export const SkillAutocomplete = ({
+  width,
+  handleAddSkill,
+  proofBySkill,
+  usedSkills,
+  setAllSkills,
+  skill,
+  setSkill,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const skip = 0;
@@ -55,6 +63,8 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
   const onChangeFunction = (event, newValue, reason) => {
     if (handleAddSkill) {
       handleAddSkill(newValue?.skill);
+    } else if (proofBySkill) {
+      proofBySkill(newValue);
     } else {
       handleSkillChange(event, newValue);
     }
@@ -99,7 +109,7 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
               {...params}
               sx={!!handleAddSkill && { bgcolor: 'neutral.white' }}
               label="Skills"
-              variant={!!handleAddSkill ? 'outlined' : 'filled'}
+              variant={'filled'}
               placeholder="Any skill"
               onChange={handleFilterChange}
             />
@@ -109,4 +119,3 @@ export const SkillAutocomplete = ({ width, handleAddSkill, usedSkills, setAllSki
     </>
   );
 };
-

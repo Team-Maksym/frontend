@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // import { Kudos } from '../Profile/components/ProofMenu/Kudos';
 import { SkillAutocomplete } from './components/SkillAutocomplete';
 import { SkillList } from '../Profile/components/ProofMenu/components/SkillList/SkillList';
-import { TimerComponent } from "./components/TimerComponent/TimerComponent";
+import { TimerComponent } from './components/TimerComponent/TimerComponent';
 // import { getCurrentPersonRole } from '../../shared/service/AuthorizationService/AuthorizationService';
 
 export const ProofList = () => {
@@ -81,7 +81,7 @@ export const ProofList = () => {
             Sort by Date {sort ? <ArrowDropUp /> : <ArrowDropDown />}
           </Button>
         </Box>
-        {items.length === 0 ? <TimerComponent/> : items}
+        {items.length === 0 ? <TimerComponent /> : items}
         {skill !== null ? (
           <PaginationCustom size={1000} sort={sort} setHook={setProofs} queryFunction={getAllProofs} />
         ) : (
