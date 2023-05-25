@@ -74,7 +74,7 @@ export const ProofList = () => {
 
   return (
     <Wrapper>
-      <Box sx={{ mt: '56px', p: '0 10px' }}>
+      <Box sx={{ mt: '56px', p: '0 10px', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: '16px' }}>
           <SkillAutocomplete width={'300px'} skill={skill} setSkill={setSkill} />
           <Button variant="contained" color="secondary" onClick={handleSortClick}>
