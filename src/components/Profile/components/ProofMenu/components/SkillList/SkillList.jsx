@@ -54,7 +54,7 @@ export const SkillList = ({ proofItem }) => {
 
   return (
     <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
-      {proofItem.map((item, i) => (
+      {proofItem?.map((item, i) => (
         <Chip
           icon={categoryItem(item.category)}
           key={i}
