@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { Star } from '@mui/icons-material';
 import { getKudosProtected, getKudosPublic } from '../../../../../shared/service/KudosService/KudosService';
-import { KudosGiveModal } from './components/KudosGiveModal';
+import { KudosGiveModal } from './components/KudosGiveModal/KudosGiveModal';
 import { getOneSponsor } from '../../../../../shared/service/SponsorProfileService';
 import { PersonContext } from '../../../../../shared/context';
 
