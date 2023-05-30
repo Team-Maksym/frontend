@@ -4,8 +4,6 @@ import { publicAxiosInstance } from '../api';
 export const getAllTalents = async (page, size, sort, filter) => {
   let data = [];
 
-  console.log("filter", filter);
-
   await publicAxiosInstance
     .get('v2/talents', {
       params: {
@@ -68,4 +66,3 @@ export const deleteProof = async (talentId, proofId) => {
     .delete(`v1/talents/${talentId}/proofs/${proofId}`)
     .then((response) => response.data);
 };
-
