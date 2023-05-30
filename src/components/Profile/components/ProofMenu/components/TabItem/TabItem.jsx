@@ -40,13 +40,14 @@ export const TabItem = ({ value, index, type }) => {
                         personRole !== 'ROLE_SPONSOR' && <ProofItemProfile val={value} id={item.id} status={drafted} />
                       }
                     />
-                    <Kudos
-                      proofId={item.id}
-                      info={item.sponsor_on_proof_short_info_list}
-                      isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}
-                    />
+                    {index !== 1 && (
+                      <Kudos
+                        proofId={item.id}
+                        info={item.sponsor_on_proof_short_info_list}
+                        isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}
+                      />
+                    )}
                     <SkillList proofItem={item.skill_with_category_list} />
-                    {console.log(item.skill_with_category_list)}
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />

@@ -36,7 +36,7 @@ export const TagCloudCustom = () => {
       });
   }, [location, open]);
 
-  const Box = styled('div')(({ theme }) => ({
+  const Box = styled('div')(() => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
