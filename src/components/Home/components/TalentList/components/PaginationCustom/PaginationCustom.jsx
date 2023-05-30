@@ -26,9 +26,6 @@ export const PaginationCustom = ({ size, sort, filter, setHook, queryFunction, s
       });
   }, [page, size, sort, filter, setHook, queryFunction, location]);
 
-  console.log("count", count);
-  console.log("size", size);
-
   return (
     <Stack spacing={2}>
       {count ? (
@@ -68,4 +65,3 @@ export const PaginationCustom = ({ size, sort, filter, setHook, queryFunction, s
     </Stack>
   );
 };
-
