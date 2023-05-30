@@ -65,4 +65,3 @@ export const PaginationCustom = ({ size, sort, filter, setHook, queryFunction, s
     </Stack>
   );
 };
-

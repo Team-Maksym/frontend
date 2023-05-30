@@ -66,4 +66,3 @@ export const deleteProof = async (talentId, proofId) => {
     .delete(`v1/talents/${talentId}/proofs/${proofId}`)
     .then((response) => response.data);
 };
-
