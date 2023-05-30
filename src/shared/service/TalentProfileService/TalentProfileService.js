@@ -4,8 +4,6 @@ import { publicAxiosInstance } from '../api';
 export const getAllTalents = async (page, size, sort, filter) => {
   let data = [];
 
-  console.log("filter", filter);
-
   await publicAxiosInstance
     .get('v2/talents', {
       params: {
