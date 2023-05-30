@@ -50,6 +50,8 @@ export const KudosAmountModal = ({ open, onClose, person }) => {
       setError(() => 'Input cannot be empty');
     } else if (e.target.value <= 0) {
       setError(() => 'Number cannot be 0 or negative');
+    } else if (!(/^[0-9]+$/.test(e.target.value))) {
+      setError(() => 'Symbols and letters cannot be entered');
     } else if (+kudosAmount + +newKudosAmount >= 1e5) {
       setError(() => 'Amount of kudosses cannot be more than 100000');
     } else {

@@ -24,7 +24,7 @@ export const getOneProofSkill = async (proofId) => {
 
 export const postOneProofSkill = async (talentId, proofId, skills) => {
   return await protectedAxiosInstance
-    .post(`v1/talents/${talentId}/proofs/${proofId}/skills`, skills)
+    .post(`v2/talents/${talentId}/proofs/${proofId}/skills`, skills)
     .then((response) => response.data);
 };
 
