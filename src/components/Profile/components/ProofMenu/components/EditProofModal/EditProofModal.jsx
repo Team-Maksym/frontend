@@ -24,6 +24,7 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const [deleteSkillsId, setDeleteSkillsId] = useState([]);
   const [skill, setSkill] = useState('');
 
+
   const handleAddSkill = (newSkill) => {
     setSearchDisplay('none');
     allSkills.forEach((item) => {
