@@ -20,7 +20,7 @@ export const SkillAutocomplete = ({
   const limit = 1000;
   const [filter, setFilter] = useState('');
   const [data, setData] = useState([]);
-
+  
   useEffect(() => {
     getAllSkills(skip, limit, filter)
       .then((response) => {

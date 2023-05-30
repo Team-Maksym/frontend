@@ -12,23 +12,27 @@ import { postOneTalentSkill } from '../../../../shared/service/TalentProfileServ
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
 import { Button, Dialog, DialogContent, DialogTitle, Box, IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Chip, Stack } from '@mui/material';
 import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
+import { useEffect } from 'react';
 export const EditProfileModal = ({
   open,
   onClose,
   person: talent,
   setPerson: setTalent,
   skill,
-  setSkill,
   updatedSkill,
   setUpdatedSkill,
 }) => {
   const [allSkills, setAllSkills] = useState([]);
   const [skillListShow, setSkillListShow] = useState(false);
   const [profileSkill, setProfileSkill] = useState('');
-  // const [skillText, setSkillText] = useState(null);
+  const [usedSkills, setUsedSkills] = useState([]);
+
+  useEffect(() => {
+    setUsedSkills(skill?.skill);
+  }, [skill]);
+
   const onEditProfileHandler = (action) => {
     let talentId = getCurrentPersonId();
     return async (values) => {
@@ -122,16 +126,13 @@ export const EditProfileModal = ({
       birthday: BirthdayField,
     },
   };
+
   const addProfileSkill = (newSkill) => {
     setSkillListShow(!skillListShow);
     setProfileSkill(newSkill);
-    st += `, ${newSkill}`;
+    setUsedSkills((prev) => [...prev, newSkill]);
   };
-  let st = '';
-  skill &&
-    skill.skill.forEach((el, i) => {
-      i == skill.skill.legnth - 1 ? (st += `${el.skill}`) : (st += `${el.skill}, `);
-    });
+
   const handleModalClose = () => {
     setProfileSkill('');
     onClose();
@@ -152,19 +153,7 @@ export const EditProfileModal = ({
         <Form {...editForm}>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ width: '100%', mt: '10px', display: 'flex' }}>
-              {skill && (
-                <>
-                  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Add one skill</Typography>
-                    <Box>
-                      <IconButton aria-label="addSkill" onClick={() => setSkillListShow(!skillListShow)}>
-                        <EditIcon />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                </>
-              )}
-              {!skill && (
+              {!skill ? (
                 <>
                   <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography>Choose your skill</Typography>
@@ -173,18 +162,24 @@ export const EditProfileModal = ({
                     </IconButton>
                   </Box>
                 </>
+              ) : (
+                <Stack display="flex" flexDirection="row" alignItems="center" flexWrap="wrap" mb="15px">
+                  {skill?.skill.map((item, i) => {
+                    return <Chip key={i} label={item.skill} variant="outlined" sx={{ m: '5px' }} />;
+                  })}
+                  {profileSkill && <Chip label={profileSkill} variant="outlined" sx={{ m: '5px' }} />}
+                  <IconButton aria-label="addSkill">
+                    <AddIcon onClick={() => setSkillListShow(!skillListShow)} />
+                  </IconButton>
+                </Stack>
               )}
             </Box>
-            {skill && (
-              <Typography>
-                {profileSkill
-                  ? st.substring(0, st.length - 2) + `, ${profileSkill}`
-                  : st.substring(0, st.length - 2) || '-'}
-              </Typography>
-            )}
-
             {skillListShow && (
-              <SkillAutocomplete handleAddSkill={addProfileSkill} setAllSkills={setAllSkills}></SkillAutocomplete>
+              <SkillAutocomplete
+                handleAddSkill={addProfileSkill}
+                setAllSkills={setAllSkills}
+                usedSkills={usedSkills}
+              ></SkillAutocomplete>
             )}
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
