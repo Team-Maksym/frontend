@@ -50,7 +50,9 @@ export const EditProfileModal = ({
           const response = await action(talentNewProfile, talentId);
           response.id = talentId;
           setTalent(response);
-          const resp = await postOneTalentSkill(talentId, { skills: [profileSkill] });
+          await postOneTalentSkill(talentId, {
+            skills: profileSkill,
+          });
           setProfileSkill(null);
           setUpdatedSkill(!updatedSkill);
         } catch (error) {
@@ -129,7 +131,7 @@ export const EditProfileModal = ({
 
   const addProfileSkill = (newSkill) => {
     setSkillListShow(!skillListShow);
-    setProfileSkill(newSkill);
+    setProfileSkill((prev) => [...prev, newSkill]);
     setUsedSkills((prev) => [...prev, newSkill]);
   };
 
@@ -164,10 +166,12 @@ export const EditProfileModal = ({
                 </>
               ) : (
                 <Stack display="flex" flexDirection="row" alignItems="center" flexWrap="wrap" mb="15px">
-                  {skill?.skill.map((item, i) => {
-                    return <Chip key={i} label={item.skill} variant="outlined" sx={{ m: '5px' }} />;
-                  })}
-                  {profileSkill && <Chip label={profileSkill} variant="outlined" sx={{ m: '5px' }} />}
+                  {usedSkills &&
+                    usedSkills.map((item, i) => {
+                      return (
+                        <Chip key={i} label={item.skill ? item.skill : item} variant="outlined" sx={{ m: '5px' }} />
+                      );
+                    })}
                   <IconButton aria-label="addSkill">
                     <AddIcon onClick={() => setSkillListShow(!skillListShow)} />
                   </IconButton>
