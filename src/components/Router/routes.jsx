@@ -1,33 +1,52 @@
 import { useRoutes } from 'react-router-dom';
-import { Home } from '../Home';
-import { Profile } from '../Profile';
 import { ErrorPage } from '../../shared/components/Error/ErrorPage';
 import { useContext } from 'react';
-import { TalentContext } from '../../shared/context/TalentContext';
-import { ProofList } from '../ProofList';
+import { PersonContext } from '../../shared/context/PersonContext';
+import { RestoreStatus } from '../RestoreStatus';
+import React, { Suspense } from 'react';
+import { PreLoader } from '../PreLoader';
+const Home = React.lazy(() => import('../Home'));
+const Profile = React.lazy(() => import('../Profile'));
+const ProofList = React.lazy(() => import('../ProofList'));
 
 export const Router = () => {
-  const { isTalentDataLoaded } = useContext(TalentContext);
+  const { isPersonDataLoaded } = useContext(PersonContext);
   let element = useRoutes([
     {
       path: '/',
       children: [
         {
           index: true,
-          element: <Home />,
+          element: (
+            <Suspense fallback={<PreLoader />}>
+              <Home />
+            </Suspense>
+          ),
         },
         {
           path: 'profile/:id',
-          element: <Profile isTalentDataLoaded={isTalentDataLoaded} />,
+          element: (
+            <Suspense fallback={<PreLoader />}>
+              <Profile isPersonDataLoaded={isPersonDataLoaded} />,
+            </Suspense>
+          ),
         },
         {
           path: 'proofList/',
           children: [
             {
               index: true,
-              element: <ProofList />,
+              element: (
+                <Suspense fallback={<PreLoader />}>
+                  <ProofList />
+                </Suspense>
+              ),
             },
           ],
+        },
+        {
+          path: 'recovery/',
+          element: <RestoreStatus />,
         },
       ],
     },

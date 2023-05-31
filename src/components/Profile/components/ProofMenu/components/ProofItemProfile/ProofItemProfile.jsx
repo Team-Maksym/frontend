@@ -1,7 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Box } from '@mui/material';
-import { editTalentProof } from '../../../../../../shared/service/ProfileService';
+import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
 import { useContext } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
 
@@ -24,7 +24,16 @@ export const ProofItemProfile = ({ val, id, status }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 'auto', pl: '15px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        mt: { xs: '10px', md: 0 },
+        pl: { md: '15px' },
+        ml: { md: 'auto' },
+        alignItems: 'center',
+        justifyContent: 'left',
+      }}
+    >
       {val !== 0 && (
         <Button
           variant="contained"

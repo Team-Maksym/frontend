@@ -1,21 +1,98 @@
 import * as yup from 'yup';
 import { Form } from '../../../../../../shared/components/Form';
-import { getCurrentTalentId } from '../../../../../../shared/service/AuthorizationService';
+import { getCurrentPersonId } from '../../../../../../shared/service/AuthorizationService';
 import { ProofTextField } from '../../../../../../shared/components/Fields/ProofTextField';
 import { ProofLinkField } from '../../../../../../shared/components/Fields/ProofLinkField/ProofLinkField';
-import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Box, Chip, Stack, IconButton, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ProofTitleField } from '../../../../../../shared/components/Fields/ProofTitleField/ProofTitleField';
-import { editTalentProof } from '../../../../../../shared/service/ProfileService';
-import { useContext } from 'react';
+import { editTalentProof } from '../../../../../../shared/service/TalentProfileService';
+import { useContext, useState, useEffect } from 'react';
 import { ProofsOneTalentContext } from '../../../../../../shared/context';
+import { SkillAutocomplete } from '../../../../../ProofList/components/SkillAutocomplete';
+import AddIcon from '@mui/icons-material/Add';
+import { postOneProofSkill, deleteSkills } from '../../../../../../shared/service/SkillService';
 
 export const EditProofModal = ({ openEditModal, proofInfo }) => {
   const { setOpenEditModal, setUpdated } = useContext(ProofsOneTalentContext);
-
   const navigate = useNavigate();
+  const [searchDisplay, setSearchDisplay] = useState('none');
+  const [newSkills, setNewSkills] = useState([]);
+  const [startSkills, setStartSkills] = useState([]);
+  const [proofSkills, setProofSkills] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
+  const [deleteSkillsId, setDeleteSkillsId] = useState([]);
+  const [skill, setSkill] = useState('');
+
+
+  const handleAddSkill = (newSkill) => {
+    setSearchDisplay('none');
+    allSkills.forEach((item) => {
+      if (item.skill === newSkill) {
+        const proofSkillsNames = proofSkills.map((item) => item.skill);
+        if (!newSkills.includes(newSkill) && !proofSkillsNames.includes(newSkill)) {
+          setNewSkills((prev) => [...prev, item.skill]);
+          if (deleteSkillsId.includes(item.skill_id)) {
+            deleteSkillsId.forEach((delItem, i) => {
+              const newDelClone = [...deleteSkillsId];
+              if (delItem === item.skill_id) {
+                newDelClone.splice(i, 1);
+                setDeleteSkillsId(newDelClone);
+              }
+            });
+          }
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (proofInfo?.skill_with_category_list) {
+      resetSkills();
+    }
+  }, [proofInfo.skill_with_category_list]);
+
+  const resetSkills = () => {
+    setProofSkills(proofInfo.skill_with_category_list);
+    setStartSkills(proofInfo.skill_with_category_list);
+  };
+
+  const currentSkills = () => {
+    if (!!proofSkills && proofSkills.length > 0) {
+      return proofSkills.map((item, i) => {
+        return (
+          <Chip
+            key={i}
+            label={item.skill}
+            variant="outlined"
+            onDelete={() => handleDelete(item.skill_id)}
+            sx={{ m: '5px' }}
+          />
+        );
+      });
+    } else {
+      if (newSkills.length === 0) {
+        return (
+          <Box display="flex" alignItems="center">
+            <Typography sx={{ color: 'neutral.whiteGrey', opacity: '0.8' }}> There are no skills yet. </Typography>
+          </Box>
+        );
+      }
+    }
+  };
+
+  const newRenderSkills = () => {
+    if (!!newSkills && newSkills.length > 0) {
+      return newSkills.map((item, i) => {
+        if (!!item) {
+          return <Chip key={i} label={item} variant="outlined" onDelete={() => handleDelete(item)} sx={{ m: '5px' }} />;
+        }
+      });
+    }
+  };
+
   const onEditProofHandler = () => {
-    let talentId = getCurrentTalentId();
+    let talentId = getCurrentPersonId();
     return async (values) => {
       const newProof = {
         title: values.title,
@@ -28,6 +105,18 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       } else {
         try {
           await editTalentProof(talentId, proofInfo.id, newProof);
+          if (!!newSkills && newSkills.length > 0) {
+            const serviceProofsForPost = { skills: newSkills };
+            await postOneProofSkill(talentId, proofInfo.id, serviceProofsForPost).catch((error) => {
+              console.log(error);
+            });
+            resetSkills();
+            setNewSkills([]);
+          }
+          if (!!deleteSkillsId && deleteSkillsId.length > 0) {
+            await deleteSkills(talentId, proofInfo.id, deleteSkillsId);
+            setDeleteSkillsId([]);
+          }
           setUpdated(true);
           navigate(`/profile/${talentId}?status=draft`);
         } catch (error) {
@@ -64,10 +153,37 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
     },
   };
 
+  const handleDelete = (skillValue) => {
+    if (typeof skillValue !== 'number') {
+      setDeleteSkillsId((prev) => [...new Set([...prev, skillValue])]);
+      newSkills.forEach((item, i) => {
+        const newSkillClone = [...newSkills];
+        if (item === skillValue) {
+          newSkillClone.splice(i, 1);
+          setNewSkills(newSkillClone);
+        }
+      });
+    } else {
+      setDeleteSkillsId((prev) => [...new Set([...prev, skillValue])]);
+      proofSkills.forEach((item, i) => {
+        const newSkillClone = [...proofSkills];
+        if (item.skill_id === skillValue) {
+          newSkillClone.splice(i, 1);
+          setProofSkills(newSkillClone);
+        }
+      });
+    }
+  };
+
   return (
     <Dialog
       open={openEditModal}
-      onClose={() => setOpenEditModal(false)}
+      onClose={(e) => {
+        e.stopPropagation();
+        setOpenEditModal(false);
+        setNewSkills([]);
+        setProofSkills(startSkills);
+      }}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="sm"
       fullWidth
@@ -78,10 +194,33 @@ export const EditProofModal = ({ openEditModal, proofInfo }) => {
       <DialogTitle id="contained-Dialog-title-vcenter">{editProof.title}</DialogTitle>
       <DialogContent>
         <Form {...editProof}>
+          <Box sx={{ width: '100%', mt: '15px' }}>
+            <Stack display="flex" flexDirection="row" alignItems="center" flexWrap="wrap" mb="15px">
+              {currentSkills()}
+              {newRenderSkills()}
+              <IconButton aria-label="addSkill" onClick={() => setSearchDisplay('block')}>
+                <AddIcon />
+              </IconButton>
+            </Stack>
+            <Box display={searchDisplay}>
+              <SkillAutocomplete
+                handleAddSkill={handleAddSkill}
+                usedSkills={[...newSkills, ...proofSkills]}
+                setAllSkills={setAllSkills}
+                skill={skill}
+                setSkill={setSkill}
+              />
+            </Box>
+          </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button
               variant="outlined"
-              onClick={() => setOpenEditModal(false)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenEditModal(false);
+                setNewSkills([]);
+                setProofSkills(startSkills);
+              }}
               sx={{ mt: 4, px: 8, borderRadius: '6px' }}
             >
               Cancel

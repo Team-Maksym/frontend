@@ -1,0 +1,1 @@
+export { BigSponsorCard } from './BigSponsorCard';

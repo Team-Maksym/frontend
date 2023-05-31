@@ -7,4 +7,4 @@ export {
   deleteProof,
   addTalentProof,
   editTalentProof,
-} from './ProfileService';
+} from './TalentProfileService';

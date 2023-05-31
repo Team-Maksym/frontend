@@ -1,32 +1,46 @@
 import { useState, useEffect } from 'react';
-import { TalentContext } from '../../../../shared/context/TalentContext';
-import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
-import { getOneTalent } from '../../../../shared/service/ProfileService';
+import { PersonContext } from '../../../../shared/context/PersonContext';
+import { getCurrentPersonId } from '../../../../shared/service/AuthorizationService';
+import { getOneTalent } from '../../../../shared/service/TalentProfileService';
 import { AuthModal } from '../AuthModal/AuthModal';
 import { useNavigate } from 'react-router-dom';
+import { getOneSponsor } from '../../../../shared/service/SponsorProfileService/SponsorProfileService';
+import { getCurrentPersonRole } from "../../../../shared/service/AuthorizationService/AuthorizationService";
 
 export const AuthProvider = ({ children }) => {
-  const [talent, setTalent] = useState(null);
+  const [person, setPerson] = useState(null);
   const [open, setOpen] = useState(false);
-  const [isTalentDataLoaded, setIsTalentDataLoaded] = useState(false);
+  const [isPersonDataLoaded, setIsPersonDataLoaded] = useState(false);
   const [type, setType] = useState('signIn');
   const navigate = useNavigate();
 
   useEffect(() => {
-    authorizeTalent();
+    authorizePerson();
   }, []);
 
-  const authorizeTalent = () => {
-    const talentId = getCurrentTalentId();
-    if (talentId) {
-      getOneTalent(talentId).then((talent) => {
-        talent.id = talentId;
-        setTalent(talent);
-        setIsTalentDataLoaded(() => true);
-      });
-    } else {
-      setTalent(null);
-      setIsTalentDataLoaded(() => true);
+  const authorizePerson = async () => {
+    const personId = getCurrentPersonId();
+    const personRole = getCurrentPersonRole();
+    if (!personId) {
+      setPerson(null);
+      setIsPersonDataLoaded(() => true);
+      return;
+    }
+
+    try {
+      let person;
+      if (personRole === 'ROLE_TALENT') {
+        person = await getOneTalent(personId);
+      } else if (personRole === 'ROLE_SPONSOR') {
+        person = await getOneSponsor(personId);
+      }
+
+      person.id = personId;
+      setPerson(person);
+    } catch (error) {
+      console.error(`Error getting ${personRole}: ${error.message}`);
+    } finally {
+      setIsPersonDataLoaded(() => true);
     }
   };
 
@@ -41,18 +55,17 @@ export const AuthProvider = ({ children }) => {
 
   const signOut = () => {
     localStorage.removeItem('token');
-    setTalent(null);
-    setIsTalentDataLoaded(() => true);
+    setPerson(null);
+    setIsPersonDataLoaded(() => true);
     navigate('/');
   };
 
   return (
-    <TalentContext.Provider
-      value={{ talent, setTalent, signOut, openAuthModal, isTalentDataLoaded, setIsTalentDataLoaded }}
+    <PersonContext.Provider
+      value={{ person: person, setPerson: setPerson, signOut,open, openAuthModal, isPersonDataLoaded: isPersonDataLoaded, setIsPersonDataLoaded: setIsPersonDataLoaded }}
     >
-      <AuthModal open={open} onClose={handleClose} type={type} authorizeTalent={authorizeTalent} />
+      <AuthModal open={open} onClose={handleClose} type={type} authorizePerson={authorizePerson} />
       {children}
-    </TalentContext.Provider>
+    </PersonContext.Provider>
   );
 };
-

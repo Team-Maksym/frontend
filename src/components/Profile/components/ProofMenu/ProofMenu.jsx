@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Tabs, Tab, Fab } from '@mui/material';
+import { Box, Tabs, Tab, Fab, Button, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TabPanel } from './components/TabPanel';
 import { NewProofModal } from './components/NewProofModal';
 import { useNavigate } from 'react-router-dom';
 import { DeleteProofModal } from './components/DeleteProofModal';
 import { EditProofModal } from './components/EditProofModal/EditProofModal';
-import { getOneTalentProofs } from '../../../../shared/service/ProfileService';
+import { getOneTalentProofs } from '../../../../shared/service/TalentProfileService';
 import { ProofsOneTalentContext } from '../../../../shared/context';
 import { TabItem } from './components/TabItem';
-
+import { CommitSharp } from '@mui/icons-material';
+import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
+import { getSkillProof } from '../../../../shared/service/TalentProfileService/TalentProfileService';
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
@@ -33,7 +35,8 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [proofInfo, setProofInfo] = useState({});
   const [value, setValue] = useState(0);
-
+  const [skill, setSkill] = useState(query.get('skill') || null);
+  const [allSkills, setAllSkills] = useState([]);
   const handleChangeAcordion = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -54,7 +57,6 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
     setExpanded(false);
     setValue(newValue);
   };
-
   const getProofsByStatus = async (status, setStatus, value) => {
     await getOneTalentProofs(talentId, status)
       .then((proofs) => {
@@ -66,7 +68,27 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
         navigate('/404', { replace: true });
       });
   };
-
+  const getProofBySkill = async (status, setStatus, skillid) => {
+    await getSkillProof(talentId, status, skillid)
+      .then((proofs) => {
+        setStatus(proofs.data);
+        //setValue(value);
+      })
+      .catch(function (error) {
+        console.log(error);
+        navigate('/404', { replace: true });
+      });
+  };
+  const getSkilledProof = (newSkill) => {
+    const url = query.get('status');
+    if (url === 'draft') {
+      getProofBySkill('DRAFT', setDrafted, newSkill.skill_id);
+    } else if (url === 'hidden') {
+      getProofBySkill('HIDDEN', setHiddened, newSkill.skill_id);
+    } else {
+      getProofBySkill('PUBLISHED', setPublished, newSkill.skill_id);
+    }
+  };
   useEffect(() => {
     const url = query.get('status');
 
@@ -80,7 +102,16 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
 
     setUpdated(false);
   }, [updated, location.search, talentId]);
-
+  const resetSearchFunc = () => {
+    const url = query.get('status');
+    if (url === 'draft' && actionsAccess) {
+      getProofsByStatus('DRAFT', setDrafted, 1);
+    } else if (url === 'hidden' && actionsAccess) {
+      getProofsByStatus('HIDDEN', setHiddened, 2);
+    } else {
+      getProofsByStatus('PUBLISHED', setPublished, 0);
+    }
+  };
   return (
     <ProofsOneTalentContext.Provider
       value={{
@@ -111,7 +142,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
           },
         }}
       >
-        <Box sx={{ pl: '25px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
+        <Box sx={{ pl: '10px', position: 'sticky', top: '0', right: '0', bgcolor: 'neutral.whiteGrey', zIndex: '3' }}>
           <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
             <Tab
               value={0}
@@ -141,18 +172,29 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
                 onClick={() => getProofsByStatus('HIDDEN', setHiddened, 2)}
               />
             )}
+            {actionsAccess && (
+              <Fab
+                onClick={openNewProofModal}
+                color="secondary"
+                aria-label="add"
+                sx={{ top: '0', right: '15px', position: 'absolute', width: '45px', height: '45px' }}
+              >
+                <AddIcon />
+              </Fab>
+            )}
           </Tabs>
-
-          {actionsAccess && (
-            <Fab
-              onClick={openNewProofModal}
-              color="secondary"
-              aria-label="add"
-              sx={{ position: 'sticky', top: '5px', left: '90%', mt: '-100%' }}
-            >
-              <AddIcon />
-            </Fab>
-          )}
+          <Box sx={{ display: 'flex', position: 'absolute', top: '0', right: '75px', borderRadius: '5px' }}>
+            <SkillAutocomplete
+              width={'300px'}
+              proofBySkill={getSkilledProof}
+              setAllSkills={setAllSkills}
+              skill={skill}
+              setSkill={setSkill}
+            />
+            <Button variant="contained" sx={{ bgcolor: 'secondary.main' }} onClick={resetSearchFunc}>
+              Reset
+            </Button>
+          </Box>
         </Box>
 
         <TabItem value={value} index={0} type={published}></TabItem>
@@ -162,6 +204,7 @@ export const ProofMenu = ({ actionsAccess, talentId }) => {
             <TabItem value={value} index={2} type={hiddened}></TabItem>
           </>
         )}
+
         <NewProofModal open={newProofModalOpen} onClose={handleCloseNewProofModal} setUpdated={setUpdated} />
         <EditProofModal openEditModal={openEditModal} proofInfo={proofInfo} />
         <DeleteProofModal openDeleteModal={openDeleteModal} proofId={proofId} />

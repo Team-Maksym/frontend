@@ -9,9 +9,12 @@ import { ProofItem } from '../../../../../../shared/components/ProofItem';
 import { ProofDescription } from '../../../../../../shared/components/ProofDescription';
 import { Kudos } from '../../Kudos';
 import { EmptyProofs } from '../EmptyProofs/EmptyProofs';
+import { getCurrentPersonRole } from '../../../../../../shared/service/AuthorizationService/AuthorizationService';
+import { SkillList } from '../SkillList/SkillList';
 
 export const TabItem = ({ value, index, type }) => {
   const { drafted, expanded, handleChangeAcordion, actionsAccess } = useContext(ProofsOneTalentContext);
+  const personRole = getCurrentPersonRole();
 
   return (
     <TabPanel value={value} index={index}>
@@ -29,12 +32,22 @@ export const TabItem = ({ value, index, type }) => {
                   aria-controls={`panel${i}bh-content`}
                   id={`panel${i}bh-header`}
                 >
-                  <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
+                  <Stack spacing={2} sx={{ display: 'block', width: '100%' }}>
                     <ProofItem
                       description={item.description}
-                      children={actionsAccess && <ProofItemProfile val={value} id={item.id} status={drafted} />}
+                      children={
+                        actionsAccess &&
+                        personRole !== 'ROLE_SPONSOR' && <ProofItemProfile val={value} id={item.id} status={drafted} />
+                      }
                     />
-                    <Kudos proofId={item.id} isKudosBtnShowing={!actionsAccess} />
+                    {index !== 1 && (
+                      <Kudos
+                        proofId={item.id}
+                        info={item.sponsor_on_proof_short_info_list}
+                        isKudosBtnShowing={personRole === 'ROLE_SPONSOR' ? true : false}
+                      />
+                    )}
+                    <SkillList proofItem={item.skill_with_category_list} />
                   </Stack>
                 </AccordionSummary>
                 <ProofDescription description={item.description} link={item.link} />

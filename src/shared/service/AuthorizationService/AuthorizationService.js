@@ -1,37 +1,56 @@
 import { publicAxiosInstance } from '../api';
 import jwt_decode from 'jwt-decode';
 
-export const getCurrentTalentId = () => {
+export const getCurrentPersonId = () => {
   const token = localStorage.getItem('token');
   return token && jwt_decode(token).sub;
 };
 
-export const signUp = async (talent) => {
-  return await publicAxiosInstance.post('talents', talent).then((response) => {
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-    }
-    return response.data;
-  });
+export const getCurrentPersonRole = () => {
+  const token = localStorage.getItem('token');
+  return token && jwt_decode(token).scope;
 };
 
-export const signIn = async (talent) => {
-  return await publicAxiosInstance
-    .post(
-      'talents/login',
-      {},
-      {
-        auth: {
-          username: talent.email,
-          password: talent.password,
-        },
+export const getCurrentPersonStatus = () => {
+  const token = localStorage.getItem('token');
+  return token && jwt_decode(token).status;
+};
+export const signUp = async ({ type, ...person }) => {
+  const response = await publicAxiosInstance.post(`v1/${type}`, person);
+  if (response.data.token) {
+    localStorage.setItem('token', response.data.token);
+  }
+};
+
+export const signIn = async ({ type, ...person }) => {
+  const sponsorLoginPromise = publicAxiosInstance.post(
+    'v1/sponsors/login',
+    {},
+    {
+      auth: {
+        username: person.email,
+        password: person.password,
       },
-    )
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-      }
-      return response.data;
-    });
-};
+    },
+  );
 
+  const talentLoginPromise = publicAxiosInstance.post(
+    'v1/talents/login',
+    {},
+    {
+      auth: {
+        username: person.email,
+        password: person.password,
+      },
+    },
+  );
+
+  const [sponsorResponse, talentResponse] = await Promise.allSettled([sponsorLoginPromise, talentLoginPromise]);
+  const successfulResponse = sponsorResponse.status === 'fulfilled' ? sponsorResponse : talentResponse;
+  if (sponsorResponse.status === 'rejected' && talentResponse.status === 'rejected') {
+    throw sponsorResponse.reason.response;
+  }
+  if (successfulResponse.value.data.token) {
+    localStorage.setItem('token', successfulResponse.value.data.token);
+  }
+};

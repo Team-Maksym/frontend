@@ -1,0 +1,1 @@
+import {TimerComponent } from './TimerComponent';

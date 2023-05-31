@@ -1,1 +1,1 @@
-export { signUp, signIn, getCurrentTalentId} from './AuthorizationService';
+export { signUp, signIn, getCurrentPersonId, getCurrentPersonStatus } from './AuthorizationService';

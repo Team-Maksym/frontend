@@ -3,21 +3,29 @@ import { Wrapper } from '../Wrapper';
 import { TalentList } from './components/TalentList';
 import { Banner } from '../Wrapper/components/Banner';
 import { Box } from '@mui/material';
-import { TalentContext } from '../../shared/context/TalentContext';
+import { PersonContext } from '../../shared/context/PersonContext';
+import React, { Suspense } from 'react';
+import { PreLoader } from '../PreLoader';
+const TagCloudCustom = React.lazy(() => import('../ProofList/components/TagCloudCustom'));
 
 export const Home = () => {
-  const { talent } = useContext(TalentContext);
-  
+  const { person } = useContext(PersonContext);
+
   return (
     <>
-      {talent ? (
+      {person ? (
         <Box
           sx={{
             height: 70,
           }}
         />
       ) : (
-        <Banner />
+        <Box width="100%" sx={{ overflow: 'hidden', position: 'relative' }}>
+          <Suspense fallback={<PreLoader />}>
+            <TagCloudCustom />
+          </Suspense>
+          <Banner />
+        </Box>
       )}
       <Wrapper>
         <TalentList />
@@ -25,3 +33,4 @@ export const Home = () => {
     </>
   );
 };
+

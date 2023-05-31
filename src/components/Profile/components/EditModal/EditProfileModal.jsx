@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as yup from 'yup';
 import { FullNameField } from '../../../../shared/components/Fields/FullNameField';
 import { Form } from '../../../../shared/components/Form';
@@ -5,14 +6,35 @@ import { BirthdayField } from '../../../../shared/components/Fields/AgeField';
 import { AvatarLinkField } from '../../../../shared/components/Fields/AvatarLinkField';
 import { EducationField } from '../../../../shared/components/Fields/EducationField';
 import { ExperienceField } from '../../../../shared/components/Fields/ExperienceField';
-import { patchTalentProfile } from '../../../../shared/service/ProfileService';
-import { getCurrentTalentId } from '../../../../shared/service/AuthorizationService';
+import { patchTalentProfile } from '../../../../shared/service/TalentProfileService';
+import { getCurrentPersonId } from '../../../../shared/service/AuthorizationService';
+import { postOneTalentSkill } from '../../../../shared/service/TalentProfileService/TalentProfileService';
 import { PositionField } from '../../../../shared/components/Fields/PositionField';
-import { Button, Dialog, DialogContent, DialogTitle, Box } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, Box, IconButton, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { Chip, Stack } from '@mui/material';
+import { SkillAutocomplete } from '../../../ProofList/components/SkillAutocomplete';
+import { useEffect } from 'react';
+export const EditProfileModal = ({
+  open,
+  onClose,
+  person: talent,
+  setPerson: setTalent,
+  skill,
+  updatedSkill,
+  setUpdatedSkill,
+}) => {
+  const [allSkills, setAllSkills] = useState([]);
+  const [skillListShow, setSkillListShow] = useState(false);
+  const [profileSkill, setProfileSkill] = useState('');
+  const [usedSkills, setUsedSkills] = useState([]);
 
-export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
+  useEffect(() => {
+    setUsedSkills(skill?.skill);
+  }, [skill]);
+
   const onEditProfileHandler = (action) => {
-    let talentId = getCurrentTalentId();
+    let talentId = getCurrentPersonId();
     return async (values) => {
       values = handleSubmitPositions(values);
       const talentNewProfile = {};
@@ -28,6 +50,11 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
           const response = await action(talentNewProfile, talentId);
           response.id = talentId;
           setTalent(response);
+          await postOneTalentSkill(talentId, {
+            skills: profileSkill,
+          });
+          setProfileSkill(null);
+          setUpdatedSkill(!updatedSkill);
         } catch (error) {
           console.error(error);
         }
@@ -84,16 +111,12 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
         .nullable(),
       positions: yup
         .string()
-        .test(
-          'valid-positions',
-          'Positions must contain only comma-separated positions',
-          (value) => {
-            if (!value) return true;
+        .test('valid-positions', 'Positions must contain only comma-separated positions', (value) => {
+          if (!value) return true;
 
-            const words = value.split(',').map((word) => word.trim());
-            return words.every((word) => /^[a-zA-Zа-яА-Я0-9\s]+$/.test(word));
-          },
-        )
+          const words = value.split(',').map((word) => word.trim());
+          return words.every((word) => /^[a-zA-Zа-яА-Я0-9\s]+$/.test(word));
+        })
         .nullable(),
     }),
     fieldsRenderers: {
@@ -106,10 +129,20 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
     },
   };
 
+  const addProfileSkill = (newSkill) => {
+    setSkillListShow(!skillListShow);
+    setProfileSkill((prev) => [...prev, newSkill]);
+    setUsedSkills((prev) => [...prev, newSkill]);
+  };
+
+  const handleModalClose = () => {
+    setProfileSkill('');
+    onClose();
+  };
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleModalClose}
       aria-labelledby="contained-Dialog-title-vcenter"
       maxWidth="sm"
       fullWidth
@@ -120,8 +153,41 @@ export const EditProfileModal = ({ open, onClose, talent, setTalent }) => {
       <DialogTitle id="contained-Dialog-title-vcenter">{editForm.title}</DialogTitle>
       <DialogContent>
         <Form {...editForm}>
+          <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%', mt: '10px', display: 'flex' }}>
+              {!skill ? (
+                <>
+                  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography>Choose your skill</Typography>
+                    <IconButton aria-label="addSkill" onClick={() => setSkillListShow(!skillListShow)}>
+                      <AddIcon />
+                    </IconButton>
+                  </Box>
+                </>
+              ) : (
+                <Stack display="flex" flexDirection="row" alignItems="center" flexWrap="wrap" mb="15px">
+                  {usedSkills &&
+                    usedSkills.map((item, i) => {
+                      return (
+                        <Chip key={i} label={item.skill ? item.skill : item} variant="outlined" sx={{ m: '5px' }} />
+                      );
+                    })}
+                  <IconButton aria-label="addSkill">
+                    <AddIcon onClick={() => setSkillListShow(!skillListShow)} />
+                  </IconButton>
+                </Stack>
+              )}
+            </Box>
+            {skillListShow && (
+              <SkillAutocomplete
+                handleAddSkill={addProfileSkill}
+                setAllSkills={setAllSkills}
+                usedSkills={usedSkills}
+              ></SkillAutocomplete>
+            )}
+          </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-            <Button variant="outlined" onClick={onClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
+            <Button variant="outlined" onClick={handleModalClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
               Cancel
             </Button>
             <Button

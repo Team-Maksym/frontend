@@ -10,12 +10,11 @@ import {
   IconButton,
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import { deleteTalent } from '../../../../shared/service/ProfileService';
-import { TalentContext } from '../../../../shared/context/TalentContext';
+import { deleteTalent } from '../../../../shared/service/TalentProfileService';
+import { PersonContext } from '../../../../shared/context/PersonContext';
 
-export const DeleteAccountModal = ({ open, onClose, talentId, setTalent }) => {
-  const { signOut } = useContext(TalentContext);
-
+export const DeleteAccountModal = ({ open, onClose, personId: talentId, setPerson: setTalent }) => {
+  const { signOut } = useContext(PersonContext);
   const onDeleteAccountHandler = async () => {
     await deleteTalent(talentId);
     setTalent(null);

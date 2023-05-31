@@ -8,7 +8,7 @@ export const theme = createTheme({
       main: '#ff5722',
     },
     neutral: {
-      white: ' #f5f0e8',
+      white: '#f5f0e8',
       // lightGrey: '#393e46',
       whiteGrey: '#393e46',
       // grey: '#6B6C6F',
@@ -52,5 +52,14 @@ export const theme = createTheme({
       lineHeight: '18px',
     },
   },
-});
 
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
