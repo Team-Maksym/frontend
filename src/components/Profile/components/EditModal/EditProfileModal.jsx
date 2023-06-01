@@ -140,8 +140,6 @@ export const EditProfileModal = ({
     onClose();
   };
 
-  console.log(usedSkills?.length);
-
   return (
     <Dialog
       open={open}
