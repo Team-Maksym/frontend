@@ -125,7 +125,6 @@ export const NewProofModal = ({ open, onClose, setUpdated }) => {
             <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
               {newRenderSkills()}
               <IconButton aria-label="addSkill" onClick={() => setSearchDisplay('block')}>
-                {/* <AddCircleOutlinedIcon sx={{ fontSize: 30}} /> */}
                 <AddIcon />
               </IconButton>
             </Stack>
