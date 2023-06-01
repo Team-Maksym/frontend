@@ -139,6 +139,9 @@ export const EditProfileModal = ({
     setProfileSkill('');
     onClose();
   };
+
+  console.log(usedSkills?.length);
+
   return (
     <Dialog
       open={open}
@@ -153,38 +156,29 @@ export const EditProfileModal = ({
       <DialogTitle id="contained-Dialog-title-vcenter">{editForm.title}</DialogTitle>
       <DialogContent>
         <Form {...editForm}>
-          <Box sx={{ width: '100%' }}>
-            <Box sx={{ width: '100%', mt: '10px', display: 'flex' }}>
-              {!skill ? (
-                <>
-                  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Choose your skill</Typography>
-                    <IconButton aria-label="addSkill" onClick={() => setSkillListShow(!skillListShow)}>
-                      <AddIcon />
-                    </IconButton>
-                  </Box>
-                </>
+          <Box sx={{ width: '100%', mt: '15px' }}>
+            <Stack display="flex" flexDirection="row" flexWrap="wrap" mb="15px">
+              {usedSkills?.length <= 0 ? (
+                <Box display="flex" alignItems="center">
+                  <Typography sx={{ color: 'neutral.whiteGrey', opacity: '0.8' }}>There are no skills yet. </Typography>
+                </Box>
               ) : (
-                <Stack display="flex" flexDirection="row" alignItems="center" flexWrap="wrap" mb="15px">
-                  {usedSkills &&
-                    usedSkills.map((item, i) => {
-                      return (
-                        <Chip key={i} label={item.skill ? item.skill : item} variant="outlined" sx={{ m: '5px' }} />
-                      );
-                    })}
-                  <IconButton aria-label="addSkill">
-                    <AddIcon onClick={() => setSkillListShow(!skillListShow)} />
-                  </IconButton>
-                </Stack>
+                usedSkills &&
+                usedSkills.map((item, i) => {
+                  return <Chip key={i} label={item.skill ? item.skill : item} variant="outlined" sx={{ m: '5px' }} />;
+                })
               )}
-            </Box>
-            {skillListShow && (
-              <SkillAutocomplete
-                handleAddSkill={addProfileSkill}
-                setAllSkills={setAllSkills}
-                usedSkills={usedSkills}
-              ></SkillAutocomplete>
-            )}
+              <IconButton aria-label="addSkill">
+                <AddIcon onClick={() => setSkillListShow(!skillListShow)} />
+              </IconButton>
+              {skillListShow && (
+                <SkillAutocomplete
+                  handleAddSkill={addProfileSkill}
+                  setAllSkills={setAllSkills}
+                  usedSkills={usedSkills}
+                ></SkillAutocomplete>
+              )}
+            </Stack>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
             <Button variant="outlined" onClick={handleModalClose} sx={{ mt: 4, px: 8, borderRadius: '6px' }}>
